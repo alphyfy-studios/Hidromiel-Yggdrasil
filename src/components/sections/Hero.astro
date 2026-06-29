@@ -1,0 +1,150 @@
+---
+// src/components/sections/Hero.astro
+// Sección hero con título animado, descripción épica y CTAs.
+---
+
+<section id="hero">
+  <div class="container hero-content">
+    <p class="hero-eyebrow">ᚠ · Hidromiel Nordica Artesanal · ᚠ</p>
+
+    <h1 class="hero-title">
+     Bebé como<br />
+      <span class="accent-line">Los Dioses</span>
+    </h1>
+
+    <p class="hero-desc">
+     Entre raíces antiguas y ramas que tocan el cielo, existe un árbol cuyo nombre ha sobrevivido al paso de los siglos. Yggdrasill es su nombre, un árbol alto, bañado con una corteza brillante. De allí sale el agua que cae en los valles. Permanece siempre verde sobre el pozo de Urðr.
+
+-Völuspa 19
+    </p>
+
+    <div class="hero-cta-wrap">
+      <a href="#gallery" class="btn btn-primary">Quieres saber aun más?</a>
+      <a href="#about"   class="btn btn-outline">Nuestra Reserva</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <span>Descender</span>
+  </div>
+</section>
+
+<style>
+  #hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 110%, rgba(98,23,8,0.55) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% -10%, rgba(34,9,1,0.8)  0%, transparent 70%),
+      var(--black);
+    z-index: 0;
+  }
+
+  /* Runas de fondo animadas */
+  #hero::after {
+    content: 'ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(5rem, 20vw, 18rem);
+    color: var(--red1);
+    opacity: 0.04;
+    pointer-events: none;
+    letter-spacing: 0.2em;
+    word-break: break-all;
+    padding: 2rem;
+    z-index: 0;
+    line-height: 1;
+    animation: bgDrift 20s ease-in-out infinite alternate;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-heading);
+    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.9;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 1s 0.2s both;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 8vw, 6.5rem);
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+    animation: fadeUp 1s 0.4s both;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.8), 0 0 60px rgba(246,170,28,0.12);
+  }
+
+  .hero-title .accent-line {
+    display: block;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(246,170,28,0.5);
+  }
+
+  .hero-desc {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    max-width: 580px;
+    margin-inline: auto;
+    margin-bottom: 2.5rem;
+    color: rgba(255,255,255,0.78);
+    font-style: italic;
+    animation: fadeUp 1s 0.6s both;
+  }
+
+  .hero-cta-wrap {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 1s 0.8s both;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0.5;
+    animation: fadeUp 1s 1.2s both, bounce 2.5s 2s infinite;
+  }
+  .scroll-indicator span {
+    font-family: var(--font-heading);
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .scroll-indicator::after {
+    content: '↓';
+    font-size: 1.2rem;
+    color: var(--gold);
+  }
+</style>

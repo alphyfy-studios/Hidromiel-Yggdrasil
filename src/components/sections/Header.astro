@@ -1,0 +1,184 @@
+---
+// src/components/sections/Header.astro
+// Header fijo con logo, navegación y menú hamburger (CSS-only, cero JS).
+
+import { navLinks } from "../../data/navigation";
+---
+
+<header id="header">
+  <div class="container nav-inner">
+
+    <!-- Logo -->
+    <a href="#hero" class="logo-wrap" aria-label="Yggdrasil Meadery inicio">
+      <div class="logo-placeholder"></div>
+      <!-- <div class="logo-placeholder" aria-hidden="true">ᛟ</div> -->
+      <div class="logo-text">
+        <strong>Hidromiel Yggdrasil</strong>
+        <!-- <span>Meadery · Est. MMXX</span> -->
+      </div>
+    </a>
+
+    <!-- Hamburger toggle (CSS-only — sin JS) -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden />
+    <label for="nav-toggle" class="hamburger" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <!-- Navigation -->
+    <ul class="nav-links" role="list">
+      {navLinks.map((link) => (
+        <li>
+          {link.cta
+            ? <a href={link.href} class="btn btn-primary nav-cta">{link.label}</a>
+            : <a href={link.href}>{link.label}</a>
+          }
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</header>
+
+<style>
+  #header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.7) 80%, transparent 100%);
+    padding-block: 1rem;
+    transition: background 0.4s;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  /* Logo */
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .logo-placeholder {
+    width: 100px; height: 100px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    color: var(--gold);
+    /* background: radial-gradient(circle, var(--dark1) 0%, var(--black) 100%); */
+    background-image: url(/public/images/logoYGG.png);
+    background-size: contain;
+    box-shadow: 0 0 14px rgba(246,170,28,0.3);
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .logo-text strong {
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    color: var(--gold);
+    letter-spacing: 0.06em;
+  }
+  .logo-text span {
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    color: var(--white);
+    opacity: 0.6;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* Nav links */
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: clamp(1rem, 3vw, 2.2rem);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .nav-links a {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+    opacity: 0.82;
+    transition: color 0.25s, opacity 0.25s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0; right: 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--gold); opacity: 1; }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  /* El botón CTA dentro del nav no hereda el ::after */
+  .nav-cta::after { display: none; }
+  .nav-cta { padding: 0.5rem 1.2rem; font-size: 0.7rem; opacity: 1; }
+
+  /* Hamburger (solo visible en móvil) */
+  .nav-toggle { display: none; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 26px; height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 0; right: 0;
+      width: min(320px, 80vw);
+      height: 100svh;
+      background: rgba(0,0,0,0.98);
+      border-left: 1px solid rgba(246,170,28,0.2);
+      padding: 5rem 2rem 2rem;
+      gap: 1.5rem;
+      align-items: flex-start;
+      justify-content: flex-start;
+      z-index: 50;
+    }
+
+    .nav-toggle:checked ~ .nav-links {
+      display: flex;
+    }
+  }
+</style>

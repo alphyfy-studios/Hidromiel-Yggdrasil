@@ -1,0 +1,141 @@
+---
+// src/components/ui/ProductCard.astro
+// Tarjeta individual de producto para la galería.
+
+import type { Product } from "../../data/products";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<article class:list={["gallery-card", { featured: product.featured }]}>
+  <div class="card-img-wrap">
+    {product.image
+      ? <img src={product.image} alt={product.name} loading="lazy" width="800" height="600" />
+      : (
+          <div class="placeholder-inner">
+            <span class="placeholder-rune">{product.rune}</span>
+            <span class="placeholder-label">Imagen del producto</span>
+          </div>
+        )
+    }
+    <div class="card-overlay">
+      <span class="card-tag">{product.tag}</span>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <h3 class="card-title">{product.name} — {product.subtitle}</h3>
+    <p class="card-desc">{product.description}</p>
+  </div>
+</article>
+
+<style>
+  .gallery-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 1px solid rgba(246,170,28,0.1);
+    background: var(--dark1);
+    cursor: pointer;
+    transition: border-color 0.35s, transform 0.35s;
+  }
+  .gallery-card:hover {
+    border-color: rgba(246,170,28,0.4);
+    transform: translateY(-5px);
+  }
+
+  .gallery-card.featured { grid-column: span 2; }
+
+  .card-img-wrap {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--dark1) 0%, var(--dark2) 100%);
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gallery-card.featured .card-img-wrap { aspect-ratio: 16/9; }
+
+  .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+  }
+
+  .placeholder-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    opacity: 0.45;
+    transition: opacity 0.35s;
+  }
+  .gallery-card:hover .placeholder-inner { opacity: 0.7; }
+
+  .placeholder-rune {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--gold);
+  }
+
+  .placeholder-label {
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(34,9,1,0.4) 50%, transparent 100%);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.4rem;
+    transition: opacity 0.35s;
+  }
+  .gallery-card:hover .card-overlay { opacity: 1; }
+
+  .card-tag {
+    font-family: var(--font-heading);
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .card-body {
+    padding: 1.1rem 1.1rem 1.3rem;
+  }
+
+  .card-title {
+    font-family: var(--font-heading);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--white);
+    margin-bottom: 0.35rem;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.55);
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .gallery-card.featured { grid-column: span 2; }
+  }
+  @media (max-width: 550px) {
+    .gallery-card.featured { grid-column: span 1; }
+  }
+</style>

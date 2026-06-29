@@ -1,0 +1,105 @@
+---
+// src/components/sections/Testimonials.astro
+// Sección "Crónicas de los Guerreros" — testimonios desde /data/testimonials.ts
+
+import { testimonials } from "../../data/testimonials";
+---
+
+<section id="saga" class="section">
+  <div class="container">
+
+    <div class="section-header centered">
+      <span class="section-label">ᛊ · Crónicas de los Guerreros</span>
+      <h2 class="section-title">Lo Que Dicen<br>los Valientes</h2>
+    </div>
+
+    <div class="saga-grid">
+      {testimonials.map(({ author, role, location, text, stars = 5 }) => (
+        <article class="saga-card">
+          <div class="saga-stars" aria-label={`${stars} estrellas`}>
+            {"★".repeat(stars)}
+          </div>
+          <p class="saga-text">"{text}"</p>
+          <footer class="saga-author">
+            {author}
+            <span>{role} · {location}</span>
+          </footer>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #saga {
+    background: var(--black);
+    text-align: center;
+  }
+
+  .saga-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .saga-card {
+    background: linear-gradient(145deg, rgba(34,9,1,0.8) 0%, rgba(0,0,0,0.9) 100%);
+    border: 1px solid rgba(246,170,28,0.12);
+    border-radius: 3px;
+    padding: 2rem 1.6rem;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    transition: border-color 0.3s;
+  }
+  .saga-card:hover { border-color: rgba(246,170,28,0.35); }
+
+  /* Comilla decorativa de fondo */
+  .saga-card::before {
+    content: '"';
+    font-family: var(--font-display);
+    font-size: 8rem;
+    color: var(--red1);
+    opacity: 0.1;
+    position: absolute;
+    top: -1.5rem; left: 0.8rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .saga-stars {
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8rem;
+  }
+
+  .saga-text {
+    font-style: italic;
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .saga-author {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .saga-author span {
+    display: block;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    margin-top: 0.15rem;
+  }
+
+  @media (max-width: 900px) {
+    .saga-grid { grid-template-columns: 1fr; }
+  }
+</style>

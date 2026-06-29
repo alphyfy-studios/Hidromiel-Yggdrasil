@@ -1,0 +1,50 @@
+---
+// src/layouts/Layout.astro
+// Layout principal: inyecta <head>, fuentes, CSS global y el slot de contenido.
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title       = "Yggdrasil Meadery | Hidromiel Artesanal Vikingo",
+  description = "Hidromiel artesanal forjado bajo el árbol del mundo. Fermentado con miel pura y la sabiduría de siglos.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type"        content="website" />
+
+    <title>{title}</title>
+
+    <!-- Favicon placeholder — reemplazar con tu /public/favicon.svg -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts: preconnect primero, luego stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* Importamos el CSS global compilado por Astro */
+  @import "../styles/global.css";
+</style>

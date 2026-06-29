@@ -1,0 +1,149 @@
+---
+// src/components/sections/Process.astro
+// Sección "El Proceso Sagrado" con los 4 pasos de elaboración.
+
+const steps = [
+  {
+    numeral: "I",
+    rune:    "ᚠ",
+    title:   "Selección",
+    body:    "Elegimos mieles monoflorales de apicultores locales de confianza, garantizando la pureza y el carácter único de cada lote.",
+  },
+  {
+    numeral: "II",
+    rune:    "ᚢ",
+    title:   "Fermentación",
+    body:    "Mezclamos la miel con agua de manantial y activamos nuestras levaduras propias. La alquimia comienza en vasijas de cerámica.",
+  },
+  {
+    numeral: "III",
+    rune:    "ᚦ",
+    title:   "Maduración",
+    body:    "El hidromiel reposa entre 6 y 18 meses en barricas de roble americano y francés, desarrollando su personalidad única.",
+  },
+  {
+    numeral: "IV",
+    rune:    "ᚨ",
+    title:   "Embotellado",
+    body:    "Cada botella es inspeccionada, numerada y sellada a mano. Un ritual de cierre que honra el trabajo del guerrero fermentador.",
+  },
+];
+---
+
+<section id="process" class="section">
+  <div class="container">
+
+    <div class="section-header centered">
+      <span class="section-label">ᛁ · El Arte del Maestro</span>
+      <h2 class="section-title">El Proceso Sagrado</h2>
+      <p class="section-subtitle">
+        De la colmena al Valhalla, cada paso es un ritual forjado
+        con dedicación y conocimiento ancestral.
+      </p>
+    </div>
+
+    <div class="process-steps">
+      {steps.map(({ numeral, rune, title, body }) => (
+        <div class="step">
+          <div class="step-num">
+            {numeral}
+            <span class="step-rune">{rune}</span>
+          </div>
+          <h3 class="step-title">{title}</h3>
+          <p>{body}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #process {
+    background: linear-gradient(180deg, var(--black) 0%, var(--dark1) 50%, var(--black) 100%);
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  /* Línea conectora dorada entre pasos */
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 2.2rem;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--red1),
+      var(--gold),
+      var(--red1),
+      transparent
+    );
+    z-index: 0;
+  }
+
+  .step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+
+  .step-num {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--dark1);
+    border: 2px solid var(--gold);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-inline: auto;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 0 18px rgba(246,170,28,0.25);
+    position: relative;
+  }
+
+  .step-rune {
+    position: absolute;
+    bottom: -8px; right: -8px;
+    font-size: 0.85rem;
+    color: var(--red2);
+    background: var(--black);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: grid;
+    place-items: center;
+  }
+
+  .step-title {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .step p {
+    font-size: 0.83rem;
+    color: rgba(255,255,255,0.58);
+  }
+
+  @media (max-width: 900px) {
+    .process-steps          { grid-template-columns: repeat(2, 1fr); }
+    .process-steps::before  { display: none; }
+  }
+
+  @media (max-width: 550px) {
+    .process-steps { grid-template-columns: 1fr 1fr; }
+  }
+</style>

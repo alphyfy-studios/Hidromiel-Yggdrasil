@@ -1,0 +1,26 @@
+---
+// src/components/ui/RuneDivider.astro
+// Divisor decorativo de runas reutilizable.
+// Uso: <RuneDivider runes="ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ" />
+
+interface Props {
+  runes?: string;
+}
+
+const { runes = "ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ" } = Astro.props;
+---
+
+<div class="rune-divider" aria-hidden="true">{runes}</div>
+
+<style>
+  .rune-divider {
+    text-align: center;
+    letter-spacing: 0.55em;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    color: var(--gold);
+    opacity: 0.55;
+    margin-block: clamp(2rem, 4vw, 3.5rem);
+    user-select: none;
+    animation: glowPulse 5s ease-in-out infinite;
+  }
+</style>
