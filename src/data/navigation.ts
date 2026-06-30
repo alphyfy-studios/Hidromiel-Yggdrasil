@@ -9,8 +9,8 @@ export interface NavLink {
 export const navLinks: NavLink[] = [
   { label: "Nuestra Saga",  href: "#about"   },
   { label: "Hidromiel",     href: "#gallery"  },
-  { label: "Proceso",       href: "#process"  },
-  { label: "Crónicas",      href: "#saga"     },
+  // { label: "Proceso",       href: "#process"  },
+  // { label: "Crónicas",      href: "#saga"     },
   { label: "Contacto",      href: "#footer"   },
   { label: "Pedir Ahora",   href: "#footer",  cta: true },
 ];
