@@ -17,11 +17,12 @@ export const navLinks: NavLink[] = [
 
 export const footerNavLinks: NavLink[] = [
   { label: "Nuestra Saga",     href: "#about"   },
-  { label: "La Colección",     href: "#gallery" },
-  { label: "El Proceso",       href: "#process" },
-  { label: "Crónicas",         href: "#saga"    },
+  { label: "Hidromiel",     href: "#gallery" },
+  // { label: "El Proceso",       href: "#process" },
   { label: "Puntos de Venta",  href: "#"        },
-  { label: "Mayoreo",          href: "#"        },
-  { label: "Peticiones especiales", href: "#"        },
+  // { label: "Mayoreo",          href: "#"        },
+  { label: "Contacto", href: "#"        },
    { label: "Festivales",         href: "#saga"    },
+      { label: "Peticiones especiales",         href: "#saga"    },
+     { label: "Historias del Norte",         href: "#saga"    },
 ];

@@ -53,14 +53,15 @@ const socials = [
       <div class="footer-brand">
         <a href="#hero" class="logo-wrap" aria-label="Yggdrasil Meadery inicio">
             <div class="logo-text">
-            <strong>Hidromiel Yggdrasil</strong>
+            <strong>Hidromiel Yggdrasil <span class="com">co.</span> </strong>
+            <!-- <p class="company">co.</p> -->
             <!-- <span>Meadery · Est. MMXX</span> -->
           </div>
           <div class="logo-placeholder"></div>
          
         </a>
 <p>
-          "La bebida de los dioses, elaborada por manos mortales. Cada sorbo es
+          "La bebida de los dioses, elaborada por manos mortales. <br>Cada sorbo es
           un viaje por los nueve mundos."
         </p>
        
@@ -207,6 +208,7 @@ border-color: red; */
     display: flex;
     gap: 0.8rem;
     flex-wrap: wrap;
+    justify-content: center;
   }
   .social-link {
     width: 40px;
@@ -283,7 +285,7 @@ border-color: red; */
     gap: 0.7rem;
   }
   .footer-nav-links a {
-    font-size: 0.88rem;
+    font-size: 1.4rem;
     color: rgba(255, 255, 255, 0.55);
     transition:
       color 0.25s,
@@ -323,6 +325,10 @@ border-color: red; */
     color: var(--gold);
     opacity: 0.35;
     letter-spacing: 0.4em;
+  }
+  .com{
+    font-size: 0.9rem;
+        color: var(--gold);
   }
 
   /* Responsive */

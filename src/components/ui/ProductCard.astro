@@ -28,7 +28,8 @@ const { product } = Astro.props;
   </div>
 
   <div class="card-body">
-    <h3 class="card-title">{product.name} — {product.subtitle}</h3>
+    <h3 class="card-title">{product.name} </h3>
+    <h4 class="card-subtitle">{product.subtitle}</h4>
     <p class="card-desc">{product.description}</p>
   </div>
 </article>
@@ -108,7 +109,7 @@ const { product } = Astro.props;
 
   .card-tag {
     font-family: var(--font-heading);
-    font-size: 0.62rem;
+    font-size: 0.95rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--gold);
@@ -120,14 +121,24 @@ const { product } = Astro.props;
   }
 
   .card-title {
+    text-align: center;
     font-family: var(--font-heading);
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-size: clamp(0.9rem, 2vw, 1.3rem);
     color: var(--white);
+    margin-bottom: 0.35rem;
+  }
+    .card-subtitle {
+      text-align: center;
+    font-family: var(--font-heading);
+    font-size: clamp(0.6rem, 2vw, 0.85rem);
+    /* color: var(--white); */
+    color: chocolate;
     margin-bottom: 0.35rem;
   }
 
   .card-desc {
-    font-size: 0.82rem;
+    text-align: center;
+    font-size: 1.2rem;
     color: rgba(255,255,255,0.55);
     font-style: italic;
   }
