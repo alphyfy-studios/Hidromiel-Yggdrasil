@@ -32,15 +32,14 @@ const pillars = [
     <div class="about-grid">
       <div class="about-text">
         <div class="section-header">
-          <span class="section-label">ᚺ · Nuestra Saga</span>
-          <h2 class="section-title">Donde la Tradición<br />Cobra Vida</h2>
+          <span class="section-label">ᛟ · Nuestra Saga</span>
+          <h2 class="section-title">Donde la leyenda<br />Cobra Vida</h2>
         </div>
         <p>
           El Hidromiel s la bebida más antigua, sublime y natural de todo el mundo. Una
           bebida diferente, dulce, suave y mágica.<br /><br /> Cada proceso está minuciosamente
           cuidado. Desde la selección del agua, cada fruta, flor, tisana o especia
-          escogida por su sabor, aroma y propiedades, hasta la miel 100% de abeja que
-          es donde se acentúa el sabor final de la Hidromiel.
+          escogida por su sabor, aroma y propiedades. Miel 100% de abeja, el cuerpo y alma del Hidromiel.
         </p>
 
         <a href="#gallery" class="btn btn-primary" style="margin-top:1rem;"
@@ -48,36 +47,37 @@ const pillars = [
         >
       </div>
 
-    <div class="saga-grid">
-      {testimonials.map(({ author, role, location, text, stars = 5 }) => (
-        <article class="saga-card">
-          <div class="saga-stars" aria-label={`${stars} estrellas`}>
-            {"★".repeat(stars)}
+    <div class="foto_latas"></div>
+
+    <!-- <div class="about-pillars">
+
+      {
+        pillars.map(({ rune, title, body }) => (
+        <div class="pillar">
+          <span class="pillar-rune">{rune}</span>
+          <p class="pillar-title">{title}</p>
+          <p>{body}</p>
           </div>
-          <p class="saga-text">"{text}"</p>
-          <footer class="saga-author">
-            {author}
-            <span>{role} · {location}</span>
-          </footer>
-        </article>
-      ))}
-    </div>
-
-
-
-      <!-- <div class="about-pillars">
-        {
-          pillars.map(({ rune, title, body }) => (
-            <div class="pillar">
-              <span class="pillar-rune">{rune}</span>
-              <p class="pillar-title">{title}</p>
-              <p>{body}</p>
-            </div>
           ))
-        }
-      </div> -->
-    </div>
-  </div>
+          }
+          </div> -->
+        
+        </div>
+      </div>
+      <div class="saga-grid">
+        {testimonials.map(({ author, role, location, text, stars = 5 }) => (
+          <article class="saga-card">
+            <div class="saga-stars" aria-label={`${stars} estrellas`}>
+              {"★".repeat(stars)}
+            </div>
+            <p class="saga-text">"{text}"</p>
+            <footer class="saga-author">
+              {author}
+              <span>{role} · {location}</span>
+            </footer>
+          </article>
+        ))}
+      </div>
 </section>
 
 <style>
@@ -104,6 +104,14 @@ const pillars = [
     pointer-events: none;
     line-height: 1;
   }
+.foto_latas {
+  background-image: url("/images/products/small_cans.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 300px; /* Ajusta la altura según necesites */
+  width: 100%;
+}
 
   .about-grid {
     display: grid;
@@ -177,10 +185,15 @@ const pillars = [
   }
 
   .saga-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
-    margin-top: clamp(2rem, 4vw, 3.5rem);
+    display: flex;
+    width: 500px;
+    margin: auto;
+    margin-top: 1.5rem;
+
+    /* display: grid;
+    grid-template-columns: repeat(1, 2fr);
+    gap: 1rem;
+    margin-top: clamp(2rem, 4vw, 3.5rem); */
   }
 
   .saga-card {

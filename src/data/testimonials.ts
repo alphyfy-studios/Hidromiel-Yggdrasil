@@ -9,20 +9,20 @@ export interface Testimonial {
 }
 
 export const testimonials: Testimonial[] = [
-  {
-    author: "Björn Martínez",
-    role: "Maestro Cervecero",
-    location: "Ciudad de México",
-    stars: 5,
-    text: "La Reserva de Odín cambió mi perspectiva sobre el hidromiel. Nunca imaginé que una bebida fermentada pudiera tener tanta complejidad y elegancia. Digna del Salón de Val‑Halla.",
-  },
-  {
-    author: "Ingrid Sánchez",
-    role: "Sommelier",
-    location: "Guadalajara",
-    stars: 5,
-    text: "El Thor's Hammer es perfecto para mis maridajes. Seco, con ese toque floral y una acidez perfecta. Lo sirvo en mi restaurante desde hace dos años y mis comensales siempre piden más.",
-  },
+  // {
+  //   author: "Björn Martínez",
+  //   role: "Maestro Cervecero",
+  //   location: "Ciudad de México",
+  //   stars: 5,
+  //   text: "La Reserva de Odín cambió mi perspectiva sobre el hidromiel. Nunca imaginé que una bebida fermentada pudiera tener tanta complejidad y elegancia. Digna del Salón de Val‑Halla.",
+  // },
+  // {
+  //   author: "Ingrid Sánchez",
+  //   role: "Sommelier",
+  //   location: "Guadalajara",
+  //   stars: 5,
+  //   text: "El Thor's Hammer es perfecto para mis maridajes. Seco, con ese toque floral y una acidez perfecta. Lo sirvo en mi restaurante desde hace dos años y mis comensales siempre piden más.",
+  // },
   {
     author: "Ragnar López",
     role: "Coleccionista",

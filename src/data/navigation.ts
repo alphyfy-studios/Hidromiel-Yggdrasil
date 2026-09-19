@@ -12,7 +12,7 @@ export const navLinks: NavLink[] = [
   // { label: "Proceso",       href: "#process"  },
   // { label: "Crónicas",      href: "#saga"     },
   { label: "Contacto",      href: "#footer"   },
-  { label: "Pedir Ahora",   href: "#footer",  cta: true },
+  { label: "Comprar Ahora",   href: "#footer",  cta: true },
 ];
 
 export const footerNavLinks: NavLink[] = [

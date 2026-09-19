@@ -1,0 +1,75 @@
+---
+export interface Props {
+  phone: string;     // Número en formato internacional (Ej: "5215512345678" para México)
+  message?: string;  // Mensaje opcional que aparecerá preescrito en el chat
+}
+
+const { 
+  phone, 
+  message = "¡Hola! Me gustaría obtener más información sobre sus servicios." 
+} = Astro.props;
+
+// Codificamos el mensaje para que funcione correctamente en la URL
+const encodedMessage = encodeURIComponent(message);
+const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+---
+
+<a
+  href={whatsappUrl}
+  class="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Chat de WhatsApp"
+>
+  <!-- Icono oficial de WhatsApp en SVG -->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="whatsapp-icon">
+    <path
+      d="M16 0c-8.837 0-16 7.163-16 16 0 2.825.735 5.564 2.137 7.986l-2.137 7.814 8.006-2.102c2.348 1.28 5.018 1.958 7.859 1.958 8.837 0 16-7.163 16-16s-7.163-16-16-16zm8.818 22.639c-.368 1.033-2.128 1.89-2.951 2.012-.767.114-1.742.164-2.812-.191-1.07-.355-2.435-.98-4.088-2.152-3.093-2.213-5.118-5.006-5.362-5.342-.244-.336-1.258-1.674-1.258-3.192 0-1.518.784-2.26 1.062-2.569.278-.309.607-.386.809-.386.202 0 .404.004.581.013.187.009.438-.071.684.526.257.621.879 2.143.955 2.301.076.158.127.342.025.549-.101.207-.152.336-.303.515-.152.179-.319.4-.456.538-.152.155-.311.324-.134.629.177.305.787 1.299 1.69 2.104 1.161 1.036 2.139 1.356 2.444 1.511.305.155.483.133.661-.077.177-.21 0-.761-.911-1.218z"
+      fill="#FFF"
+    />
+  </svg>
+</a>
+
+<style>
+  .whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    animation: pulse 2s infinite;
+  }
+
+  .whatsapp-float:hover {
+    transform: scale(1.1);
+    background-color: #22bf5b;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .whatsapp-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Animación de pulso llamativa */
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+  }
+</style>
