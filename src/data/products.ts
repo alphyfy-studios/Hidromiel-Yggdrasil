@@ -41,7 +41,7 @@ export const products: Product[] = [
     tag: "Frutal",
     rune: "ᛚ",
     description: "Infusionada con frutas y especias. Siéntete como en casa.",
-     image:"/public/images/products/yggdrasil_yellow.png",
+     image:"/public/images/products/yggdrasil_yellow_1.png",
   },
 
   {
@@ -51,7 +51,7 @@ export const products: Product[] = [
     tag: "Especiada",
     rune: "ᚠ",
     description: "Infusionada con flores y especias. Honra el sacrificio de Kvasir, saborea la sabiduría.",
-    image:"/public/images/products/yggdrasil_red.png",
+    image:"/public/images/products/yggdrasil_red_1.png",
   },
   {
     id: 'Berserker',
@@ -60,6 +60,6 @@ export const products: Product[] = [
     tag: "MUY PRONTO...",
     rune: "ᚾ",
     description: "Infusionada con hierbas estimulantes. Sentirás el vigor de un guerrero Berserker.",
-     image:"/public/images/products/yggdrasil_green.png",
+     image:"/public/images/products/yggdrasil_green_1.png",
   },
 ];
