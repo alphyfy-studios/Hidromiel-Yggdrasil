@@ -1,0 +1,421 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/sections/Header.astro";
+
+// Objeto con la información de las noticias/festivales
+const festivales = [
+  {
+    id: 1,
+    fecha: "15 Octubre, 2026",
+    titulo: "El Gran Banquete del Valhalla",
+    resumen: "Yggdrasil Meadery destapa sus barriles de reserva especial en el mayor torneo de combate histórico del año.",
+    contenido: "Prepárate para una experiencia inmersiva sin precedentes. Este año, el Gran Banquete del Valhalla trae competencias de hachas, música folk nórdica en vivo y festines. En nuestro stand principal, destaparemos barriles exclusivos de hidromiel añejada en barricas de roble durante 3 años. ¡No faltes a la llamada de los dioses y ven a brindar con nosotros!",
+    imagen: "https://images.unsplash.com/photo-1590454316278-f71bb480eb0b?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: 2,
+    fecha: "21 Diciembre, 2026",
+    titulo: "Mercado de Yule: El Renacer del Sol",
+    resumen: "Celebra el solsticio de invierno con nuestra nueva edición limitada de hidromiel especiada.",
+    contenido: "El frío del invierno se combate con el calor de una buena hoguera y un cuerno lleno de hidromiel. Únete a nosotros en el Mercado de Yule, donde presentaremos oficialmente nuestra edición 'Sangre de Ymir', fermentada con canela, clavo y naranja. Habrá danzas tradicionales, lectura de runas y comida artesanal. La entrada es libre.",
+    imagen: "https://images.unsplash.com/photo-1614074815456-11f8e878e178?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: 3,
+    fecha: "12 Noviembre, 2026",
+    titulo: "Feria Medieval de Naucalpan",
+    resumen: "Nuestra taberna itinerante llega al parque con degustaciones gratuitas y cuernos tallados a mano.",
+    contenido: "Ubicados en la zona central del festival, estaremos sirviendo nuestras tres variedades clásicas: Tradicional, Frutos Rojos y Manzana-Canela. Además, contaremos con invitados especiales de la escena del folk metal y torneos de arquería. Ven con tu mejor armadura o atuendo de época; habrá recompensas en forma de oro líquido para los mejores trajes.",
+    imagen: "https://images.unsplash.com/photo-1595166297371-3310060d4b9b?auto=format&fit=crop&q=80&w=800"
+  }
+];
+---
+
+<Layout
+  title="Yggdrasil Meadery | Hidromiel Artesanal Vikingo"
+  description="Hidromiel artesanal forjado bajo el árbol del mundo. Fermentado con miel pura y la sabiduría de siglos nórdicos."
+>
+  <Header />
+  
+  <main class="contenedor-principal">
+    <!-- Cabecera estilo periódico -->
+    <header class="cabecera-periodico">
+      <p class="volumen">VOL. I — EDICIÓN ESPECIAL</p>
+      <h1 class="titulo-principal">LAS CRÓNICAS DE YGGDRASIL</h1>
+      <div class="linea-separadora"></div>
+      <h2 class="subtitulo">NOTICIAS Y FESTIVALES DEL REINO</h2>
+      <div class="linea-separadora doble"></div>
+    </header>
+
+    <!-- Grid de Cards -->
+    <section class="grid-noticias">
+      {festivales.map((fest) => (
+        <article 
+          class="card-periodico"
+          data-titulo={fest.titulo}
+          data-fecha={fest.fecha}
+          data-contenido={fest.contenido}
+          data-imagen={fest.imagen}
+        >
+          <div class="card-inner">
+            <span class="fecha-noticia">{fest.fecha}</span>
+            <h3 class="titulo-noticia">{fest.titulo}</h3>
+            <p class="resumen-noticia">{fest.resumen}</p>
+            <div class="leer-mas">Leer la crónica <span>→</span></div>
+          </div>
+        </article>
+      ))}
+    </section>
+  </main>
+
+  <!-- Modal Pop-up (Oculto por defecto) -->
+  <dialog id="modal-noticia" class="modal">
+    <div class="modal-contenedor">
+      <button class="cerrar-modal" id="btn-cerrar">&times;</button>
+      
+      <div class="modal-header">
+        <span id="modal-fecha" class="modal-fecha"></span>
+        <h2 id="modal-titulo" class="modal-titulo-texto"></h2>
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-imagen-wrapper">
+          <img id="modal-imagen" src="" alt="Imagen del festival" />
+        </div>
+        <div class="modal-texto">
+          <p id="modal-contenido"></p>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+</Layout>
+
+<style>
+  /* Variables de color para estética de periódico/nórdico */
+  :root {
+    --papel-antiguo: #f4ece1;
+    --tinta-negra: #1a1a1a;
+    --tinta-roja: #8b261a;
+    --madera-oscura: #2c1e16;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    /* Fondo oscuro para que resalte el papel de las cards */
+    background-color: var(--madera-oscura); 
+    background-image: radial-gradient(#3e2c22 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .contenedor-principal {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 2rem 4rem 2rem;
+  }
+
+  /* --- CABECERA ESTILO PERIÓDICO --- */
+  .cabecera-periodico {
+    text-align: center;
+    color: var(--papel-antiguo);
+    margin-bottom: 4rem;
+  }
+
+  .volumen {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .titulo-principal {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 1rem;
+    /* Al heredar tu fuente, aquí puedes forzar que sea serif si tu Layout lo permite */
+  }
+
+  .subtitulo {
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    margin: 1rem 0;
+  }
+
+  .linea-separadora {
+    height: 2px;
+    background-color: var(--papel-antiguo);
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  .linea-separadora.doble {
+    height: 6px;
+    border-top: 2px solid var(--papel-antiguo);
+    border-bottom: 2px solid var(--papel-antiguo);
+    background-color: transparent;
+  }
+
+  /* --- GRID Y CARDS --- */
+  .grid-noticias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .card-periodico {
+    background-color: var(--papel-antiguo);
+    color: var(--tinta-negra);
+    border: 3px solid var(--tinta-negra);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Sombra dura estilo neo-brutalismo retro */
+    box-shadow: 8px 8px 0px var(--tinta-negra);
+  }
+
+  .card-periodico:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: 14px 14px 0px var(--tinta-negra);
+  }
+
+  .card-inner {
+    padding: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(26, 26, 26, 0.2);
+    margin: 5px; /* Crea un doble borde sutil de periódico */
+  }
+
+  .fecha-noticia {
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-bottom: 2px solid var(--tinta-negra);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .titulo-noticia {
+    font-size: 2rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .resumen-noticia {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+  }
+
+  .leer-mas {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--tinta-negra);
+    padding-top: 1rem;
+    transition: color 0.3s ease;
+  }
+
+  .card-periodico:hover .leer-mas {
+    color: var(--tinta-roja);
+  }
+
+  /* --- MODAL (POP-UP) --- */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    
+    /* Animación inicial oculta */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .modal.activo {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-contenedor {
+    background-color: var(--papel-antiguo);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 4px solid var(--tinta-negra);
+    box-shadow: 15px 15px 0px var(--tinta-negra);
+    position: relative;
+    padding: 3rem;
+    
+    /* Efecto de entrada desde abajo y escalado */
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .modal.activo .modal-contenedor {
+    transform: scale(1) translateY(0);
+  }
+
+  .cerrar-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--tinta-negra);
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .cerrar-modal:hover {
+    transform: rotate(90deg);
+    color: var(--tinta-roja);
+  }
+
+  .modal-header {
+    text-align: center;
+    border-bottom: 4px solid var(--tinta-negra);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .modal-fecha {
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .modal-titulo-texto {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    color: var(--tinta-negra);
+  }
+
+  .modal-imagen-wrapper {
+    width: 100%;
+    height: 300px;
+    border: 3px solid var(--tinta-negra);
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  .modal-imagen-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(80%) sepia(20%); /* Da un toque antiguo a las fotos */
+    transition: filter 0.5s ease;
+  }
+
+  .modal-imagen-wrapper img:hover {
+    filter: grayscale(0%) sepia(0%);
+  }
+
+  .modal-texto p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--tinta-negra);
+    column-count: 2; /* Divide el texto en dos columnas estilo periódico */
+    column-gap: 2rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .modal-texto p {
+      column-count: 1;
+    }
+    .modal-contenedor {
+      padding: 1.5rem;
+    }
+    .modal-titulo-texto {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+
+<script>
+  // Lógica de interactividad Client-Side para Astro
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card-periodico');
+    const modal = document.getElementById('modal-noticia');
+    const btnCerrar = document.getElementById('btn-cerrar');
+    
+    // Elementos internos del modal
+    const modalTitulo = document.getElementById('modal-titulo');
+    const modalFecha = document.getElementById('modal-fecha');
+    const modalContenido = document.getElementById('modal-contenido');
+    const modalImagen = document.getElementById('modal-imagen');
+
+    // Función para abrir el modal
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Extraer datos de los data-attributes de la card cliqueada
+        const titulo = card.getAttribute('data-titulo');
+        const fecha = card.getAttribute('data-fecha');
+        const contenido = card.getAttribute('data-contenido');
+        const imagen = card.getAttribute('data-imagen');
+
+        // Inyectar la información en el DOM del modal
+        modalTitulo.textContent = titulo;
+        modalFecha.textContent = fecha;
+        modalContenido.textContent = contenido;
+        modalImagen.src = imagen;
+
+        // Añadir clase para animar y mostrar
+        modal.classList.add('activo');
+        
+        // Bloquear el scroll de la página de fondo
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // Función para cerrar el modal
+    const cerrarModal = () => {
+      modal.classList.remove('activo');
+      // Restaurar el scroll
+      document.body.style.overflow = 'auto';
+    };
+
+    // Cerrar con el botón
+    btnCerrar.addEventListener('click', cerrarModal);
+
+    // Cerrar haciendo click fuera del contenedor de contenido
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        cerrarModal();
+      }
+    });
+
+    // Cerrar con la tecla ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('activo')) {
+        cerrarModal();
+      }
+    });
+  });
+</script>

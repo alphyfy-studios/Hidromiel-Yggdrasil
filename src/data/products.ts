@@ -59,7 +59,7 @@ export const products: Product[] = [
     subtitle: "Hidromiel Semi dulce (proximamente)",
     tag: "MUY PRONTO...",
     rune: "ᚾ",
-    description: "Infusionada con hierbas estimulantes. Sentirás el vigor de un guerrero Berserker.",
+    description: "Infusionada con hierbas estimulantes. Sentirás el vigor de un guerrero.",
      image:"/public/images/products/yggdrasil_green_1.png",
   },
 ];
