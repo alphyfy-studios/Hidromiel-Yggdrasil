@@ -19,10 +19,10 @@ export const footerNavLinks: NavLink[] = [
   { label: "Nuestra Saga",     href: "#about"   },
   { label: "Hidromiel",     href: "#gallery" },
   // { label: "El Proceso",       href: "#process" },
-  { label: "Puntos de Venta",  href: "#"        },
+  { label: "Puntos de Venta",  href: "/mapa"        },
   // { label: "Mayoreo",          href: "#"        },
   { label: "Contacto", href: "#"        },
-   { label: "Festivales",         href: "#saga"    },
+   { label: "Festivales",         href: "/festivales"    },
       { label: "Peticiones especiales",         href: "#saga"    },
-     { label: "Historias del Norte",         href: "#saga"    },
+     { label: "Historias del Norte",         href: "/historiasdelnorte"    },
 ];
