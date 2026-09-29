@@ -9,6 +9,7 @@ export interface Product {
   tag: string;
   rune: string;
   description: string;
+  description2:string;
   image?: string;   // e.g. '/images/products/odin-reserve.jpg'
   featured?: boolean;
 }
@@ -38,9 +39,10 @@ export const products: Product[] = [
     id: 'Midgard',
     name: "Midgard",
     subtitle: "Hidromiel dulce",
-    tag: "Frutal",
+    tag: "Suave",
     rune: "ᛚ",
-    description: "Infusionada con frutas y especias. Siéntete como en casa.",
+    description: "Infusionada con frutas y especias.",
+    description2:"Siéntete como en casa",
      image:"/public/images/products/yggdrasil_yellow_1.png",
   },
 
@@ -51,6 +53,7 @@ export const products: Product[] = [
     tag: "Especiada",
     rune: "ᚠ",
     description: "Infusionada con flores y especias. Honra el sacrificio de Kvasir, saborea la sabiduría.",
+    description2:"",
     image:"/public/images/products/yggdrasil_red_1.png",
   },
   {
@@ -60,6 +63,7 @@ export const products: Product[] = [
     tag: "MUY PRONTO...",
     rune: "ᚾ",
     description: "Infusionada con hierbas estimulantes. Sentirás el vigor de un guerrero.",
+    description2:"",
      image:"/public/images/products/yggdrasil_green_1.png",
   },
 ];
