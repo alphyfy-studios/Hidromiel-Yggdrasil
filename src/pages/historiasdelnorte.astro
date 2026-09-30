@@ -1,189 +1,54 @@
 ---
-// src/components/RuneBackground.astro
+
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/sections/Header.astro";
+import  RunesBackground  from "../components/ui/RunesBackground.astro";
+
 ---
-
-<div id="viking-bg-container">
-  <div class="mist mist-1"></div>
-  <div class="mist mist-2"></div>
-  <canvas id="runeCanvas"></canvas>
-</div>
-
 <style>
-  #viking-bg-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1; /* Se asegura de quedar por detrás de todo el contenido */
-    background: radial-gradient(circle at center, #2a1f18 0%, #0d0907 100%);
-    overflow: hidden;
-    pointer-events: none; /* Permite que los clics pasen a través del fondo hacia tu página */
-  }
-  
-  /* Niebla animada generada por CSS */
-  .mist {
-    position: absolute;
-    width: 200vw;
-    height: 100vh;
-    background-repeat: repeat-x;
-    background-size: 50% 100%;
-    opacity: 0.3;
-    pointer-events: none;
-  }
-  .mist-1 {
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.5"/></svg>');
-    animation: mistMove 60s linear infinite;
-    mix-blend-mode: overlay;
-  }
-  .mist-2 {
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><filter id="noise2"><feTurbulence type="fractalNoise" baseFrequency="0.005" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(%23noise2)" opacity="0.3"/></svg>');
-    animation: mistMove 90s linear infinite reverse;
-    mix-blend-mode: screen;
-    opacity: 0.15;
-  }
-  @keyframes mistMove {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  
-  #runeCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
+  .titulo-principal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ margin-top: 7rem;
+
+
   }
 </style>
 
-<script>
-  const canvas = document.getElementById('runeCanvas') as HTMLCanvasElement;
-  const ctx = canvas.getContext('2d');
-  
-  let width, height;
-  const RUNE_CHARS = "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛟᛞ";
-  
-  // Configuración temática "Yggdrasil Mead" (Tonos miel/ámbar)
-  const theme = {
-    glowColor: "255, 184, 77", // RGB para el resplandor de las runas
-    emberColor: "#ff9900",     // Color de las ascuas/chispas
-    runeCount: 40,
-    emberCount: 60
-  };
+<Layout
 
-  let runes = [];
-  let embers = [];
-  
-  // Posición del ratón para interactuar con el fondo sin bloquear clics
-  let mouse = { x: -1000, y: -1000 };
-  window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  });
+  title="Yggdrasil Meadery | Hidromiel Artesanal Vikingo"
 
-  function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  window.addEventListener('resize', resize);
-  resize();
+  description="Hidromiel artesanal forjado bajo el árbol del mundo. Fermentado con miel pura y la sabiduría de siglos nórdicos."
+>
+<RunesBackground />
+  <Header />
 
-  class Rune {
-    constructor() {
-      this.reset(true);
-    }
-    reset(randomY = false) {
-      this.char = RUNE_CHARS[Math.floor(Math.random() * RUNE_CHARS.length)];
-      this.x = Math.random() * width;
-      this.y = randomY ? Math.random() * height : height + 50;
-      this.z = Math.random() * 0.8 + 0.2; // Profundidad (0.2 lejos, 1.0 cerca)
-      this.speedY = (Math.random() * 0.5 + 0.2) * this.z;
-      this.angle = Math.random() * Math.PI * 2;
-      this.rotSpeed = (Math.random() - 0.5) * 0.01;
-      this.glowOffset = Math.random() * Math.PI * 2;
-      this.baseSize = (Math.random() * 30 + 15);
-    }
-    update() {
-      this.y -= this.speedY;
-      this.angle += this.rotSpeed;
+  <main class="contenedor-principal">
+
+    
+    <!-- Cabecera estilo periódico -->
+    
+    <header class="cabecera-periodico">
       
-      // Interacción con el ratón
-      let dx = mouse.x - this.x;
-      let dy = mouse.y - this.y;
-      let distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 150) {
-        this.x -= (dx / distance) * 0.5;
-        this.y -= (dy / distance) * 0.5;
-      }
+      <!-- <p class="volumen">VOL. I — EDICIÓN ESPECIAL</p> -->
+      
+      <h1 class="titulo-principal">HISTORIAS DEL NORTE</h1>
+      
+      <div class="linea-separadora"></div>
+      
+      <!-- <h2 class="subtitulo">NOTICIAS Y FESTIVALES</h2> -->
+      
+      <div class="linea-separadora doble"></div>
+      
+    </header>
+  </main>
+ 
 
-      if (this.y < -50) this.reset();
-    }
-    draw() {
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.angle);
-      
-      let currentSize = this.baseSize * this.z;
-      let opacity = this.z * 0.8;
-      let glow = (Math.sin(Date.now() * 0.002 + this.glowOffset) + 1) * 0.5;
-      
-      ctx.font = `${currentSize}px 'Noto Sans', sans-serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      
-      // Resplandor
-      ctx.shadowBlur = 15 * glow;
-      ctx.shadowColor = `rgba(${theme.glowColor}, ${opacity})`;
-      ctx.fillStyle = `rgba(${theme.glowColor}, ${opacity * 0.9})`;
-      
-      // Desenfoque para efecto de profundidad de campo
-      if (this.z < 0.5) ctx.filter = `blur(${1.5 - this.z}px)`;
-      
-      ctx.fillText(this.char, 0, 0);
-      ctx.restore();
-    }
-  }
 
-  class Ember {
-    constructor() {
-      this.reset(true);
-    }
-    reset(randomY = false) {
-      this.x = Math.random() * width;
-      this.y = randomY ? Math.random() * height : height + 10;
-      this.size = Math.random() * 3 + 1;
-      this.speedY = Math.random() * 2 + 1;
-      this.speedX = (Math.random() - 0.5) * 1;
-      this.opacity = Math.random() * 0.8 + 0.2;
-    }
-    update() {
-      this.y -= this.speedY;
-      this.x += this.speedX + Math.sin(this.y * 0.01) * 0.5;
-      this.opacity -= 0.002;
-      if (this.y < -10 || this.opacity <= 0) this.reset();
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = theme.emberColor;
-      ctx.globalAlpha = this.opacity;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = theme.emberColor;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-  }
 
-  // Inicializar partículas
-  for (let i = 0; i < theme.runeCount; i++) runes.push(new Rune());
-  for (let i = 0; i < theme.emberCount; i++) embers.push(new Ember());
 
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    runes.forEach(r => { r.update(); r.draw(); });
-    embers.forEach(e => { e.update(); e.draw(); });
-    requestAnimationFrame(animate);
-  }
-  
-  animate();
-</script>
+
+
+</Layout>
