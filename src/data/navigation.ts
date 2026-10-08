@@ -12,7 +12,7 @@ export const navLinks: NavLink[] = [
   // { label: "Proceso",       href: "#process"  },
   // { label: "Crónicas",      href: "#saga"     },
   { label: "Contacto",      href: "#footer"   },
-  { label: "Comprar Ahora",   href: "#footer",  cta: true },
+  { label: "Comprar Ahora",   href: "/peticiones-especiales",  cta: true },
 ];
 
 export const footerNavLinks: NavLink[] = [
@@ -23,6 +23,6 @@ export const footerNavLinks: NavLink[] = [
   // { label: "Mayoreo",          href: "#"        },
   { label: "Contacto", href: "mailto:yggdrasil.meadery.mx@gmail.com?subject=Contacto%20Yggdrasil" },
    { label: "Festivales",         href: "/festivales"    },
-      { label: "Peticiones especiales",         href: "mailto:yggdrasil.meadery.mx@gmail.com?subject=Petici%C3%B3n%20especial"    },
+      { label: "Peticiones especiales",         href: "/peticiones-especiales"    },
      { label: "Historias del Norte",         href: "/historiasdelnorte"    },
 ];

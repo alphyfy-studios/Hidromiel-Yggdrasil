@@ -93,3 +93,11 @@ yggdrasil-meadery/
 | `--red2`       | `#bc3908` | Roles, viñetas             |
 | `--gold`       | `#f6aa1c` | Color primario de marca    |
 | `--white`      | `#ffffff` | Texto principal            |
+
+## 🛒 Peticiones especiales y pagos
+
+- El catálogo y sus precios editables están en `src/data/shop-products.ts`.
+- Mientras `price` sea `null`, la tienda muestra **Precio por definir** y no permite iniciar un cobro.
+- El carrito se guarda en el navegador. El checkout presenta PayPal, Google Pay y tarjeta, pero no solicita ni almacena datos de tarjeta.
+- Para activar pagos reales, configura `PUBLIC_CHECKOUT_ENDPOINT` (consulta `.env.example`) con la URL de un backend seguro. El navegador envía `POST` con `{ method, items: [{ id, quantity }] }`; el backend debe verificar los precios, crear una sesión con el proveedor y devolver `{ checkoutUrl }`.
+- Guarda las claves privadas de PayPal o del procesador de pagos solo en el servidor, nunca en variables `PUBLIC_`.
