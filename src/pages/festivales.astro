@@ -1,8 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/sections/Header.astro";
+import Footer from "../components/sections/Footer.astro";
 
-// Objeto con la información de las noticias/festivales
+// Objeto con la información de las noticias/festivales.
 const festivales = [
   {
     id: 1,
@@ -10,7 +11,7 @@ const festivales = [
     titulo: "El Gran Banquete del Valhalla",
     resumen: "Yggdrasil Meadery destapa sus barriles de reserva especial en el mayor torneo de combate histórico del año.",
     contenido: "Prepárate para una experiencia inmersiva sin precedentes. Este año, el Gran Banquete del Valhalla trae competencias de hachas, música folk nórdica en vivo y festines. En nuestro stand principal, destaparemos barriles exclusivos de hidromiel añejada en barricas de roble durante 3 años. ¡No faltes a la llamada de los dioses y ven a brindar con nosotros!",
-    imagen: "https://images.unsplash.com/photo-1590454316278-f71bb480eb0b?auto=format&fit=crop&q=80&w=800"
+    imagen: "https://images.unsplash.com/photo-1590454316278-f71bb480eb0b?auto=format&fit=crop&q=80&w=1200",
   },
   {
     id: 2,
@@ -18,7 +19,7 @@ const festivales = [
     titulo: "Mercado de Yule: El Renacer del Sol",
     resumen: "Celebra el solsticio de invierno con nuestra nueva edición limitada de hidromiel especiada.",
     contenido: "El frío del invierno se combate con el calor de una buena hoguera y un cuerno lleno de hidromiel. Únete a nosotros en el Mercado de Yule, donde presentaremos oficialmente nuestra edición 'Sangre de Ymir', fermentada con canela, clavo y naranja. Habrá danzas tradicionales, lectura de runas y comida artesanal. La entrada es libre.",
-    imagen: "https://images.unsplash.com/photo-1614074815456-11f8e878e178?auto=format&fit=crop&q=80&w=800"
+    imagen: "https://images.unsplash.com/photo-1614074815456-11f8e878e178?auto=format&fit=crop&q=80&w=1200",
   },
   {
     id: 3,
@@ -26,396 +27,237 @@ const festivales = [
     titulo: "Feria Medieval de Naucalpan",
     resumen: "Nuestra taberna itinerante llega al parque con degustaciones gratuitas y cuernos tallados a mano.",
     contenido: "Ubicados en la zona central del festival, estaremos sirviendo nuestras tres variedades clásicas: Tradicional, Frutos Rojos y Manzana-Canela. Además, contaremos con invitados especiales de la escena del folk metal y torneos de arquería. Ven con tu mejor armadura o atuendo de época; habrá recompensas en forma de oro líquido para los mejores trajes.",
-    imagen: "https://images.unsplash.com/photo-1595166297371-3310060d4b9b?auto=format&fit=crop&q=80&w=800"
-  }
+    imagen: "https://images.unsplash.com/photo-1595166297371-3310060d4b9b?auto=format&fit=crop&q=80&w=1200",
+  },
 ];
 ---
 
 <Layout
-  title="Yggdrasil Meadery | Hidromiel Artesanal Vikingo"
-  description="Hidromiel artesanal forjado bajo el árbol del mundo. Fermentado con miel pura y la sabiduría de siglos nórdicos."
+  title="Festivales | Hidromiel Yggdrasil"
+  description="Noticias, encuentros y festivales de Hidromiel Yggdrasil."
 >
   <Header />
-  
-  <main class="contenedor-principal">
-    <!-- Cabecera estilo periódico -->
-    <header class="cabecera-periodico">
-      <p class="volumen">VOL. I — EDICIÓN ESPECIAL</p>
-      <h1 class="titulo-principal">LOS FESTIVALES DE YGGDRASIL</h1>
-      <div class="linea-separadora"></div>
-      <h2 class="subtitulo">NOTICIAS Y FESTIVALES</h2>
-      <div class="linea-separadora doble"></div>
-    </header>
 
-    <!-- Grid de Cards -->
-    <section class="grid-noticias">
-      {festivales.map((fest) => (
-        <article 
-          class="card-periodico"
-          data-titulo={fest.titulo}
-          data-fecha={fest.fecha}
-          data-contenido={fest.contenido}
-          data-imagen={fest.imagen}
-        >
-          <div class="card-inner">
-            <span class="fecha-noticia">{fest.fecha}</span>
-            <h3 class="titulo-noticia">{fest.titulo}</h3>
-            <p class="resumen-noticia">{fest.resumen}</p>
-            <div class="leer-mas">Leer la crónica <span>→</span></div>
-          </div>
-        </article>
-      ))}
-    </section>
+  <main class="festival-page">
+    <div class="festival-content">
+      <header class="cabecera-periodico">
+        <p class="volumen">VOL. I — EDICIÓN ESPECIAL</p>
+        <h1 class="titulo-principal">LOS FESTIVALES DE YGGDRASIL</h1>
+        <div class="linea-separadora"></div>
+        <h2 class="subtitulo">NOTICIAS Y FESTIVALES</h2>
+        <div class="linea-separadora doble"></div>
+        <p class="tablon-intro">Avisos, encuentros y crónicas fijados en el tablón del salón.</p>
+      </header>
+
+      <section class="festival-board" aria-label="Tablón de festivales">
+        <div class="grid-noticias">
+          {festivales.map((fest) => (
+            <button
+              class="card-periodico"
+              type="button"
+              data-titulo={fest.titulo}
+              data-fecha={fest.fecha}
+              data-contenido={fest.contenido}
+              data-imagen={fest.imagen}
+              aria-label={`Leer noticia: ${fest.titulo}`}
+              aria-haspopup="dialog"
+            >
+              <span class="card-pin" aria-hidden="true"><span></span></span>
+              <span class="aviso-sello" aria-hidden="true">SE BUSCA</span>
+              <span class="card-inner">
+                <span class="fecha-noticia">{fest.fecha}</span>
+                <span class="titulo-noticia">{fest.titulo}</span>
+                <span class="resumen-noticia">{fest.resumen}</span>
+                <span class="leer-mas">Leer la crónica <span aria-hidden="true">→</span></span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
+    </div>
   </main>
 
-  <!-- Modal Pop-up (Oculto por defecto) -->
-  <dialog id="modal-noticia" class="modal">
-    <div class="modal-contenedor">
-      <button class="cerrar-modal" id="btn-cerrar">&times;</button>
-      
-      <div class="modal-header">
-        <span id="modal-fecha" class="modal-fecha"></span>
-        <h2 id="modal-titulo" class="modal-titulo-texto"></h2>
+  <dialog id="modal-noticia" class="modal" aria-labelledby="modal-titulo">
+    <article class="modal-contenedor">
+      <button class="cerrar-modal" id="btn-cerrar" type="button" aria-label="Cerrar noticia">&times;</button>
+      <div class="papel-contenido">
+        <p class="modal-sello">CRÓNICA DEL FESTIVAL · YGGDRASIL</p>
+        <header class="modal-header">
+          <span id="modal-fecha" class="modal-fecha"></span>
+          <h2 id="modal-titulo" class="modal-titulo-texto"></h2>
+        </header>
+        <figure class="modal-imagen-wrapper">
+          <img id="modal-imagen" src="" alt="" />
+          <figcaption>Fragmento del archivo de viaje</figcaption>
+        </figure>
+        <div class="modal-texto"><p id="modal-contenido"></p></div>
+        <p class="modal-firma" aria-hidden="true">ᚠ · ᛟ · ᚦ</p>
       </div>
-      
-      <div class="modal-body">
-        <div class="modal-imagen-wrapper">
-          <img id="modal-imagen" src="" alt="Imagen del festival" />
-        </div>
-        <div class="modal-texto">
-          <p id="modal-contenido"></p>
-        </div>
-      </div>
-    </div>
+    </article>
   </dialog>
 
+  <Footer />
 </Layout>
 
 <style>
-  /* Variables de color para estética de periódico/nórdico */
-  :root {
-    --papel-antiguo: #f4ece1;
-    --tinta-negra: #1a1a1a;
+  .festival-page {
+    --papel-antiguo: #ead9b4;
+    --tinta-negra: #241910;
     --tinta-roja: #8b261a;
-    --madera-oscura: #2c1e16;
+    --madera-oscura: #21120b;
+    position: relative;
+    overflow: hidden;
+    padding: 8.5rem 1.25rem 6rem;
+    color: #f4ece1;
+    background:
+      radial-gradient(ellipse at 50% 15%, rgba(138, 57, 18, .28), transparent 55%),
+      linear-gradient(180deg, #100906 0%, #24130b 48%, #100906 100%);
   }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  .festival-page::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.55) 100%);
   }
-
-  body {
-    /* Fondo oscuro para que resalte el papel de las cards */
-    background-color: var(--madera-oscura); 
-    background-image: radial-gradient(#3e2c22 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .contenedor-principal {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 8rem 2rem 4rem 2rem;
-  }
-
-  /* --- CABECERA ESTILO PERIÓDICO --- */
-  .cabecera-periodico {
-    text-align: center;
-    color: var(--papel-antiguo);
-    margin-bottom: 4rem;
-  }
-
-  .volumen {
-    font-size: 0.9rem;
-    letter-spacing: 4px;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-  }
-
+  .festival-content { position: relative; z-index: 1; max-width: 1220px; margin: 0 auto; }
+  .cabecera-periodico { max-width: 940px; margin: 0 auto 3rem; color: var(--papel-antiguo); text-align: center; }
+  .volumen { margin-bottom: 1rem; font-size: .78rem; letter-spacing: .32em; text-transform: uppercase; color: #d6b77c; }
   .titulo-principal {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 1rem;
-    /* Al heredar tu fuente, aquí puedes forzar que sea serif si tu Layout lo permite */
+    margin: 0 0 1rem; font-size: clamp(2.5rem, 6vw, 5rem); text-transform: uppercase;
+    line-height: 1; letter-spacing: .035em; text-shadow: 0 4px 24px rgba(0,0,0,.65);
   }
+  .subtitulo { margin: 1rem 0; font-size: 1.5rem; font-style: italic; font-weight: 400; }
+  .linea-separadora { height: 2px; width: 100%; margin: .5rem 0; background: linear-gradient(90deg, transparent, #e7d3a8 12%, #e7d3a8 88%, transparent); }
+  .linea-separadora.doble { height: 7px; border-top: 2px solid #e7d3a8; border-bottom: 2px solid #e7d3a8; background: none; }
+  .tablon-intro { margin: 1.5rem 0 0; color: rgba(244,236,225,.67); font-size: 1.05rem; font-style: italic; }
 
-  .subtitulo {
-    font-size: 1.5rem;
-    font-style: italic;
-    font-weight: 400;
-    margin: 1rem 0;
+  .festival-board {
+    position: relative; padding: clamp(1.5rem, 4vw, 3.5rem);
+    border: 12px solid #3c2112; border-radius: 8px;
+    background-color: #462817;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 62px, rgba(18,8,4,.32) 63px, rgba(12,6,3,.42) 65px, transparent 68px),
+      repeating-linear-gradient(2deg, rgba(230,177,104,.035) 0 2px, transparent 2px 7px),
+      linear-gradient(105deg, #57321c, #382014 28%, #50301b 52%, #321b11 76%, #52301a);
+    box-shadow: 0 22px 55px rgba(0,0,0,.6), inset 0 0 0 2px rgba(203,149,88,.22), inset 0 0 35px rgba(0,0,0,.45);
   }
-
-  .linea-separadora {
-    height: 2px;
-    background-color: var(--papel-antiguo);
-    width: 100%;
-    margin: 0.5rem 0;
+  .festival-board::before, .festival-board::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 2px;
+    background: rgba(14,7,4,.55); box-shadow: 0 2px 3px rgba(222,169,103,.12);
   }
-  .linea-separadora.doble {
-    height: 6px;
-    border-top: 2px solid var(--papel-antiguo);
-    border-bottom: 2px solid var(--papel-antiguo);
-    background-color: transparent;
-  }
-
-  /* --- GRID Y CARDS --- */
-  .grid-noticias {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-  }
+  .festival-board::before { top: 32%; }
+  .festival-board::after { bottom: 31%; }
+  .grid-noticias { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.2rem, 3vw, 2.5rem); align-items: stretch; }
 
   .card-periodico {
-    background-color: var(--papel-antiguo);
-    color: var(--tinta-negra);
-    border: 3px solid var(--tinta-negra);
-    cursor: pointer;
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    /* Sombra dura estilo neo-brutalismo retro */
-    box-shadow: 8px 8px 0px var(--tinta-negra);
+    --paper: #e9d8b4;
+    position: relative; display: block; width: 100%; min-height: 355px; padding: 2.5rem 1.35rem 1.5rem;
+    border: 0; color: var(--tinta-negra); text-align: left; cursor: pointer;
+    font-family: var(--font-heading, Georgia, serif);
+    background:
+      radial-gradient(ellipse at 8% 9%, rgba(100,54,22,.18), transparent 26%),
+      radial-gradient(ellipse at 92% 88%, rgba(117,67,29,.18), transparent 25%),
+      repeating-linear-gradient(0deg, transparent 0 5px, rgba(78,48,23,.035) 6px 7px),
+      linear-gradient(135deg, #d2bb8f, #f0e2c0 20%, #e7d5ac 72%, #c6a779);
+    clip-path: polygon(1% 1%, 8% 0, 17% 1%, 27% .2%, 39% 1%, 51% .1%, 62% 1%, 74% .3%, 86% 1%, 99% .2%, 100% 12%, 99% 22%, 100% 36%, 99% 49%, 100% 63%, 99% 77%, 100% 88%, 99% 99%, 88% 100%, 76% 99%, 64% 100%, 52% 99%, 39% 100%, 27% 99%, 15% 100%, 1% 99%, 0 87%, 1% 75%, 0 62%, 1% 49%, 0 35%, 1% 21%);
+    filter: drop-shadow(5px 9px 4px rgba(0,0,0,.55));
+    transform: rotate(-1.3deg); transition: transform .28s ease, filter .28s ease;
   }
+  .card-periodico:nth-child(2) { transform: rotate(1.4deg) translateY(10px); }
+  .card-periodico:nth-child(3) { transform: rotate(-.8deg) translateY(-3px); }
+  .card-periodico:hover, .card-periodico:focus-visible { z-index: 2; outline: none; transform: translateY(-9px) rotate(0); filter: drop-shadow(9px 16px 8px rgba(0,0,0,.62)); }
+  .card-periodico:focus-visible { outline: 3px solid #f6aa1c; outline-offset: 5px; }
+  .card-pin { position: absolute; z-index: 2; top: .8rem; left: 50%; width: 18px; height: 18px; transform: translateX(-50%); border: 2px solid #5e1710; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #efae76 0 12%, #bb3b22 32%, #68180f 78%); box-shadow: 1px 3px 5px #27140e; }
+  .card-pin span { position: absolute; top: 2px; left: 3px; width: 4px; height: 3px; border-radius: 50%; background: rgba(255,232,194,.8); }
+  .aviso-sello { position: absolute; z-index: 1; top: 1.2rem; right: .5rem; padding: .25rem .4rem; border: 2px double rgba(139,38,26,.7); color: rgba(139,38,26,.9); font: 900 .7rem var(--font-display, Georgia, serif); letter-spacing: .1em; transform: rotate(12deg); }
+  .card-inner { display: flex; min-height: 295px; flex-direction: column; border: 1px solid rgba(78,48,23,.22); padding: 1.1rem; }
+  .fecha-noticia { display: block; width: max-content; max-width: calc(100% - 2.7rem); padding-bottom: .45rem; margin-bottom: 1.15rem; border-bottom: 1px solid rgba(36,25,16,.56); font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .titulo-noticia { display: block; margin-bottom: .9rem; font: 900 clamp(1.3rem, 2vw, 1.75rem)/1.18 var(--font-display, Georgia, serif); letter-spacing: .035em; text-transform: uppercase; }
+  .resumen-noticia { display: block; margin-bottom: 1.5rem; font-family: var(--font-heading, Georgia, serif); font-size: .88rem; font-weight: 600; letter-spacing: .015em; line-height: 1.65; }
+  .leer-mas { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: auto; padding-top: .8rem; border-top: 1px solid rgba(36,25,16,.45); font: 700 .72rem var(--font-heading, Georgia, serif); letter-spacing: .12em; text-transform: uppercase; }
+  .leer-mas span { font-size: 1.35rem; }
+  .card-periodico:hover .leer-mas { color: var(--tinta-roja); }
 
-  .card-periodico:hover {
-    transform: translate(-5px, -5px);
-    box-shadow: 14px 14px 0px var(--tinta-negra);
-  }
-
-  .card-inner {
-    padding: 2rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(26, 26, 26, 0.2);
-    margin: 5px; /* Crea un doble borde sutil de periódico */
-  }
-
-  .fecha-noticia {
-    font-size: 0.85rem;
-    font-weight: bold;
-    border-bottom: 2px solid var(--tinta-negra);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    display: inline-block;
-  }
-
-  .titulo-noticia {
-    font-size: 2rem;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-  }
-
-  .resumen-noticia {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-    flex-grow: 1;
-  }
-
-  .leer-mas {
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 2px solid var(--tinta-negra);
-    padding-top: 1rem;
-    transition: color 0.3s ease;
-  }
-
-  .card-periodico:hover .leer-mas {
-    color: var(--tinta-roja);
-  }
-
-  /* --- MODAL (POP-UP) --- */
   .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(26, 26, 26, 0.8);
-    backdrop-filter: blur(5px);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    
-    /* Animación inicial oculta */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    --paper: #e8d6ad;
+    width: min(940px, calc(100vw - 2rem)); max-width: none; max-height: calc(100dvh - 2rem);
+    margin: auto; padding: 0; overflow: visible; border: 0; background: transparent; color: #2b1b10;
   }
-
-  .modal.activo {
-    opacity: 1;
-    visibility: visible;
-  }
-
+  .modal::backdrop { background: rgba(9,5,3,.82); backdrop-filter: blur(7px); }
+  .modal[open] { animation: modal-enter .32s cubic-bezier(.2,.8,.25,1) both; }
+  @keyframes modal-enter { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
   .modal-contenedor {
-    background-color: var(--papel-antiguo);
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 4px solid var(--tinta-negra);
-    box-shadow: 15px 15px 0px var(--tinta-negra);
-    position: relative;
-    padding: 3rem;
-    
-    /* Efecto de entrada desde abajo y escalado */
-    transform: scale(0.95) translateY(20px);
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative; max-height: calc(100dvh - 2rem); overflow-y: auto; padding: clamp(1.4rem, 4vw, 3.2rem);
+    background:
+      radial-gradient(ellipse at 4% 7%, rgba(107,62,27,.28), transparent 22%),
+      radial-gradient(ellipse at 96% 92%, rgba(123,66,27,.24), transparent 24%),
+      radial-gradient(ellipse at 80% 15%, rgba(255,248,219,.48), transparent 35%),
+      repeating-linear-gradient(0deg, transparent 0 5px, rgba(72,43,20,.035) 6px 7px),
+      linear-gradient(120deg, #c8aa79, #ead9b3 15%, #efe1c0 60%, #d1b487);
+    clip-path: polygon(1% 1%, 8% .2%, 17% 1%, 29% .3%, 42% 1%, 55% .2%, 68% 1%, 80% .3%, 92% 1%, 99% .4%, 100% 13%, 99% 27%, 100% 41%, 99% 55%, 100% 68%, 99% 82%, 100% 96%, 90% 99%, 78% 98%, 65% 100%, 52% 99%, 40% 100%, 27% 99%, 14% 100%, 1% 98%, 0 84%, 1% 69%, 0 54%, 1% 39%, 0 24%);
+    box-shadow: inset 0 0 45px rgba(82,47,20,.3), 0 25px 65px rgba(0,0,0,.65);
   }
-
-  .modal.activo .modal-contenedor {
-    transform: scale(1) translateY(0);
+  .papel-contenido { position: relative; min-height: 100%; border: 1px solid rgba(80,49,24,.25); padding: clamp(1rem, 3vw, 2rem); }
+  .modal-sello { margin: 0 3rem 1.1rem; color: rgba(119,53,28,.72); text-align: center; font: .62rem var(--font-heading, Georgia, serif); letter-spacing: .24em; }
+  .cerrar-modal { position: sticky; z-index: 3; float: right; top: .2rem; width: 2.6rem; height: 2.6rem; margin: -1.4rem -1.4rem 0 0; border: 1px solid rgba(67,44,24,.35); border-radius: 50%; background: rgba(227,207,166,.92); color: #382416; font-size: 2rem; line-height: 1; cursor: pointer; transition: transform .2s, background .2s; }
+  .cerrar-modal:hover { transform: rotate(90deg); background: #f4e6c7; }
+  .modal-header { max-width: 740px; margin: 0 auto 1.8rem; padding-bottom: 1.4rem; border-bottom: 2px solid rgba(51,34,20,.68); text-align: center; }
+  .modal-fecha { color: #77411e; font-size: .78rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+  .modal-titulo-texto { margin: .8rem 0 0; color: #291a10; font-size: clamp(1.75rem, 4.5vw, 3rem); line-height: 1.12; text-transform: uppercase; }
+  .modal-imagen-wrapper { position: relative; max-width: 740px; height: clamp(180px, 35vw, 330px); margin: 0 auto 1.7rem; padding: 8px; background: #b99967; box-shadow: 0 8px 19px rgba(47,29,14,.32); transform: rotate(-.35deg); }
+  .modal-imagen-wrapper img { display: block; width: 100%; height: 100%; object-fit: cover; filter: sepia(.55) saturate(.8) contrast(.94); }
+  .modal-imagen-wrapper figcaption { position: absolute; right: .8rem; bottom: .8rem; padding: .25rem .5rem; background: rgba(27,18,12,.72); color: #f0dfbd; font-size: .65rem; font-style: italic; }
+  .modal-texto { max-width: 740px; margin: 0 auto; }
+  .modal-texto p { margin: 0; color: #332317; font-size: 1.1rem; line-height: 1.8; column-count: 2; column-gap: 2.3rem; }
+  .modal-firma { margin: 1.8rem 0 .2rem; color: #774b27; text-align: center; letter-spacing: .5em; }
+  @media (max-width: 900px) { .grid-noticias { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 650px) {
+    .festival-page { padding: 7.5rem .9rem 4rem; }
+    .festival-board { padding: 1.4rem; border-width: 8px; }
+    .grid-noticias { grid-template-columns: 1fr; gap: 1.4rem; }
+    .card-periodico, .card-periodico:nth-child(2), .card-periodico:nth-child(3) { min-height: 320px; transform: rotate(-.5deg); }
+    .card-periodico:nth-child(even) { transform: rotate(.6deg); }
+    .card-inner { min-height: 260px; }
+    .modal { width: calc(100vw - 1rem); max-height: calc(100dvh - 1rem); }
+    .modal-contenedor { max-height: calc(100dvh - 1rem); padding: .9rem; }
+    .papel-contenido { padding: 1rem .8rem; }
+    .cerrar-modal { margin: -.5rem -.4rem 0 0; }
+    .modal-texto p { column-count: 1; font-size: 1rem; }
+    .modal-sello { margin-inline: 2.4rem; font-size: .55rem; }
   }
-
-  .cerrar-modal {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    background: none;
-    border: none;
-    font-size: 3rem;
-    line-height: 1;
-    color: var(--tinta-negra);
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-
-  .cerrar-modal:hover {
-    transform: rotate(90deg);
-    color: var(--tinta-roja);
-  }
-
-  .modal-header {
-    text-align: center;
-    border-bottom: 4px solid var(--tinta-negra);
-    padding-bottom: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .modal-fecha {
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .modal-titulo-texto {
-    font-size: 2.5rem;
-    margin-top: 1rem;
-    text-transform: uppercase;
-    color: var(--tinta-negra);
-  }
-
-  .modal-imagen-wrapper {
-    width: 100%;
-    height: 300px;
-    border: 3px solid var(--tinta-negra);
-    margin-bottom: 2rem;
-    overflow: hidden;
-  }
-
-  .modal-imagen-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(80%) sepia(20%); /* Da un toque antiguo a las fotos */
-    transition: filter 0.5s ease;
-  }
-
-  .modal-imagen-wrapper img:hover {
-    filter: grayscale(0%) sepia(0%);
-  }
-
-  .modal-texto p {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: var(--tinta-negra);
-    column-count: 2; /* Divide el texto en dos columnas estilo periódico */
-    column-gap: 2rem;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .modal-texto p {
-      column-count: 1;
-    }
-    .modal-contenedor {
-      padding: 1.5rem;
-    }
-    .modal-titulo-texto {
-      font-size: 1.8rem;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .card-periodico, .modal[open], .cerrar-modal { transition: none; animation: none; }
   }
 </style>
 
 <script>
-  // Lógica de interactividad Client-Side para Astro
-  document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.card-periodico');
-    const modal = document.getElementById('modal-noticia');
-    const btnCerrar = document.getElementById('btn-cerrar');
-    
-    // Elementos internos del modal
-    const modalTitulo = document.getElementById('modal-titulo');
-    const modalFecha = document.getElementById('modal-fecha');
-    const modalContenido = document.getElementById('modal-contenido');
-    const modalImagen = document.getElementById('modal-imagen');
+  const cards = document.querySelectorAll<HTMLButtonElement>(".card-periodico");
+  const modal = document.querySelector<HTMLDialogElement>("#modal-noticia");
+  const closeButton = document.querySelector<HTMLButtonElement>("#btn-cerrar");
+  const modalTitle = document.querySelector<HTMLElement>("#modal-titulo");
+  const modalDate = document.querySelector<HTMLElement>("#modal-fecha");
+  const modalContent = document.querySelector<HTMLElement>("#modal-contenido");
+  const modalImage = document.querySelector<HTMLImageElement>("#modal-imagen");
+  let opener: HTMLButtonElement | undefined;
 
-    // Función para abrir el modal
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        // Extraer datos de los data-attributes de la card cliqueada
-        const titulo = card.getAttribute('data-titulo');
-        const fecha = card.getAttribute('data-fecha');
-        const contenido = card.getAttribute('data-contenido');
-        const imagen = card.getAttribute('data-imagen');
+  function openFestival(card: HTMLButtonElement) {
+    if (!modal || !modalTitle || !modalDate || !modalContent || !modalImage) return;
+    opener = card;
+    modalTitle.textContent = card.dataset.titulo ?? "Noticia del festival";
+    modalDate.textContent = card.dataset.fecha ?? "";
+    modalContent.textContent = card.dataset.contenido ?? "";
+    modalImage.src = card.dataset.imagen ?? "";
+    modalImage.alt = card.dataset.titulo ? `Imagen de ${card.dataset.titulo}` : "Imagen del festival";
+    modal.showModal();
+    document.body.style.overflow = "hidden";
+    closeButton?.focus();
+  }
 
-        // Inyectar la información en el DOM del modal
-        modalTitulo.textContent = titulo;
-        modalFecha.textContent = fecha;
-        modalContenido.textContent = contenido;
-        modalImagen.src = imagen;
-
-        // Añadir clase para animar y mostrar
-        modal.classList.add('activo');
-        
-        // Bloquear el scroll de la página de fondo
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    // Función para cerrar el modal
-    const cerrarModal = () => {
-      modal.classList.remove('activo');
-      // Restaurar el scroll
-      document.body.style.overflow = 'auto';
-    };
-
-    // Cerrar con el botón
-    btnCerrar.addEventListener('click', cerrarModal);
-
-    // Cerrar haciendo click fuera del contenedor de contenido
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        cerrarModal();
-      }
-    });
-
-    // Cerrar con la tecla ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('activo')) {
-        cerrarModal();
-      }
-    });
+  cards.forEach((card) => card.addEventListener("click", () => openFestival(card)));
+  closeButton?.addEventListener("click", () => modal?.close());
+  modal?.addEventListener("click", (event) => {
+    if (event.target === modal) modal.close();
+  });
+  modal?.addEventListener("close", () => {
+    document.body.style.overflow = "";
+    opener?.focus();
   });
 </script>

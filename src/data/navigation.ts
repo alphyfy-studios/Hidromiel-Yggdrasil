@@ -21,8 +21,8 @@ export const footerNavLinks: NavLink[] = [
   // { label: "El Proceso",       href: "#process" },
   { label: "Puntos de Venta",  href: "/mapa"        },
   // { label: "Mayoreo",          href: "#"        },
-  { label: "Contacto", href: "#"        },
+  { label: "Contacto", href: "mailto:yggdrasil.meadery.mx@gmail.com?subject=Contacto%20Yggdrasil" },
    { label: "Festivales",         href: "/festivales"    },
-      { label: "Peticiones especiales",         href: "#saga"    },
+      { label: "Peticiones especiales",         href: "mailto:yggdrasil.meadery.mx@gmail.com?subject=Petici%C3%B3n%20especial"    },
      { label: "Historias del Norte",         href: "/historiasdelnorte"    },
 ];

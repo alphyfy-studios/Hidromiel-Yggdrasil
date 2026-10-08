@@ -12,6 +12,9 @@ const {
   description = "Hidromiel artesanal forjado bajo el árbol del mundo. Fermentado con miel pura y la sabiduría de siglos.",
 } = Astro.props;
 
+const isHomePage = Astro.url.pathname === "/";
+const isStoriesPage = Astro.url.pathname.replace(/\/$/, "") === "/historiasdelnorte";
+
 import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
 
 ---
@@ -48,17 +51,42 @@ import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
   </head>
 
   <body>
-
-    <slot />
+    {isHomePage && (
+      <div class="home-runes" aria-hidden="true">
+        <span>ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ</span>
+        <span>ᛟ ᛞ ᛜ ᛚ ᛗ ᛖ ᛒ ᛏ ᛊ ᛉ ᛈ ᛇ ᛃ ᛁ ᚾ ᚺ ᚹ ᚷ ᚲ ᚱ ᚨ ᚦ ᚢ ᚠ</span>
+        <span>ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ</span>
+      </div>
+    )}
+    <div class="site-content"><slot /></div>
 
     <!-- Botón flotante de WhatsApp -->
-    <WhatsAppButton 
+    {!isStoriesPage && <WhatsAppButton 
       phone="52155XXXXXXXX" 
-      message="¡Hola! Me interesa cotizar un desarrollo web."/>
+      message="¡Hola! Me interesa cotizar un desarrollo web."/>}
   </body>
 </html>
 
 <style is:global>
   /* Importamos el CSS global compilado por Astro */
   @import "../styles/global.css";
+
+  .home-runes {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    overflow: hidden;
+    pointer-events: none;
+    color: var(--red1);
+    opacity: 0.18;
+    font: clamp(3.5rem, 12vw, 11rem)/1.2 serif;
+    animation: bgDrift 24s ease-in-out infinite alternate;
+  }
+
+  .home-runes span { white-space: nowrap; }
+  .home-runes span:nth-child(2) { transform: translateX(-8%); }
+  .site-content { position: relative; z-index: 1; }
 </style>

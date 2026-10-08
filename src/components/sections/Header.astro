@@ -3,14 +3,33 @@
 // Header fijo con logo, navegación y menú hamburger (CSS-only, cero JS).
 
 import { navLinks } from "../../data/navigation";
+
+interface Props {
+  variant?: "default" | "stories";
+}
+
+const { variant = "default" } = Astro.props;
+const isHomePage = Astro.url.pathname === "/";
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const brandHref = isHomePage ? "#hero" : "/#hero";
+const resolveHref = (href: string) =>
+  href.startsWith("#") && !isHomePage ? `/${href}` : href;
+const sectionLinks = [
+  { label: "Puntos de venta", href: "/mapa" },
+  { label: "Festivales", href: "/festivales" },
+  { label: "Historias del Norte", href: "/historiasdelnorte" },
+];
+const visibleNavLinks = variant === "stories"
+  ? [...navLinks.slice(0, 2), ...sectionLinks, ...navLinks.slice(2)]
+  : navLinks;
 ---
 
-<header id="header">
+<header id="header" class:list={[`header--${variant}`]}>
   <div class="container nav-inner">
 
     <!-- Logo -->
-    <a href="#hero" class="logo-wrap" aria-label="Yggdrasil Meadery inicio">
-      <div class="logo-placeholder"></div>
+    <a href={brandHref} class="logo-wrap" aria-label="Yggdrasil Meadery inicio">
+      <div class="logo-placeholder" aria-hidden="true"></div>
       <!-- <div class="logo-placeholder" aria-hidden="true">ᛟ</div> -->
       <div class="logo-text">
         <strong>Hidromiel Yggdrasil</strong>
@@ -19,8 +38,8 @@ import { navLinks } from "../../data/navigation";
     </a>
 
     <!-- Hamburger toggle (CSS-only — sin JS) -->
-    <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden />
-    <label for="nav-toggle" class="hamburger" aria-label="Abrir menú">
+    <input type="checkbox" id={`nav-toggle-${variant}`} class="nav-toggle" hidden />
+    <label for={`nav-toggle-${variant}`} class="hamburger" aria-label="Abrir menú">
       <span></span>
       <span></span>
       <span></span>
@@ -28,11 +47,11 @@ import { navLinks } from "../../data/navigation";
 
     <!-- Navigation -->
     <ul class="nav-links" role="list">
-      {navLinks.map((link) => (
+      {visibleNavLinks.map((link) => (
         <li>
           {link.cta
-            ? <a href={link.href} class="btn btn-primary nav-cta">{link.label}</a>
-            : <a href={link.href}>{link.label}</a>
+            ? <a href={resolveHref(link.href)} class="btn btn-primary nav-cta">{link.label}</a>
+            : <a href={resolveHref(link.href)} aria-current={link.href === currentPath ? "page" : undefined}>{link.label}</a>
           }
         </li>
       ))}
@@ -76,7 +95,7 @@ import { navLinks } from "../../data/navigation";
     font-size: 1.5rem;
     color: var(--gold);
     /* background: radial-gradient(circle, var(--dark1) 0%, var(--black) 100%); */
-    background-image: url(/public/images/logoYGG.png);
+    background-image: url(/images/logoYGG.png);
     background-size: contain;
     /* box-shadow: 0 0 14px rgba(246,170,28,0.3); */
     flex-shrink: 0;
@@ -179,8 +198,23 @@ import { navLinks } from "../../data/navigation";
       z-index: 50;
     }
 
-    .nav-toggle:checked ~ .nav-links {
+    .header--default .nav-toggle:checked ~ .nav-links,
+    .header--stories .nav-toggle:checked ~ .nav-links {
       display: flex;
     }
+  }
+
+  #header.header--stories {
+    padding-block: .4rem;
+    background: linear-gradient(180deg, rgba(16, 7, 4, .98), rgba(16, 7, 4, .92));
+    border-bottom: 1px solid rgba(246, 170, 28, .22);
+    backdrop-filter: blur(12px);
+  }
+
+  .header--stories .logo-placeholder { width: 56px; height: 56px; }
+  .header--stories .nav-links { align-items: center; }
+
+  @media (max-width: 900px) {
+    .header--stories .nav-links { align-items: flex-start; }
   }
 </style>

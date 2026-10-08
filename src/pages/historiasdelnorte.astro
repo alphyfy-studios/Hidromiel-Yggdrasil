@@ -1,80 +1,251 @@
 ---
-
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/sections/Header.astro";
-import  RunesBackground  from "../components/ui/RunesBackground.astro";
+import Footer from "../components/sections/Footer.astro";
+import { northStories } from "../data/stories";
 
+const bookStories = northStories.map((story) => {
+  const note = story.isSample ? story.paragraphs.at(-1) : undefined;
+  const paragraphs = story.isSample ? story.paragraphs.slice(0, -1) : story.paragraphs;
+  const pageBreak = Math.ceil(paragraphs.length / 2);
+
+  return {
+    ...story,
+    leftPage: paragraphs.slice(0, pageBreak),
+    rightPage: paragraphs.slice(pageBreak),
+    note,
+  };
+});
+
+const runeSet = "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ".split("");
+const runeEmbers = Array.from({ length: 25 }, (_, index) => ({
+  rune: runeSet[(index * 7 + 3) % runeSet.length],
+  x: `${(index * 43 + 7) % 100}%`,
+  y: `${(index * 61 + 11) % 100}%`,
+  delay: `-${(index % 9) * 0.63}s`,
+  duration: `${4.5 + (index % 6) * 0.82}s`,
+  size: `${1.5 + (index % 5) * 0.48}rem`,
+  drift: `${index % 2 === 0 ? -14 : 14}deg`,
+}));
+
+const cinders = Array.from({ length: 32 }, (_, index) => ({
+  x: `${(index * 29 + 13) % 100}%`,
+  y: `${(index * 47 + 19) % 100}%`,
+  delay: `-${(index % 11) * 0.48}s`,
+  duration: `${3.5 + (index % 7) * 0.7}s`,
+  drift: `${index % 2 === 0 ? -24 : 24}px`,
+  size: `${2 + (index % 3)}px`,
+}));
 ---
-<style>
-  .titulo-principal{
-    display: flex;
-    justify-content: center;
-    align-items: center;
- margin-top: 9rem;
-
-
-  }
-  .carta{
-    padding: 1.5rem;
-    margin: 3rem;
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    border: 3px solid rgb(88, 88, 88);
-    border-radius: 3rem;
-    background-color: rgb(49, 38, 27);
-    justify-content: center;
-    align-items: center;
-  }
-  .titulo{
-    background-color: rgb(41, 45, 45);
-    padding: 1rem;
-  }
-</style>
 
 <Layout
-
-  title="Yggdrasil Meadery | Hidromiel Artesanal Vikingo"
-
-  description="Hidromiel artesanal forjado bajo el árbol del mundo. Fermentado con miel pura y la sabiduría de siglos nórdicos."
+  title="Historias del Norte | Hidromiel Yggdrasil"
+  description="Relatos, leyendas y crónicas inspiradas en los mundos del norte."
 >
-<RunesBackground />
   <Header />
 
-  <main class="contenedor-principal">
+  <main class="stories-page" id="historias">
+    <div class="ember-field" aria-hidden="true">
+      {runeEmbers.map((ember) => (
+        <span
+          class="ember-rune"
+          style={`--x:${ember.x};--y:${ember.y};--delay:${ember.delay};--duration:${ember.duration};--size:${ember.size};--drift:${ember.drift}`}
+        >{ember.rune}</span>
+      ))}
+      {cinders.map((cinder) => (
+        <span
+          class="cinder"
+          style={`--x:${cinder.x};--y:${cinder.y};--delay:${cinder.delay};--duration:${cinder.duration};--drift:${cinder.drift};--size:${cinder.size}`}
+        ></span>
+      ))}
+    </div>
 
-    
-    <!-- Cabecera estilo periódico -->
-    
-    <header class="cabecera-periodico">
-      
-      <!-- <p class="volumen">VOL. I — EDICIÓN ESPECIAL</p> -->
-      
-      <h1 class="titulo-principal">HISTORIAS DEL NORTE</h1>
-      
-      <div class="linea-separadora"></div>
-      
-      <!-- <h2 class="subtitulo">NOTICIAS Y FESTIVALES</h2> -->
-      
-      <div class="linea-separadora doble"></div>
-      
-    </header>
+    <div class="stories-container">
+      <header class="stories-heading">
+        <p class="stories-kicker"><span aria-hidden="true">ᚠ</span> Crónicas de Yggdrasil</p>
+        <h1>Historias <span>del Norte</span></h1>
+        <p class="stories-intro">
+          Relatos de antiguos caminos, bosques profundos y brindis que reúnen a quienes los recorren.
+        </p>
+        <div class="stories-rule" aria-hidden="true"><span>ᛟ</span></div>
+      </header>
 
-<div class="carta">
-  <h2 class="titulo">PRIMERA HISTORIA</h2>
-  <h3>CAP 1</h3>
-  <p>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit doloremque ullam nam libero laboriosam autem rem quo eaque error fugiat ipsam omnis assumenda, aliquam laudantium optio consequatur dolorum quos est.    
-  </p>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa ipsam molestiae iure aliquid adipisci necessitatibus expedita, ex, deserunt nam vero sapiente dignissimos, ea velit sed atque soluta explicabo! Temporibus, soluta?</p>
-</div>
+      <section class="story-list" aria-label="Historias del Norte">
+        {bookStories.map((story, index) => (
+          <article class="book-cover" id={story.id}>
+            <div class="book-open">
+              <section class="book-page book-page-left" aria-label={`Página izquierda: ${story.title}`}>
+                <div class="book-page-content">
+                  <div class="story-meta">
+                    <span class="story-category">{story.category}</span>
+                    <span>{story.publishedAt}</span>
+                    <span>{story.readingTime}</span>
+                  </div>
+                  <p class="page-ornament" aria-hidden="true">ᛟ · ᚠ · ᛟ</p>
+                  <h2>{story.title}</h2>
+                  <p class="story-subtitle">{story.subtitle}</p>
+                  <div class="story-body">
+                    {story.leftPage.map((paragraph, paragraphIndex) => (
+                      <p class={paragraphIndex === 0 ? "drop-cap" : undefined}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+                <span class="page-number" aria-hidden="true">— 01 —</span>
+              </section>
 
+              <div class="book-gutter" aria-hidden="true"></div>
+
+              <section class="book-page book-page-right" aria-label={`Página derecha: continuación de ${story.title}`}>
+                <div class="book-page-content">
+                  <p class="page-running-title">ᚠ · CRÓNICAS DEL NORTE · ᚠ</p>
+                  <div class="story-body continuation">
+                    {story.rightPage.map((paragraph) => <p>{paragraph}</p>)}
+                    {story.note && <p class="story-note">{story.note}</p>}
+                  </div>
+                  <p class="story-endmark" aria-hidden="true">ᚠ · ᛟ · ᚦ</p>
+                </div>
+                <span class="page-number" aria-hidden="true">— 02 —</span>
+              </section>
+            </div>
+          </article>
+        ))}
+      </section>
+    </div>
   </main>
- 
 
-
-
-
-
-
+  <Footer />
 </Layout>
+
+<style>
+  .stories-page {
+    --story-gold: #f6aa1c;
+    position: relative;
+    isolation: isolate;
+    min-height: 70vh;
+    overflow: hidden;
+    padding: clamp(8rem, 14vw, 11rem) 1.25rem clamp(4rem, 8vw, 7rem);
+    background:
+      radial-gradient(ellipse at 50% 13%, rgba(148, 27, 12, .28), transparent 48%),
+      linear-gradient(180deg, #090706 0%, #150804 48%, #080706 100%);
+  }
+  .ember-field { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+  .stories-container { position: relative; z-index: 1; max-width: 1100px; margin-inline: auto; }
+  .ember-rune {
+    position: absolute; left: var(--x); top: var(--y); color: #d84612;
+    font: var(--size)/1 serif; opacity: .12; user-select: none;
+    animation: rune-flame var(--duration) ease-in-out var(--delay) infinite alternate;
+  }
+  .cinder {
+    position: absolute; left: var(--x); top: var(--y); width: var(--size); height: var(--size);
+    border-radius: 50%; background: #ffbd52; opacity: 0;
+    box-shadow: 0 0 5px 2px rgba(255, 105, 24, .85), 0 0 15px rgba(255, 64, 8, .72);
+    animation: cinder-rise var(--duration) ease-out var(--delay) infinite;
+  }
+  @keyframes rune-flame {
+    0% { opacity: .06; transform: translate3d(0, 16px, 0) rotate(var(--drift)) scale(.86); filter: drop-shadow(0 0 2px rgba(173, 28, 5, .45)); }
+    34% { opacity: .34; color: #bc3908; filter: drop-shadow(0 0 8px rgba(255, 71, 11, .75)); }
+    58% { opacity: .78; color: #f6aa1c; text-shadow: 0 0 7px #ffae35, 0 0 24px #ed3d08, 0 0 48px rgba(188, 57, 8, .8); transform: translate3d(0, -5px, 0) rotate(calc(var(--drift) * -1)) scale(1.08); }
+    76% { opacity: .42; color: #e76518; filter: drop-shadow(0 0 13px rgba(246, 91, 17, .8)); }
+    100% { opacity: .1; transform: translate3d(0, -19px, 0) rotate(var(--drift)) scale(.9); filter: drop-shadow(0 0 2px rgba(173, 28, 5, .35)); }
+  }
+  @keyframes cinder-rise {
+    0% { opacity: 0; transform: translate3d(0, 12px, 0) scale(.35); }
+    18% { opacity: .9; }
+    75% { opacity: .55; }
+    100% { opacity: 0; transform: translate3d(var(--drift), -95px, 0) scale(.05); }
+  }
+  .stories-heading { margin: 0 auto clamp(3rem, 7vw, 5rem); text-align: center; }
+  .stories-kicker {
+    margin: 0 0 .9rem; color: var(--story-gold); font: .72rem var(--font-heading, Georgia, serif);
+    letter-spacing: .32em; text-transform: uppercase;
+  }
+  .stories-kicker span { margin-right: .5rem; font-size: 1rem; }
+  .stories-heading h1 {
+    margin: 0; color: #fff8e9; font: 400 clamp(2.5rem, 7vw, 5.5rem)/1.05 var(--font-display, Georgia, serif);
+    letter-spacing: .02em; text-shadow: 0 5px 35px rgba(0,0,0,.7);
+  }
+  .stories-heading h1 span { display: block; color: var(--story-gold); }
+  .stories-intro { max-width: 580px; margin: 1.3rem auto 0; color: rgba(255,255,255,.72); font-size: 1.08rem; font-style: italic; }
+  .stories-rule { display: flex; align-items: center; gap: 1rem; max-width: 390px; margin: 2rem auto 0; color: var(--story-gold); }
+  .stories-rule::before, .stories-rule::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, rgba(246,170,28,.65)); }
+  .stories-rule::after { transform: rotate(180deg); }
+  .stories-rule span { font-size: 1.1rem; }
+
+  .book-cover {
+    position: relative; padding: clamp(.55rem, 1.7vw, 1.1rem); border: 1px solid #6e351b;
+    border-radius: 8px 12px 12px 8px;
+    background: linear-gradient(135deg, #32180d, #140a06 42%, #3c1d0d);
+    box-shadow: 0 25px 70px rgba(0,0,0,.62), inset 0 0 0 3px rgba(178,103,48,.13), inset 12px 0 17px rgba(0,0,0,.38);
+  }
+  .book-cover::before {
+    content: ""; position: absolute; inset: 8px; border: 1px solid rgba(201,148,87,.22);
+    border-radius: 4px 8px 8px 4px; pointer-events: none;
+  }
+  .book-open { position: relative; display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; filter: drop-shadow(0 7px 14px rgba(0,0,0,.38)); }
+  .book-page {
+    position: relative; min-width: 0; min-height: 610px; overflow: hidden;
+    padding: clamp(2rem, 4vw, 3.3rem) clamp(1.35rem, 4vw, 3.1rem) 3.6rem;
+    color: #39291a;
+    background-color: #ddc28e;
+    background-image:
+      radial-gradient(ellipse at 8% 4%, rgba(111,62,24,.2), transparent 25%),
+      radial-gradient(ellipse at 93% 92%, rgba(104,57,23,.15), transparent 24%),
+      radial-gradient(ellipse at 86% 18%, rgba(255,247,211,.36), transparent 32%),
+      repeating-linear-gradient(0deg, transparent 0 4px, rgba(91,57,27,.026) 5px 6px),
+      linear-gradient(115deg, #c5a873, #ecddaF 15%, #e9d6a4 70%, #c4a26b);
+    box-shadow: inset 0 0 35px rgba(87,48,18,.2), inset 0 0 0 1px rgba(107,72,38,.28);
+  }
+  .book-page::before { content: ""; position: absolute; inset: 13px; border: 1px solid rgba(91,58,31,.17); pointer-events: none; }
+  .book-page-left { border-radius: 5px 0 0 5px; background-image:
+      radial-gradient(ellipse at 8% 4%, rgba(111,62,24,.2), transparent 25%),
+      radial-gradient(ellipse at 93% 92%, rgba(104,57,23,.15), transparent 24%),
+      radial-gradient(ellipse at 86% 18%, rgba(255,247,211,.36), transparent 32%),
+      repeating-linear-gradient(0deg, transparent 0 4px, rgba(91,57,27,.026) 5px 6px),
+      linear-gradient(90deg, #b5905c, #ddc793 9%, #ecddaF 30%, #e4d09d 87%, #c9ad79); }
+  .book-page-right { border-radius: 0 5px 5px 0; background-image:
+      radial-gradient(ellipse at 92% 4%, rgba(111,62,24,.2), transparent 25%),
+      radial-gradient(ellipse at 7% 92%, rgba(104,57,23,.15), transparent 24%),
+      radial-gradient(ellipse at 14% 18%, rgba(255,247,211,.36), transparent 32%),
+      repeating-linear-gradient(0deg, transparent 0 4px, rgba(91,57,27,.026) 5px 6px),
+      linear-gradient(270deg, #b5905c, #ddc793 9%, #ecddaF 30%, #e4d09d 87%, #c9ad79); }
+  .book-page-content { position: relative; z-index: 1; }
+  .book-gutter { position: absolute; z-index: 2; top: 0; bottom: 0; left: 50%; width: 34px; transform: translateX(-50%); background: linear-gradient(90deg, rgba(61,38,21,.23), rgba(73,43,20,.48) 45%, rgba(61,38,21,.2)); pointer-events: none; }
+  .book-gutter::after { content: ""; position: absolute; inset: 0 15px; background: rgba(68,41,20,.16); filter: blur(4px); }
+  .story-meta { display: flex; flex-wrap: wrap; gap: .5rem .8rem; align-items: center; margin-bottom: 1.6rem; color: rgba(58,39,21,.67); font: .59rem var(--font-heading, Georgia, serif); letter-spacing: .1em; text-transform: uppercase; }
+  .story-category { border: 1px solid rgba(119,70,31,.48); padding: .35rem .5rem; color: #713d1c; }
+  .page-ornament { margin: 0 0 .85rem; color: #835526; font-size: .75rem; letter-spacing: .35em; text-align: center; opacity: .72; }
+  .book-page h2 { margin: 0; color: #422a18; text-align: center; font: 400 clamp(1.55rem, 3.1vw, 2.45rem)/1.2 var(--font-display, Georgia, serif); text-shadow: 0 1px rgba(255,248,220,.5); }
+  .story-subtitle { margin: .7rem 0 1.8rem; color: #78471f; text-align: center; font-size: 1rem; font-style: italic; }
+  .page-running-title { margin: .25rem 0 2.6rem; color: #80552c; text-align: center; font: .62rem var(--font-heading, Georgia, serif); letter-spacing: .21em; }
+  .story-body { color: #3f3021; font-size: clamp(.92rem, 1.2vw, 1.04rem); line-height: 1.82; text-align: justify; }
+  .story-body p { margin: 0 0 1.15rem; }
+  .story-body .drop-cap::first-letter { float: left; padding: .13rem .48rem 0 0; color: #7b3c1b; font: 3.35rem/.82 var(--font-display, Georgia, serif); }
+  .continuation { padding-top: .25rem; }
+  .story-note { margin: 1.6rem 0 0 !important; border-top: 1px solid rgba(92,59,32,.25); padding-top: .8rem; color: rgba(62,47,32,.68); font-size: .75rem; font-style: italic; line-height: 1.55; text-align: left; }
+  .story-endmark { margin: 2rem 0 .2rem; color: #855b2e; text-align: center; font-size: .88rem; letter-spacing: .45em; }
+  .page-number { position: absolute; z-index: 1; bottom: 1.35rem; left: 50%; transform: translateX(-50%); color: rgba(68,48,28,.55); font: .62rem var(--font-heading, Georgia, serif); letter-spacing: .15em; }
+
+  @media (max-width: 760px) {
+    .book-open { grid-template-columns: 1fr; }
+    .book-page { min-height: auto; padding: 2.5rem clamp(1.35rem, 6vw, 2.6rem) 3.8rem; }
+    .book-page-left { border-radius: 5px 5px 0 0; }
+    .book-page-right { border-radius: 0 0 5px 5px; }
+    .book-gutter { top: 50%; bottom: auto; left: 0; width: 100%; height: 24px; transform: translateY(-50%); background: linear-gradient(180deg, rgba(61,38,21,.1), rgba(73,43,20,.4), rgba(61,38,21,.1)); }
+    .book-gutter::after { inset: 10px 0; }
+    .page-running-title { margin-bottom: 1.7rem; }
+    .book-page-right .page-number { bottom: 1.3rem; }
+  }
+  @media (max-width: 520px) {
+    .stories-page { padding-inline: .8rem; }
+    .stories-intro { font-size: 1rem; }
+    .book-cover { padding: .45rem; }
+    .book-cover::before { inset: 5px; }
+    .book-page { padding-inline: 1.15rem; }
+    .story-meta { font-size: .54rem; gap: .45rem .55rem; }
+    .story-body { font-size: .94rem; line-height: 1.78; }
+    .ember-rune { opacity: .12; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ember-rune, .cinder { animation: none; opacity: .25; }
+  }
+</style>

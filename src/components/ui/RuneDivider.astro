@@ -17,24 +17,27 @@ const { runes = "ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ
 
 <style>
   .rune-divider {
-text-align: center;
-  letter-spacing: 0.55em;
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-  color: var(--gold);
-  opacity: 0.55;
-  margin-block: clamp(2rem, 4vw, 3.5rem);
-  user-select: none;
-  animation: glowPulse 5s ease-in-out infinite;
+    position: relative;
+    isolation: isolate;
+    text-align: center;
+    letter-spacing: 0.55em;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    color: var(--gold);
+    opacity: 0.72;
+    margin-block: clamp(1rem, 2.5vw, 2rem);
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
+    user-select: none;
+    animation: glowPulse 5s ease-in-out infinite;
+    -webkit-mask-image: radial-gradient(ellipse 78% 68% at center, #000 38%, transparent 100%);
+    mask-image: radial-gradient(ellipse 78% 68% at center, #000 38%, transparent 100%);
+  }
 
-  /* Difuminado rectangular en Eje X y Eje Y */
-  -webkit-mask-image: 
-    linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-  -webkit-mask-composite: source-in;
-
-  mask-image: 
-    linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-  mask-composite: intersect;
+  .rune-divider::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(34, 9, 1, 0.28) 25%, rgba(34, 9, 1, 0.28) 75%, transparent);
+    filter: blur(18px);
   }
 </style>
