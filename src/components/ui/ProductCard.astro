@@ -11,7 +11,17 @@ interface Props {
 const { product } = Astro.props;
 ---
 
-<article class:list={["gallery-card", { featured: product.featured }]}>
+<article
+  class:list={["gallery-card", { featured: product.featured }]}
+  data-product-card
+  data-product-image={product.image}
+  data-product-name={product.name}
+  data-product-coming={product.id === "Berserker" ? "true" : "false"}
+  tabindex={product.image ? "0" : undefined}
+  role={product.image ? "button" : undefined}
+  aria-haspopup={product.image ? "dialog" : undefined}
+  aria-label={product.image ? `Ampliar imagen de ${product.name}` : undefined}
+>
   <div class="card-img-wrap">
     {product.image
       ? <img src={product.image} alt={product.name} loading="lazy" width="800" height="600" />
@@ -22,6 +32,7 @@ const { product } = Astro.props;
           </div>
         )
     }
+    {product.id === "Berserker" && <span class="coming-ribbon">PROXIMAMENTE</span>}
     <div class="card-overlay">
       <span class="card-tag">{product.tag}</span>
     </div>
@@ -49,6 +60,10 @@ const { product } = Astro.props;
     border-color: rgba(246,170,28,0.4);
     transform: translateY(-5px);
   }
+  .gallery-card:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
 
   .gallery-card.featured { grid-column: span 2; }
 
@@ -69,6 +84,25 @@ const { product } = Astro.props;
     object-fit: cover;
     position: absolute;
     inset: 0;
+  }
+
+  .coming-ribbon {
+    position: absolute;
+    z-index: 2;
+    top: 43%;
+    left: -8%;
+    width: 116%;
+    padding: .5rem .8rem;
+    transform: rotate(-7deg);
+    border-block: 1px solid rgba(255, 235, 196, .9);
+    background: linear-gradient(100deg, #74140e, #bd3421 45%, #74140e);
+    box-shadow: 0 3px 14px #000b;
+    color: #fff0d5;
+    font: 700 clamp(.8rem, 1.5vw, 1.15rem) var(--font-heading);
+    letter-spacing: .18em;
+    text-align: center;
+    text-shadow: 0 2px 4px #270500;
+    pointer-events: none;
   }
 
   .placeholder-inner {

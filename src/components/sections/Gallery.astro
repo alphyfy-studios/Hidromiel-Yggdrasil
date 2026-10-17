@@ -24,8 +24,84 @@ import { products } from "../../data/products";
       ))}
     </div>
 
+    <dialog class="product-lightbox" aria-label="Vista ampliada del producto">
+      <div class="lightbox-panel">
+        <button class="lightbox-close" type="button" aria-label="Cerrar imagen ampliada">×</button>
+        <div class="rune-orbit" aria-hidden="true">
+          {Array.from({ length: 16 }, (_, i) => {
+            const runes = ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "ᚲ", "ᚷ", "ᚹ", "ᚺ", "ᚾ", "ᛁ", "ᛃ", "ᛇ", "ᛈ", "ᛉ", "ᛊ"];
+            const angle = (i / 16) * Math.PI * 2;
+            const x = 50 + Math.cos(angle) * 47;
+            const y = 50 + Math.sin(angle) * 45;
+            return <span style={`--i:${i};--x:${x}%;--y:${y}%`}>{runes[i]}</span>;
+          })}
+        </div>
+        <figure class="lightbox-figure">
+          <img class="lightbox-image" src="" alt="" />
+          <span class="lightbox-ribbon" aria-hidden="true">PROXIMAMENTE</span>
+          <figcaption class="lightbox-caption"></figcaption>
+        </figure>
+      </div>
+    </dialog>
+
   </div>
 </section>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>(".product-lightbox");
+  const enlargedImage = dialog?.querySelector<HTMLImageElement>(".lightbox-image");
+  const caption = dialog?.querySelector<HTMLElement>(".lightbox-caption");
+  const closeButton = dialog?.querySelector<HTMLButtonElement>(".lightbox-close");
+  const figure = dialog?.querySelector<HTMLElement>(".lightbox-figure");
+  let previouslyFocused: HTMLElement | null = null;
+  let closeTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const closeLightbox = () => {
+    if (!dialog?.open || dialog.classList.contains("is-closing")) return;
+    dialog.classList.add("is-closing");
+    closeTimer = setTimeout(() => {
+      dialog.close();
+      dialog.classList.remove("is-closing");
+      previouslyFocused?.focus();
+    }, 260);
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-product-card][data-product-image]").forEach((card) => {
+    const open = () => {
+      if (!dialog || !enlargedImage || !caption || !figure) return;
+      previouslyFocused = card;
+      enlargedImage.src = card.dataset.productImage ?? "";
+      enlargedImage.alt = card.dataset.productName ?? "Hidromiel Yggdrasil";
+      caption.textContent = card.dataset.productName ?? "";
+      figure.classList.toggle("is-coming", card.dataset.productComing === "true");
+      dialog.showModal();
+      dialog.classList.remove("is-closing");
+      closeButton?.focus();
+    };
+
+    card.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a, button")) return;
+      open();
+    });
+    card.addEventListener("keydown", (event) => {
+      if (event.target !== card || (event.key !== "Enter" && event.key !== " ")) return;
+      event.preventDefault();
+      open();
+    });
+  });
+
+  closeButton?.addEventListener("click", closeLightbox);
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog) closeLightbox();
+  });
+  dialog?.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeLightbox();
+  });
+  dialog?.addEventListener("close", () => {
+    if (closeTimer) clearTimeout(closeTimer);
+  });
+</script>
 
 <style>
   #gallery {
@@ -49,6 +125,127 @@ import { products } from "../../data/products";
     gap: clamp(1rem, 2.5vw, 1.8rem);
     object-fit: contain;
     
+  }
+
+  .product-lightbox {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    place-items: center;
+    border: 0;
+    padding: 0;
+    width: min(900px, calc(100vw - 2rem));
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    overflow: visible;
+    background: transparent;
+    color: white;
+  }
+  .product-lightbox[open] { display: grid; }
+  .product-lightbox::backdrop {
+    background: rgba(5, 3, 2, 0.88);
+    backdrop-filter: blur(8px);
+  }
+  .lightbox-panel {
+    position: relative;
+    width: 100%;
+    padding: clamp(1rem, 4vw, 2.5rem);
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 260ms ease, transform 260ms ease;
+  }
+  .product-lightbox.is-closing .lightbox-panel {
+    opacity: 0;
+    transform: scale(.94) translateY(12px);
+  }
+  .lightbox-figure {
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    width: min(100%, 760px);
+    border: 1px solid rgba(255, 190, 65, .6);
+    background: #100a06;
+    box-shadow: 0 0 35px rgba(255, 65, 12, .26), 0 20px 80px #000;
+    overflow: hidden;
+  }
+  .lightbox-image {
+    display: block;
+    width: 100%;
+    max-height: min(72dvh, 720px);
+    object-fit: contain;
+  }
+  .lightbox-ribbon {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 42%;
+    left: -8%;
+    width: 116%;
+    padding: .65rem 1rem;
+    transform: rotate(-7deg);
+    border-block: 2px solid #f2d49c;
+    background: linear-gradient(100deg, #7c160f, #bd3421 45%, #78120d);
+    box-shadow: 0 4px 18px #000b;
+    color: #fff0d5;
+    font: 700 clamp(1.1rem, 4vw, 2rem) var(--font-heading);
+    letter-spacing: .2em;
+    text-align: center;
+    text-shadow: 0 2px 4px #270500;
+  }
+  .lightbox-figure.is-coming .lightbox-ribbon { display: block; }
+  .lightbox-caption {
+    padding: .8rem 1rem;
+    color: #f6aa1c;
+    font: 1rem var(--font-heading);
+    letter-spacing: .16em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .lightbox-close {
+    position: absolute;
+    z-index: 4;
+    top: .25rem;
+    right: .25rem;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 190, 65, .65);
+    border-radius: 50%;
+    color: #fff3d0;
+    background: #351006;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease;
+  }
+  .lightbox-close:hover { transform: rotate(90deg); background: #7e210a; }
+  .rune-orbit {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .rune-orbit span {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    color: #ffc55a;
+    font: clamp(1.25rem, 3vw, 2rem) var(--font-heading);
+    text-shadow: 0 0 8px #ff6a0a, 0 0 20px rgba(255, 122, 20, .85);
+    opacity: 0;
+    animation: rune-drift 3.8s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -230ms);
+  }
+  @keyframes rune-drift {
+    0%, 100% { opacity: .25; transform: translate(-50%, -50%) translateY(10px) rotate(-12deg) scale(.8); }
+    50% { opacity: 1; transform: translate(-50%, -50%) translateY(-15px) rotate(15deg) scale(1.18); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rune-orbit span { animation: none; opacity: .75; }
+    .lightbox-panel { transition-duration: 1ms; }
   }
 
   @media (max-width: 900px) {
