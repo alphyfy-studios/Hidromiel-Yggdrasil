@@ -3,31 +3,19 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/sections/Header.astro";
 import Footer from "../components/sections/Footer.astro";
 
-// Objeto con la información de las noticias/festivales.
+// Crónica del festival ya celebrado; las imágenes se enlazan desde la página oficial.
 const festivales = [
   {
     id: 1,
-    fecha: "15 Octubre, 2026",
-    titulo: "El Gran Banquete del Valhalla",
-    resumen: "Yggdrasil Meadery destapa sus barriles de reserva especial en el mayor torneo de combate histórico del año.",
-    contenido: "Prepárate para una experiencia inmersiva sin precedentes. Este año, el Gran Banquete del Valhalla trae competencias de hachas, música folk nórdica en vivo y festines. En nuestro stand principal, destaparemos barriles exclusivos de hidromiel añejada en barricas de roble durante 3 años. ¡No faltes a la llamada de los dioses y ven a brindar con nosotros!",
-    imagen: "https://images.unsplash.com/photo-1590454316278-f71bb480eb0b?auto=format&fit=crop&q=80&w=1200",
-  },
-  {
-    id: 2,
-    fecha: "21 Diciembre, 2026",
-    titulo: "Mercado de Yule: El Renacer del Sol",
-    resumen: "Celebra el solsticio de invierno con nuestra nueva edición limitada de hidromiel especiada.",
-    contenido: "El frío del invierno se combate con el calor de una buena hoguera y un cuerno lleno de hidromiel. Únete a nosotros en el Mercado de Yule, donde presentaremos oficialmente nuestra edición 'Sangre de Ymir', fermentada con canela, clavo y naranja. Habrá danzas tradicionales, lectura de runas y comida artesanal. La entrada es libre.",
-    imagen: "https://images.unsplash.com/photo-1614074815456-11f8e878e178?auto=format&fit=crop&q=80&w=1200",
-  },
-  {
-    id: 3,
-    fecha: "12 Noviembre, 2026",
-    titulo: "Feria Medieval de Naucalpan",
-    resumen: "Nuestra taberna itinerante llega al parque con degustaciones gratuitas y cuernos tallados a mano.",
-    contenido: "Ubicados en la zona central del festival, estaremos sirviendo nuestras tres variedades clásicas: Tradicional, Frutos Rojos y Manzana-Canela. Además, contaremos con invitados especiales de la escena del folk metal y torneos de arquería. Ven con tu mejor armadura o atuendo de época; habrá recompensas en forma de oro líquido para los mejores trajes.",
-    imagen: "https://images.unsplash.com/photo-1595166297371-3310060d4b9b?auto=format&fit=crop&q=80&w=1200",
+    fecha: "17 y 18 de octubre de 2026 · 11:00 a 20:00 h",
+    titulo: "12.º Viking Fest Internacional",
+    resumen: "Una crónica del encuentro vikingo celebrado en el Valle del Silencio, en La Marquesa.",
+    contenido: "El 12.º Viking Fest Internacional se celebró el 17 y 18 de octubre de 2026 en el Valle del Silencio, también conocido como Valle del Festival Medieval, dentro de La Marquesa, Estado de México. El programa reunió combates y campamentos vikingos, música y danzas nórdicas, actividades de arquería y lanzamiento de hachas, además de una feria de hidromiel y cervezas artesanales. La galería reúne imágenes promocionales y recuerdos de ediciones anteriores publicados por Mundo Medieval México.",
+    imagenes: [
+      "https://static.wixstatic.com/media/bf3eaf_351d0fbe8b8a442aaeefd5115075f776~mv2.jpeg/v1/fill/w_900%2Ch_1200%2Cal_c%2Cq_85%2Cenc_avif%2Cquality_auto/WhatsApp%20Image%202026-09-04%20at%2010_32_54%20AM.jpeg",
+      "https://static.wixstatic.com/media/bf3eaf_478599849f2d48c8a13ab7b21288c618~mv2.jpeg/v1/fill/w_900%2Ch_1200%2Cal_c%2Cq_85%2Cenc_avif%2Cquality_auto/WhatsApp%20Image%202026-09-04%20at%2010_55_17%20AM.jpeg",
+      "https://static.wixstatic.com/media/bf3eaf_55ddd6258a7d42aaa0915ff7feaf0cb7~mv2.jpg/v1/fill/w_1200%2Ch_780%2Cal_c%2Cq_85%2Cenc_avif%2Cquality_auto/VikingFest%202025-123.jpg",
+    ],
   },
 ];
 ---
@@ -42,11 +30,11 @@ const festivales = [
     <div class="festival-content">
       <header class="cabecera-periodico">
         <p class="volumen">VOL. I — EDICIÓN ESPECIAL</p>
-        <h1 class="titulo-principal">LOS FESTIVALES DE YGGDRASIL</h1>
+        <h1 class="titulo-principal">FESTIVALES</h1>
         <div class="linea-separadora"></div>
-        <h2 class="subtitulo">NOTICIAS Y FESTIVALES</h2>
+        <h2 class="subtitulo">CRÓNICA DEL VIKING FEST</h2>
         <div class="linea-separadora doble"></div>
-        <p class="tablon-intro">Avisos, encuentros y crónicas fijados en el tablón del salón.</p>
+        <p class="tablon-intro">Un recuerdo del festival celebrado el 17 y 18 de octubre de 2026.</p>
       </header>
 
       <section class="festival-board" aria-label="Tablón de festivales">
@@ -58,17 +46,18 @@ const festivales = [
               data-titulo={fest.titulo}
               data-fecha={fest.fecha}
               data-contenido={fest.contenido}
-              data-imagen={fest.imagen}
+              data-imagenes={JSON.stringify(fest.imagenes)}
               aria-label={`Leer noticia: ${fest.titulo}`}
               aria-haspopup="dialog"
             >
               <span class="card-pin" aria-hidden="true"><span></span></span>
-              <span class="aviso-sello" aria-hidden="true">SE BUSCA</span>
+              <span class="aviso-sello" aria-hidden="true">YA VIVIDO</span>
+              <span class="card-photo"><img src={fest.imagenes[0]} alt="Afiche del Viking Fest 2026" loading="lazy" /></span>
               <span class="card-inner">
                 <span class="fecha-noticia">{fest.fecha}</span>
                 <span class="titulo-noticia">{fest.titulo}</span>
                 <span class="resumen-noticia">{fest.resumen}</span>
-                <span class="leer-mas">Leer la crónica <span aria-hidden="true">→</span></span>
+                <span class="leer-mas">Ver crónica y fotos <span aria-hidden="true">→</span></span>
               </span>
             </button>
           ))}
@@ -88,8 +77,10 @@ const festivales = [
         </header>
         <figure class="modal-imagen-wrapper">
           <img id="modal-imagen" src="" alt="" />
-          <figcaption>Fragmento del archivo de viaje</figcaption>
+          <figcaption>Recuerdo del Viking Fest</figcaption>
         </figure>
+        <div class="modal-gallery" id="modal-gallery" aria-label="Galería de imágenes del Viking Fest"></div>
+        <p class="photo-credit">Imágenes promocionales y de archivo: <a href="https://www.mundomedievalmexico.mx/vikingfest" target="_blank" rel="noopener noreferrer">Mundo Medieval México</a>.</p>
         <div class="modal-texto"><p id="modal-contenido"></p></div>
         <p class="modal-firma" aria-hidden="true">ᚠ · ᛟ · ᚦ</p>
       </div>
@@ -145,7 +136,7 @@ const festivales = [
   }
   .festival-board::before { top: 32%; }
   .festival-board::after { bottom: 31%; }
-  .grid-noticias { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.2rem, 3vw, 2.5rem); align-items: stretch; }
+  .grid-noticias { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 660px); justify-content: center; gap: clamp(1.2rem, 3vw, 2.5rem); align-items: stretch; }
 
   .card-periodico {
     --paper: #e9d8b4;
@@ -168,7 +159,9 @@ const festivales = [
   .card-pin { position: absolute; z-index: 2; top: .8rem; left: 50%; width: 18px; height: 18px; transform: translateX(-50%); border: 2px solid #5e1710; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #efae76 0 12%, #bb3b22 32%, #68180f 78%); box-shadow: 1px 3px 5px #27140e; }
   .card-pin span { position: absolute; top: 2px; left: 3px; width: 4px; height: 3px; border-radius: 50%; background: rgba(255,232,194,.8); }
   .aviso-sello { position: absolute; z-index: 1; top: 1.2rem; right: .5rem; padding: .25rem .4rem; border: 2px double rgba(139,38,26,.7); color: rgba(139,38,26,.9); font: 900 .7rem var(--font-display, Georgia, serif); letter-spacing: .1em; transform: rotate(12deg); }
-  .card-inner { display: flex; min-height: 295px; flex-direction: column; border: 1px solid rgba(78,48,23,.22); padding: 1.1rem; }
+  .card-photo { display: block; height: 150px; margin: 0 .3rem .8rem; overflow: hidden; border: 4px solid rgba(86,57,27,.45); background: #6d4b2a; box-shadow: 0 3px 7px #3b271b66; transform: rotate(.35deg); }
+  .card-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; filter: sepia(.35) saturate(.82) contrast(.95); }
+  .card-inner { display: flex; min-height: 220px; flex-direction: column; border: 1px solid rgba(78,48,23,.22); padding: 1.1rem; }
   .fecha-noticia { display: block; width: max-content; max-width: calc(100% - 2.7rem); padding-bottom: .45rem; margin-bottom: 1.15rem; border-bottom: 1px solid rgba(36,25,16,.56); font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
   .titulo-noticia { display: block; margin-bottom: .9rem; font: 900 clamp(1.3rem, 2vw, 1.75rem)/1.18 var(--font-display, Georgia, serif); letter-spacing: .035em; text-transform: uppercase; }
   .resumen-noticia { display: block; margin-bottom: 1.5rem; font-family: var(--font-heading, Georgia, serif); font-size: .88rem; font-weight: 600; letter-spacing: .015em; line-height: 1.65; }
@@ -205,6 +198,12 @@ const festivales = [
   .modal-imagen-wrapper { position: relative; max-width: 740px; height: clamp(180px, 35vw, 330px); margin: 0 auto 1.7rem; padding: 8px; background: #b99967; box-shadow: 0 8px 19px rgba(47,29,14,.32); transform: rotate(-.35deg); }
   .modal-imagen-wrapper img { display: block; width: 100%; height: 100%; object-fit: cover; filter: sepia(.55) saturate(.8) contrast(.94); }
   .modal-imagen-wrapper figcaption { position: absolute; right: .8rem; bottom: .8rem; padding: .25rem .5rem; background: rgba(27,18,12,.72); color: #f0dfbd; font-size: .65rem; font-style: italic; }
+  .modal-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; max-width: 740px; margin: 0 auto 1rem; }
+  .gallery-thumb { height: clamp(75px, 12vw, 125px); overflow: hidden; border: 3px solid #b99967; padding: 0; background: #b99967; cursor: pointer; opacity: .78; transition: opacity .2s, border-color .2s, transform .2s; }
+  .gallery-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; filter: sepia(.35) saturate(.8); }
+  .gallery-thumb:hover, .gallery-thumb:focus-visible, .gallery-thumb[aria-pressed="true"] { border-color: #8b261a; opacity: 1; transform: translateY(-2px); }
+  .photo-credit { max-width: 740px; margin: 0 auto 1.5rem; color: #604526; text-align: right; font-size: .72rem; }
+  .photo-credit a { color: #733520; font-weight: 700; }
   .modal-texto { max-width: 740px; margin: 0 auto; }
   .modal-texto p { margin: 0; color: #332317; font-size: 1.1rem; line-height: 1.8; column-count: 2; column-gap: 2.3rem; }
   .modal-firma { margin: 1.8rem 0 .2rem; color: #774b27; text-align: center; letter-spacing: .5em; }
@@ -213,15 +212,16 @@ const festivales = [
     .festival-page { padding: 7.5rem .9rem 4rem; }
     .festival-board { padding: 1.4rem; border-width: 8px; }
     .grid-noticias { grid-template-columns: 1fr; gap: 1.4rem; }
-    .card-periodico, .card-periodico:nth-child(2), .card-periodico:nth-child(3) { min-height: 320px; transform: rotate(-.5deg); }
-    .card-periodico:nth-child(even) { transform: rotate(.6deg); }
-    .card-inner { min-height: 260px; }
+    .card-periodico { min-height: 320px; transform: rotate(-.5deg); }
+    .card-inner { min-height: 230px; }
     .modal { width: calc(100vw - 1rem); max-height: calc(100dvh - 1rem); }
     .modal-contenedor { max-height: calc(100dvh - 1rem); padding: .9rem; }
     .papel-contenido { padding: 1rem .8rem; }
     .cerrar-modal { margin: -.5rem -.4rem 0 0; }
     .modal-texto p { column-count: 1; font-size: 1rem; }
     .modal-sello { margin-inline: 2.4rem; font-size: .55rem; }
+    .modal-gallery { gap: .45rem; }
+    .gallery-thumb { height: 78px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .card-periodico, .modal[open], .cerrar-modal { transition: none; animation: none; }
@@ -236,16 +236,44 @@ const festivales = [
   const modalDate = document.querySelector<HTMLElement>("#modal-fecha");
   const modalContent = document.querySelector<HTMLElement>("#modal-contenido");
   const modalImage = document.querySelector<HTMLImageElement>("#modal-imagen");
+  const modalGallery = document.querySelector<HTMLElement>("#modal-gallery");
   let opener: HTMLButtonElement | undefined;
 
   function openFestival(card: HTMLButtonElement) {
-    if (!modal || !modalTitle || !modalDate || !modalContent || !modalImage) return;
+    if (!modal || !modalTitle || !modalDate || !modalContent || !modalImage || !modalGallery) return;
     opener = card;
     modalTitle.textContent = card.dataset.titulo ?? "Noticia del festival";
     modalDate.textContent = card.dataset.fecha ?? "";
     modalContent.textContent = card.dataset.contenido ?? "";
-    modalImage.src = card.dataset.imagen ?? "";
+    let images: string[] = [];
+    try {
+      images = JSON.parse(card.dataset.imagenes ?? "[]") as string[];
+    } catch {
+      images = [];
+    }
+    modalImage.src = images[0] ?? "";
     modalImage.alt = card.dataset.titulo ? `Imagen de ${card.dataset.titulo}` : "Imagen del festival";
+    modalGallery.replaceChildren();
+    images.forEach((src, index) => {
+      const thumb = document.createElement("button");
+      thumb.type = "button";
+      thumb.className = "gallery-thumb";
+      thumb.setAttribute("aria-label", `Ver imagen ${index + 1} de ${images.length}`);
+      thumb.setAttribute("aria-pressed", String(index === 0));
+      const image = document.createElement("img");
+      image.src = src;
+      image.alt = "";
+      image.loading = "lazy";
+      thumb.append(image);
+      thumb.addEventListener("click", () => {
+        modalImage.src = src;
+        modalImage.alt = `Imagen ${index + 1} de ${card.dataset.titulo ?? "Viking Fest"}`;
+        modalGallery.querySelectorAll<HTMLButtonElement>(".gallery-thumb").forEach((item) => {
+          item.setAttribute("aria-pressed", String(item === thumb));
+        });
+      });
+      modalGallery.append(thumb);
+    });
     modal.showModal();
     document.body.style.overflow = "hidden";
     closeButton?.focus();
