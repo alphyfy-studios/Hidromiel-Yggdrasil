@@ -38,8 +38,8 @@ export const products: Product[] = [
   // {
     id: 'Midgard',
     name: "Midgard",
-    subtitle: "Hidromiel dulce",
-    tag: "Suave",
+    subtitle: "Hidromiel Cyser",
+    tag: "Semi seca",
     rune: "ᛚ",
     description: "Infusionada con frutas y especias.",
     description2:"Siéntete como en casa",
@@ -49,8 +49,8 @@ export const products: Product[] = [
   {
     id: 'Vanir Blut',
     name: "Vanir Blut",
-    subtitle: "Hidromiel Seca",
-    tag: "Especiada",
+    subtitle: "Hidromiel Metheglin",
+    tag: "Dulce",
     rune: "ᚠ",
     description: "Infusionada con flores y especias. Honra el sacrificio de Kvasir, saborea la sabiduría.",
     description2:"",
@@ -59,8 +59,8 @@ export const products: Product[] = [
   {
     id: 'Berserker',
     name: "Berserker",
-    subtitle: "Hidromiel Semi dulce (proximamente)",
-    tag: "MUY PRONTO...",
+    subtitle: "Hidromiel Metheglin",
+    tag: "Semi dulce",
     rune: "ᚾ",
     description: "Infusionada con hierbas estimulantes. Sentirás el vigor de un guerrero.",
     description2:"",

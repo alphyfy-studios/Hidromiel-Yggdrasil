@@ -10,24 +10,17 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
-    author: "Björn Martínez",
-    role: "Maestro Cervecero",
-    location: "Ciudad de México",
+    author: "BRANDON GATOER LEON",
+    role: "",
+    location: "",
     stars: 5,
-    text: "La Reserva de Odín cambió mi perspectiva sobre el hidromiel. Nunca imaginé que una bebida fermentada pudiera tener tanta complejidad y elegancia. Digna del Salón de Val‑Halla.",
+    text: "el sabor de la hidromiel es unico, de las mejores que he probado",
   },
   {
-    author: "Ingrid Sánchez",
-    role: "Sommelier",
-    location: "Guadalajara",
+    author: "LUIS MARTINEZ",
+    role: "",
+    location: "",
     stars: 5,
-    text: "El Thor's Hammer es perfecto para mis maridajes. Seco, con ese toque floral y una acidez perfecta. Lo sirvo en mi restaurante desde hace dos años y mis comensales siempre piden más.",
-  },
-  {
-    author: "Ragnar López",
-    role: "Coleccionista",
-    location: "Monterrey",
-    stars: 5,
-    text: "El Loki's Venom es una obra de arte. Picante, especiado, inesperado. Exactamente como el dios que lo inspira. Lo pedí para la boda vikinga de mis mejores amigos y fue el hit de la noche.",
+    text: "Recien la tome en el rincon de los brujos y es una de las mejores hidromieles que he tenido el gusto de probar. Pedi el carton y medio y me lo trajeron a las puertas de un dia para otro, que Odín les dé su bendicion hermanos, son geniales",
   },
 ];

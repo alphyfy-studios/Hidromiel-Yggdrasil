@@ -2,12 +2,6 @@
 // Sección "Nuestra Saga" y carrusel de testimonios.
 import { testimonials } from "../../data/testimonials";
 
-const pillars = [
-  { rune: "ᚠ", title: "Origen", body: "Mead artesanal elaborado con miel de abeja." },
-  { rune: "ᚷ", title: "Tradición", body: "Cada botella, un regalo a quienes aprecian lo genuino y artesanal." },
-  { rune: "ᛏ", title: "Victoria", body: "Ganadores de múltiples certámenes de bebidas fermentadas artesanales." },
-  { rune: "ᛟ", title: "Herencia", body: "Recetas inspiradas en el Futhark Antiguo y las tradiciones del norte." },
-];
 ---
 
 <section id="about" class="section">
@@ -29,16 +23,6 @@ const pillars = [
       <div class="foto_latas" role="img" aria-label="Latas de hidromiel Yggdrasil"></div>
     </div>
 
-    <div class="about-pillars">
-      {pillars.map(({ rune, title, body }) => (
-        <article class="pillar">
-          <span class="pillar-rune" aria-hidden="true">{rune}</span>
-          <h3 class="pillar-title">{title}</h3>
-          <p>{body}</p>
-        </article>
-      ))}
-    </div>
-
     <div class="saga-heading">
       <span class="section-label">ᛊ · Voces de nuestra comunidad</span>
       <h3 class="section-title">Crónicas de los Valientes</h3>
@@ -50,7 +34,7 @@ const pillars = [
           <article class={`saga-card ${index === 0 ? "is-center" : ""}`} data-card-index={index} aria-label={`${index + 1} de ${testimonials.length}`}>
             <div class="saga-stars" aria-label={`${stars} estrellas`}> {"★".repeat(stars)} </div>
             <p class="saga-text">“{text}”</p>
-            <footer class="saga-author">{author}<span>{role} · {location}</span></footer>
+            <footer class="saga-author">{author}{(role || location) && <span>{role}{role && location ? " · " : ""}{location}</span>}</footer>
           </article>
         ))}
       </div>
@@ -108,12 +92,14 @@ const pillars = [
   }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
   .about-text p { margin-bottom: 1.2rem; color: rgba(255,255,255,.78); }
-  .foto_latas { background: url("/images/products/small_cans.jpg") center / contain no-repeat; min-height: 300px; width: 100%; }
-  .about-pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: clamp(3rem, 6vw, 5rem); }
-  .pillar { background: linear-gradient(135deg, rgba(98,23,8,.35), rgba(34,9,1,.65)); border: 1px solid rgba(246,170,28,.15); padding: 1.3rem 1rem; text-align: center; }
-  .pillar-rune { display: block; color: var(--gold); font-size: 2rem; }
-  .pillar-title { color: var(--gold); font: .78rem var(--font-heading); letter-spacing: .15em; text-transform: uppercase; margin: .4rem 0; }
-  .pillar p { color: rgba(255,255,255,.65); font-size: .85rem; }
+  .foto_latas {
+    min-height: 300px;
+    width: 100%;
+    background: url("/images/products/small_cans.jpg") center / contain no-repeat;
+    -webkit-mask-image: radial-gradient(ellipse 78% 78% at 50% 58%, #000 48%, rgba(0,0,0,.88) 68%, transparent 100%);
+    mask-image: radial-gradient(ellipse 78% 78% at 50% 58%, #000 48%, rgba(0,0,0,.88) 68%, transparent 100%);
+    filter: drop-shadow(0 14px 28px rgba(0,0,0,.38));
+  }
   .saga-heading { text-align: center; margin: clamp(4rem, 8vw, 7rem) 0 2rem; }
   .saga-heading .section-title { font-size: clamp(1.6rem, 4vw, 2.5rem); }
   .saga-carousel { max-width: 850px; margin-inline: auto; }
@@ -139,7 +125,7 @@ const pillars = [
   .saga-arrow { width: 2.7rem; height: 2.7rem; border: 1px solid rgba(246,170,28,.5); background: rgba(34,9,1,.8); color: var(--gold); font-size: 1.3rem; cursor: pointer; transition: background .2s, color .2s; }
   .saga-arrow:hover, .saga-arrow:focus-visible { background: var(--gold); color: var(--black); }
   .saga-position { color: rgba(255,255,255,.6); font: .7rem var(--font-heading); letter-spacing: .12em; }
-  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } .about-pillars { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } }
   @media (max-width: 600px) {
     .saga-stage { height: 340px; }
     .saga-card { width: 82%; min-height: 275px; padding: 1.6rem 1.2rem; }
