@@ -12,20 +12,46 @@ export interface SalesLocation {
   phone: string;
   description: string;
   coordinates: [number, number];
+  mapsUrl: string;
   isDemo?: boolean;
 }
 
 export const salesLocations: SalesLocation[] = [
   {
-    id: "guadalajara-centro-demo",
-    name: "Punto de venta de prueba",
-    category: "Ubicación de demostración · por confirmar",
-    address: "Zona Centro, Guadalajara, Jalisco, México",
-    hours: "Por confirmar",
-    phone: "Por confirmar",
+    id: "vinos-y-cervezas-el-paso",
+    name: "Vinos y Cervezas “El Paso”",
+    category: "Tienda de cerveza · 4.9 ★",
+    address: "Av Manuel J. Clouthier 290-int 7, Clouthier, Plaza Marqueza, 45038 Zapopan, Jal.",
+    hours: "Consulta el horario actualizado en Google Maps.",
+    phone: "No publicado en Google Maps",
     description:
-      "Marcador de ejemplo para mostrar cómo aparecerá un punto de venta. Reemplaza esta ficha con los datos confirmados del establecimiento.",
-    coordinates: [20.6769, -103.3475],
-    isDemo: true,
+      "Tienda especializada en vinos, licores y cervezas artesanales, ubicada en Plaza Marqueza.",
+    coordinates: [20.6697605, -103.4186003],
+    mapsUrl: "https://maps.app.goo.gl/m7Sq2Vbspk8cLnwH7?g_st=aw",
+  },
+  {
+    id: "la-barra-del-paso",
+    name: "La Barra del Paso",
+    category: "Cervecería artesanal · 4.9 ★",
+    address: "Av Manuel J. Clouthier 290 -3, Lomas de Guadalupe, Plaza Marqueza, 45038 Zapopan, Jal.",
+    hours: "Consulta el horario actualizado en Google Maps.",
+    phone: "33 3397 2023",
+    description: "Bar de cerveza artesanal ubicado en Plaza Marqueza.",
+    // Ubicación del local publicada en Untappd; está en la misma plaza que El Paso.
+    coordinates: [20.6693859, -103.4186401],
+    mapsUrl: "https://maps.app.goo.gl/UCw4teu8SqxvQ6T9A?g_st=aw",
+  },
+  {
+    id: "board-game-la-madriguera",
+    name: "Board Game La Madriguera",
+    category: "Café de juegos de mesa · 4.2 ★",
+    address: "Av. Tepeyac 947, Chapalita Sur, 45040 Zapopan, Jal.",
+    hours: "Consulta el horario actualizado en Google Maps.",
+    phone: "33 1520 7304",
+    description:
+      "Café de juegos de mesa con bebidas y snacks, en la zona de Chapalita Sur.",
+    // Coordenadas del punto publicado en OpenStreetMap/Mapcarta.
+    coordinates: [20.66264, -103.4034],
+    mapsUrl: "https://maps.app.goo.gl/QMzmxshhQjtJxD1f8?g_st=aw",
   },
 ];

@@ -16,11 +16,41 @@ import { shopProducts } from "../data/shop-products";
       <header class="shop-heading">
         <span class="section-label">ᛟ · La despensa de Yggdrasil</span>
         <h1 class="section-title">Peticiones <span>Especiales</span></h1>
-        <p>Elige tus cajas de hidromiel roja o amarilla y arma tu pedido.</p>
+        <p>Elige VANIR BLUT, MIDGAD o combina tus sabores favoritos. Cada lata cuesta $85 MXN.</p>
       </header>
 
       <div class="shop-layout">
         <section class="product-section" aria-label="Presentaciones disponibles">
+          <section class="six-builder" aria-labelledby="six-builder-title">
+            <div class="six-builder-heading">
+              <span class="builder-rune" aria-hidden="true">ᛟ</span>
+              <div>
+                <p class="builder-kicker">Tu mezcla, tu saga</p>
+                <h2 id="six-builder-title">Arma tu six</h2>
+                <p>Combina las 6 latas como quieras: VANIR BLUT, MIDGAD o una mezcla.</p>
+              </div>
+            </div>
+            <div class="six-builder-options">
+              <div class="flavor-option">
+                <span class="flavor-dot is-red" aria-hidden="true"></span>
+                <span class="flavor-name">VANIR BLUT <small>Hidromiel roja</small></span>
+                <button class="flavor-step" type="button" data-flavor="vanir" data-step="-1" aria-label="Quitar una lata VANIR BLUT">−</button>
+                <output class="flavor-count" id="vanir-count" aria-live="polite">0</output>
+                <button class="flavor-step" type="button" data-flavor="vanir" data-step="1" aria-label="Agregar una lata VANIR BLUT">+</button>
+              </div>
+              <div class="flavor-option">
+                <span class="flavor-dot is-yellow" aria-hidden="true"></span>
+                <span class="flavor-name">MIDGAD <small>Hidromiel amarilla</small></span>
+                <button class="flavor-step" type="button" data-flavor="midgard" data-step="-1" aria-label="Quitar una lata MIDGAD">−</button>
+                <output class="flavor-count" id="midgard-count" aria-live="polite">0</output>
+                <button class="flavor-step" type="button" data-flavor="midgard" data-step="1" aria-label="Agregar una lata MIDGAD">+</button>
+              </div>
+            </div>
+            <div class="builder-footer">
+              <span id="six-progress" role="status" aria-live="polite">0 de 6 latas seleccionadas · $510 MXN al completar</span>
+              <button class="build-six-button" id="build-six" type="button" disabled>Armar mi six <span aria-hidden="true">→</span></button>
+            </div>
+          </section>
           <div class="product-grid">
             {shopProducts.map((product) => (
               <article class="shop-product">
@@ -32,7 +62,7 @@ import { shopProducts } from "../data/shop-products";
                   <p class="product-pack">Caja con {product.packSize} piezas</p>
                   <h2>{product.name}</h2>
                   <p class="product-description">{product.description}</p>
-                  <p class="product-price">{product.price === null ? "Precio por definir" : new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(product.price)}</p>
+                  <p class="product-price">{new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(product.price)}</p>
                   <button class="add-button" type="button" data-add-to-cart={product.id}>
                     Añadir al carrito <span aria-hidden="true">＋</span>
                   </button>
@@ -58,7 +88,7 @@ import { shopProducts } from "../data/shop-products";
             <span>Subtotal</span>
             <strong id="cart-total">$0.00</strong>
           </div>
-          <p class="price-note" id="price-note">Los precios se mostrarán aquí cuando queden definidos.</p>
+          <p class="price-note" id="price-note">Precio unitario: $85 MXN por lata.</p>
           <button class="checkout-button" id="open-checkout" type="button" disabled>
             Proceder a pagar <span aria-hidden="true">→</span>
           </button>
@@ -76,7 +106,7 @@ import { shopProducts } from "../data/shop-products";
       <p class="checkout-intro">Confirma los productos y elige cómo te gustaría pagar.</p>
 
       <ul class="checkout-items" id="checkout-items"></ul>
-      <div class="checkout-total"><span>Total</span><strong id="checkout-total">Por definir</strong></div>
+      <div class="checkout-total"><span>Total</span><strong id="checkout-total">$0.00</strong></div>
 
       <fieldset class="payment-options">
         <legend>Forma de pago</legend>
@@ -98,10 +128,20 @@ import { shopProducts } from "../data/shop-products";
       </fieldset>
 
       <p class="checkout-status" id="checkout-status" role="status" aria-live="polite">
-        Aún falta configurar precios y conectar el servicio de pagos. No se procesan cargos en esta etapa.
+        Los precios están listos. El cobro real se habilitará al conectar un proveedor de pagos.
       </p>
       <button class="pay-button" id="pay-order" type="button">Continuar al pago seguro</button>
       <p class="checkout-footnote">No escribas datos de tarjeta en este sitio. El proveedor seguro los solicitará cuando se conecte.</p>
+    </div>
+  </dialog>
+
+  <dialog class="six-success-dialog" id="six-success-dialog" aria-labelledby="six-success-title" aria-describedby="six-success-message">
+    <div class="six-success-window">
+      <span class="success-rune" aria-hidden="true">ᛟ</span>
+      <p class="success-kicker" id="six-success-title">ᚠ · El pedido está listo</p>
+      <p class="success-message" id="six-success-message">Perfecto Vikingo, haz armado tu six de la bebida de los Dioses</p>
+      <p class="success-detail" id="six-success-detail"></p>
+      <button class="success-close" id="close-six-success" type="button">Entendido, vikingo</button>
     </div>
   </dialog>
 
@@ -140,6 +180,29 @@ import { shopProducts } from "../data/shop-products";
   .add-button { display: flex; width: 100%; min-height: 2.9rem; justify-content: space-between; align-items: center; gap: .5rem; border: 1px solid rgba(246,170,28,.65); border-radius: 3px; padding: .78rem .85rem; background: rgba(246,170,28,.08); color: var(--gold); font: .76rem var(--font-heading); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s; }
   .add-button:hover, .add-button:focus-visible { background: var(--gold); color: #1a0c04; }
   .add-button span { font-size: 1.15rem; }
+
+  .six-builder { margin: 0 0 1.5rem; padding: clamp(1.1rem, 2.5vw, 1.65rem); border: 1px solid rgba(246,170,28,.45); background: radial-gradient(ellipse at 0 0, rgba(148,27,12,.28), transparent 55%), linear-gradient(145deg, rgba(44,20,9,.96), rgba(13,10,8,.98)); box-shadow: 0 15px 40px #0006; }
+  .six-builder-heading { display: flex; align-items: flex-start; gap: 1rem; }
+  .builder-rune { color: var(--gold); font: 2.1rem/1 var(--font-display); text-shadow: 0 0 18px #f6aa1c88; }
+  .builder-kicker { margin: 0 0 .3rem; color: var(--gold); font: .66rem var(--font-heading); letter-spacing: .18em; text-transform: uppercase; }
+  .six-builder-heading h2 { margin: 0; color: #fff2d7; font: 700 1.45rem/1.2 var(--font-display); }
+  .six-builder-heading p:last-child { margin: .35rem 0 0; color: rgba(255,255,255,.62); font-size: .88rem; line-height: 1.5; }
+  .six-builder-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin-top: 1.15rem; }
+  .flavor-option { display: grid; grid-template-columns: .7rem minmax(0,1fr) 2.35rem 1.5rem 2.35rem; align-items: center; gap: .55rem; min-width: 0; border: 1px solid rgba(255,255,255,.1); padding: .7rem; background: rgba(0,0,0,.24); }
+  .flavor-dot { width: .62rem; height: .62rem; border-radius: 50%; }
+  .flavor-dot.is-red { background: #df634a; box-shadow: 0 0 12px #df634a88; }
+  .flavor-dot.is-yellow { background: #f2c45f; box-shadow: 0 0 12px #f2c45f88; }
+  .flavor-name { min-width: 0; color: #fff2d7; font: .75rem var(--font-heading); letter-spacing: .04em; }
+  .flavor-name small { display: block; margin-top: .18rem; color: rgba(255,255,255,.53); font: .68rem/1.3 system-ui, sans-serif; letter-spacing: 0; }
+  .flavor-step { display: grid; width: 2.35rem; height: 2.35rem; place-items: center; border: 1px solid rgba(246,170,28,.5); border-radius: 3px; background: rgba(246,170,28,.08); color: var(--gold); font: 1.2rem var(--font-heading); cursor: pointer; transition: background .2s, color .2s; }
+  .flavor-step:hover, .flavor-step:focus-visible { background: var(--gold); color: #1a0c04; }
+  .flavor-step:disabled { opacity: .38; cursor: not-allowed; }
+  .flavor-count { color: #fff2d7; font: 700 .95rem var(--font-heading); text-align: center; }
+  .builder-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; padding-top: .9rem; border-top: 1px solid rgba(246,170,28,.2); }
+  .builder-footer > span { color: rgba(255,255,255,.72); font-size: .82rem; line-height: 1.45; }
+  .build-six-button, .success-close { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.9rem; border: 1px solid var(--gold); padding: .75rem 1rem; background: var(--gold); color: #170b04; font: 700 .76rem var(--font-heading); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: filter .2s, opacity .2s; }
+  .build-six-button:hover:not(:disabled), .success-close:hover { filter: brightness(1.12); }
+  .build-six-button:disabled { opacity: .42; cursor: not-allowed; }
 
   .cart-panel { position: sticky; top: 1rem; min-width: 0; padding: clamp(1rem, 2vw, 1.4rem); border: 1px solid rgba(246,170,28,.34); background: linear-gradient(155deg, rgba(40,16,7,.97), rgba(10,9,7,.98)); box-shadow: 0 20px 50px rgba(0,0,0,.4); }
   .cart-heading { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid rgba(246,170,28,.2); }
@@ -195,6 +258,17 @@ import { shopProducts } from "../data/shop-products";
   .checkout-status { min-height: 2.5rem; margin: 1rem 0; color: #e9c987; font-size: .84rem; line-height: 1.55; }
   .pay-button { justify-content: center; }
   .checkout-footnote { margin: .8rem 0 0; color: rgba(255,255,255,.5); font-size: .72rem; line-height: 1.55; text-align: center; }
+  .six-success-dialog { width: min(520px, calc(100vw - 1.5rem)); max-width: none; margin: auto; padding: 0; border: 1px solid rgba(246,170,28,.75); background: #160c07; color: #fff2d7; box-shadow: 0 25px 100px #000c, 0 0 55px #941b0c55; }
+  .six-success-dialog[open] { animation: six-dialog-in .28s ease-out both; }
+  .six-success-dialog::backdrop { background: rgba(0,0,0,.82); backdrop-filter: blur(7px); }
+  .six-success-window { position: relative; display: grid; justify-items: center; padding: clamp(1.5rem, 6vw, 2.7rem); text-align: center; background: radial-gradient(ellipse at center top, #8f2b143b, transparent 65%); }
+  .success-rune { color: var(--gold); font: 3.5rem/1 var(--font-display); text-shadow: 0 0 25px #f6aa1c99; animation: rune-glow 2s ease-in-out infinite alternate; }
+  .success-kicker { margin: .8rem 0 .5rem; color: var(--gold); font: .7rem var(--font-heading); letter-spacing: .2em; text-transform: uppercase; }
+  .success-message { max-width: 24rem; margin: 0; color: #fff1d2; font: 700 clamp(1.35rem, 4vw, 1.8rem)/1.35 var(--font-display); text-shadow: 0 2px 18px #f6aa1c2a; }
+  .success-detail { margin: .8rem 0 1.4rem; color: rgba(255,255,255,.66); font-size: .85rem; line-height: 1.6; }
+  .success-close { justify-content: center; min-width: 13rem; }
+  @keyframes six-dialog-in { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes rune-glow { from { filter: drop-shadow(0 0 4px #f6aa1c66); transform: scale(.96); } to { filter: drop-shadow(0 0 18px #f6aa1ccc); transform: scale(1.04); } }
   @media (max-width: 1000px) { .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 760px) {
     .shop-page { padding: 7.5rem 1rem 4rem; }
@@ -210,8 +284,11 @@ import { shopProducts } from "../data/shop-products";
     .quantity-button { min-width: 2.6rem; min-height: 2.6rem; }
     .remove-button { min-width: 4.5rem; min-height: 2.6rem; padding-inline: .45rem; }
     .payment-option { grid-template-columns: 2.2rem minmax(0, 1fr) 1rem; gap: .65rem; padding: .85rem .7rem; }
+    .six-builder-options { grid-template-columns: 1fr; }
+    .builder-footer { align-items: stretch; flex-direction: column; }
+    .build-six-button { justify-content: center; }
   }
-  @media (prefers-reduced-motion: reduce) { .shop-product, .add-button, .checkout-button { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .shop-product, .add-button, .checkout-button, .build-six-button, .six-success-dialog[open], .success-rune { transition: none; animation: none; } }
 </style>
 
 <style is:global>
@@ -328,6 +405,7 @@ import { shopProducts } from "../data/shop-products";
   import { shopProducts } from "../data/shop-products";
 
   type PaymentMethod = "paypal" | "google-pay" | "card";
+  type Flavor = "vanir" | "midgard";
   type CartState = Record<string, number>;
 
   const storageKey = "yggdrasil-special-orders-v1";
@@ -345,16 +423,43 @@ import { shopProducts } from "../data/shop-products";
   const checkoutStatus = document.querySelector<HTMLElement>("#checkout-status");
   const payButton = document.querySelector<HTMLButtonElement>("#pay-order");
   const closeCheckout = document.querySelector<HTMLButtonElement>("#close-checkout");
+  const sixSuccessDialog = document.querySelector<HTMLDialogElement>("#six-success-dialog");
+  const closeSixSuccess = document.querySelector<HTMLButtonElement>("#close-six-success");
+  const buildSixButton = document.querySelector<HTMLButtonElement>("#build-six");
+  const vanirCount = document.querySelector<HTMLOutputElement>("#vanir-count");
+  const midgardCount = document.querySelector<HTMLOutputElement>("#midgard-count");
+  const sixProgress = document.querySelector<HTMLElement>("#six-progress");
+  const sixSuccessDetail = document.querySelector<HTMLElement>("#six-success-detail");
+  const sixBuilder = { vanir: 0, midgard: 0 };
   let cart: CartState = readCart();
   let selectedMethod: PaymentMethod | null = null;
   let checkoutOpener: HTMLButtonElement | null = null;
   let previousBodyOverflow = "";
 
+  function getProduct(id: string) {
+    const standardProduct = productById.get(id);
+    if (standardProduct) return standardProduct;
+    const match = /^custom-six-(\d)-(\d)$/.exec(id);
+    if (!match) return undefined;
+    const vanir = Number(match[1]);
+    const midgard = Number(match[2]);
+    if (vanir + midgard !== 6) return undefined;
+    return {
+      id,
+      name: `Six personalizado · ${vanir} VANIR BLUT + ${midgard} MIDGAD`,
+      color: vanir > 0 ? "Roja" as const : "Amarilla" as const,
+      packSize: 6 as const,
+      description: `${vanir} VANIR BLUT y ${midgard} MIDGAD · $85 por lata`,
+      image: shopProducts.find((product) => product.id === (vanir > 0 ? "roja-6" : "amarilla-6"))?.image ?? "",
+      price: 510,
+    };
+  }
+
   function readCart(): CartState {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) ?? "{}") as Record<string, unknown>;
       return Object.fromEntries(Object.entries(saved).filter(([id, quantity]) =>
-        productById.has(id) && Number.isInteger(quantity) && Number(quantity) > 0,
+        getProduct(id) && Number.isInteger(quantity) && Number(quantity) > 0,
       ).map(([id, quantity]) => [id, Math.min(Number(quantity), 99)]));
     } catch {
       return {};
@@ -370,12 +475,12 @@ import { shopProducts } from "../data/shop-products";
   }
 
   function priceFor(productId: string, quantity: number) {
-    const price = productById.get(productId)?.price;
-    return price === null || price === undefined ? "Por cotizar" : money(price * quantity);
+    const price = getProduct(productId)?.price ?? 0;
+    return money(price * quantity);
   }
 
   function makeLineItem(productId: string, quantity: number, editable: boolean) {
-    const product = productById.get(productId);
+    const product = getProduct(productId);
     if (!product) return null;
 
     const row = document.createElement("li");
@@ -392,7 +497,9 @@ import { shopProducts } from "../data/shop-products";
     name.textContent = product.name;
     const meta = document.createElement("small");
     meta.className = editable ? "cart-item-meta" : "checkout-item-meta";
-    meta.textContent = `Caja de ${product.packSize} · ${quantity} ${quantity === 1 ? "caja" : "cajas"}`;
+    meta.textContent = productId.startsWith("custom-six-")
+      ? `Six personalizado · ${quantity} ${quantity === 1 ? "paquete" : "paquetes"}`
+      : `Caja de ${product.packSize} · ${quantity} ${quantity === 1 ? "caja" : "cajas"}`;
     details.append(name, meta);
 
     const amount = document.createElement("strong");
@@ -408,7 +515,7 @@ import { shopProducts } from "../data/shop-products";
       minus.className = "quantity-button";
       minus.dataset.cartAction = "decrease";
       minus.dataset.productId = productId;
-      minus.setAttribute("aria-label", `Quitar una caja de ${product.name} de ${product.packSize}`);
+      minus.setAttribute("aria-label", `Quitar una ${productId.startsWith("custom-six-") ? "unidad de" : "caja de"} ${product.name}`);
       minus.textContent = "−";
       const count = document.createElement("span");
       count.className = "cart-quantity";
@@ -418,7 +525,7 @@ import { shopProducts } from "../data/shop-products";
       plus.className = "quantity-button";
       plus.dataset.cartAction = "increase";
       plus.dataset.productId = productId;
-      plus.setAttribute("aria-label", `Agregar una caja más de ${product.name} de ${product.packSize}`);
+      plus.setAttribute("aria-label", `Agregar una ${productId.startsWith("custom-six-") ? "unidad más de" : "caja más de"} ${product.name}`);
       plus.textContent = "+";
       const remove = document.createElement("button");
       remove.type = "button";
@@ -434,10 +541,9 @@ import { shopProducts } from "../data/shop-products";
 
   function renderCart() {
     if (!cartItems || !checkoutItems) return;
-    const entries = Object.entries(cart).filter(([id, quantity]) => productById.has(id) && quantity > 0);
+    const entries = Object.entries(cart).filter(([id, quantity]) => getProduct(id) && quantity > 0);
     const totalUnits = entries.reduce((sum, [, quantity]) => sum + quantity, 0);
-    const hasUnpricedItem = entries.some(([id]) => productById.get(id)?.price === null);
-    const subtotal = hasUnpricedItem ? null : entries.reduce((sum, [id, quantity]) => sum + (productById.get(id)?.price ?? 0) * quantity, 0);
+    const subtotal = entries.reduce((sum, [id, quantity]) => sum + (getProduct(id)?.price ?? 0) * quantity, 0);
 
     cartItems.replaceChildren();
     checkoutItems.replaceChildren();
@@ -450,11 +556,9 @@ import { shopProducts } from "../data/shop-products";
 
     if (cartEmpty) cartEmpty.hidden = entries.length > 0;
     if (cartCount) cartCount.textContent = String(totalUnits);
-    if (cartTotal) cartTotal.textContent = subtotal === null ? "Por definir" : money(subtotal);
-    if (checkoutTotal) checkoutTotal.textContent = subtotal === null ? "Por definir" : money(subtotal);
-    if (priceNote) priceNote.textContent = hasUnpricedItem
-      ? "Hay presentaciones sin precio; el total se calculará cuando lo definas."
-      : "Importes en pesos mexicanos (MXN).";
+    if (cartTotal) cartTotal.textContent = money(subtotal);
+    if (checkoutTotal) checkoutTotal.textContent = money(subtotal);
+    if (priceNote) priceNote.textContent = "Precio unitario: $85 MXN por lata. Importes en pesos mexicanos.";
     if (checkoutButton) checkoutButton.disabled = entries.length === 0;
     saveCart();
   }
@@ -469,6 +573,49 @@ import { shopProducts } from "../data/shop-products";
       window.setTimeout(() => { button.textContent = "Añadir al carrito ＋"; }, 1100);
     });
   });
+
+  function updateSixBuilder() {
+    const total = sixBuilder.vanir + sixBuilder.midgard;
+    if (vanirCount) vanirCount.value = String(sixBuilder.vanir);
+    if (midgardCount) midgardCount.value = String(sixBuilder.midgard);
+    if (sixProgress) sixProgress.textContent = `${total} de 6 latas seleccionadas · $${total * 85} MXN`;
+    if (buildSixButton) buildSixButton.disabled = total !== 6;
+    document.querySelectorAll<HTMLButtonElement>("[data-flavor][data-step]").forEach((button) => {
+      const flavor = button.dataset.flavor as Flavor;
+      const step = Number(button.dataset.step);
+      button.disabled = step > 0 ? total >= 6 : sixBuilder[flavor] <= 0;
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-flavor][data-step]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const flavor = button.dataset.flavor as Flavor;
+      const step = Number(button.dataset.step);
+      const total = sixBuilder.vanir + sixBuilder.midgard;
+      if (step > 0 && total >= 6) return;
+      sixBuilder[flavor] = Math.max(0, sixBuilder[flavor] + step);
+      updateSixBuilder();
+    });
+  });
+
+  buildSixButton?.addEventListener("click", () => {
+    const total = sixBuilder.vanir + sixBuilder.midgard;
+    if (total !== 6) return;
+    const id = `custom-six-${sixBuilder.vanir}-${sixBuilder.midgard}`;
+    cart[id] = Math.min((cart[id] ?? 0) + 1, 99);
+    renderCart();
+    if (sixSuccessDetail) {
+      sixSuccessDetail.textContent = `${sixBuilder.vanir} VANIR BLUT + ${sixBuilder.midgard} MIDGAD · $510 MXN. Ya lo agregamos a tu carrito.`;
+    }
+    sixSuccessDialog?.showModal();
+    closeSixSuccess?.focus();
+  });
+
+  closeSixSuccess?.addEventListener("click", () => sixSuccessDialog?.close());
+  sixSuccessDialog?.addEventListener("click", (event) => {
+    if (event.target === sixSuccessDialog) sixSuccessDialog.close();
+  });
+  sixSuccessDialog?.addEventListener("close", () => buildSixButton?.focus());
 
   cartItems?.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-cart-action]");
@@ -510,7 +657,7 @@ import { shopProducts } from "../data/shop-products";
       document.querySelectorAll<HTMLButtonElement>("[data-payment-method]").forEach((option) => {
         option.setAttribute("aria-pressed", String(option === button));
       });
-      if (checkoutStatus) checkoutStatus.textContent = `${button.querySelector("strong")?.textContent} seleccionado. Para cobrar hace falta configurar precios y conectar el checkout seguro.`;
+      if (checkoutStatus) checkoutStatus.textContent = `${button.querySelector("strong")?.textContent} seleccionado. Para procesar el cobro falta conectar el checkout seguro.`;
     });
   });
 
@@ -520,10 +667,6 @@ import { shopProducts } from "../data/shop-products";
       return;
     }
     const entries = Object.entries(cart).filter(([, quantity]) => quantity > 0);
-    if (entries.some(([id]) => productById.get(id)?.price === null)) {
-      checkoutStatus.textContent = "Antes de activar el cobro, define el precio de cada presentación en src/data/shop-products.ts.";
-      return;
-    }
     if (!checkoutEndpoint) {
       checkoutStatus.textContent = "La tienda y el resumen de compra ya funcionan. Para recibir pagos reales falta conectar un endpoint seguro y las cuentas del proveedor.";
       return;

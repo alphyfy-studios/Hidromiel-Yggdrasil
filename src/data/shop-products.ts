@@ -5,8 +5,8 @@ export interface ShopProduct {
   packSize: 6 | 12 | 24;
   description: string;
   image: string;
-  /** Define aquí el precio de venta en MXN cuando esté confirmado. */
-  price: number | null;
+  /** Precio de la presentación en MXN. Cada lata cuesta $85. */
+  price: number;
 }
 
 const productImages = {
@@ -15,10 +15,10 @@ const productImages = {
 };
 
 export const shopProducts: ShopProduct[] = [
-  { id: "roja-6", name: "Hidromiel roja", color: "Roja", packSize: 6, description: "Caja con 6 piezas", image: productImages.Roja, price: null },
-  { id: "amarilla-6", name: "Hidromiel amarilla", color: "Amarilla", packSize: 6, description: "Caja con 6 piezas", image: productImages.Amarilla, price: null },
-  { id: "roja-12", name: "Hidromiel roja", color: "Roja", packSize: 12, description: "Caja con 12 piezas", image: productImages.Roja, price: null },
-  { id: "amarilla-12", name: "Hidromiel amarilla", color: "Amarilla", packSize: 12, description: "Caja con 12 piezas", image: productImages.Amarilla, price: null },
-  { id: "roja-24", name: "Hidromiel roja", color: "Roja", packSize: 24, description: "Caja con 24 piezas", image: productImages.Roja, price: null },
-  { id: "amarilla-24", name: "Hidromiel amarilla", color: "Amarilla", packSize: 24, description: "Caja con 24 piezas", image: productImages.Amarilla, price: null },
+  { id: "roja-6", name: "Hidromiel VANIR BLUT", color: "Roja", packSize: 6, description: "Caja con 6 latas de VANIR BLUT · $85 por lata", image: productImages.Roja, price: 510 },
+  { id: "amarilla-6", name: "Hidromiel MIDGAD", color: "Amarilla", packSize: 6, description: "Caja con 6 latas de MIDGAD · $85 por lata", image: productImages.Amarilla, price: 510 },
+  { id: "roja-12", name: "Hidromiel VANIR BLUT", color: "Roja", packSize: 12, description: "Caja con 12 latas de VANIR BLUT · $85 por lata", image: productImages.Roja, price: 1020 },
+  { id: "amarilla-12", name: "Hidromiel MIDGAD", color: "Amarilla", packSize: 12, description: "Caja con 12 latas de MIDGAD · $85 por lata", image: productImages.Amarilla, price: 1020 },
+  { id: "roja-24", name: "Hidromiel VANIR BLUT", color: "Roja", packSize: 24, description: "Caja con 24 latas de VANIR BLUT · $85 por lata", image: productImages.Roja, price: 2040 },
+  { id: "amarilla-24", name: "Hidromiel MIDGAD", color: "Amarilla", packSize: 24, description: "Caja con 24 latas de MIDGAD · $85 por lata", image: productImages.Amarilla, price: 2040 },
 ];
