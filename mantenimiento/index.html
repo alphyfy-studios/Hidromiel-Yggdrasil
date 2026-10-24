@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100c0b">
+  <meta name="description" content="Hidromiel Yggdrasil está afinando la forja. Volvemos pronto.">
+  <title>En la forja | Hidromiel Yggdrasil</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --night: #100c0b;
+      --ember: #f06a2b;
+      --gold: #f6bb55;
+      --cream: #f3e5c7;
+      --muted: #b5a48b;
+      --pixel: "Courier New", monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100svh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      padding: 2rem 1.2rem;
+      color: var(--cream);
+      font-family: var(--pixel);
+      background:
+        radial-gradient(ellipse at 50% 78%, rgba(117, 38, 17, .27), transparent 42%),
+        radial-gradient(circle at 18% 15%, rgba(84, 46, 24, .18), transparent 28%),
+        var(--night);
+    }
+    body::before {
+      position: fixed;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      opacity: .12;
+      background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 4px 4px;
+      mask-image: linear-gradient(transparent, black 30%, black 75%, transparent);
+    }
+    .page {
+      position: relative;
+      width: min(100%, 760px);
+      padding: clamp(1.4rem, 5vw, 3.3rem);
+      text-align: center;
+      border: 1px solid rgba(246, 187, 85, .25);
+      background: linear-gradient(145deg, rgba(37, 25, 19, .92), rgba(17, 13, 12, .96));
+      box-shadow: 0 25px 90px #0009, inset 0 0 50px rgba(242, 105, 43, .045);
+    }
+    .page::before, .page::after {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      content: "";
+      border-color: var(--gold);
+      opacity: .65;
+    }
+    .page::before { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+    .page::after { right: 10px; bottom: 10px; border-right: 2px solid; border-bottom: 2px solid; }
+    .brand {
+      margin: 0;
+      color: var(--gold);
+      font-size: clamp(.72rem, 2.5vw, .9rem);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .brand span { color: var(--ember); }
+    h1 {
+      margin: 1rem 0 .7rem;
+      color: #f6e8cc;
+      font-size: clamp(2rem, 7vw, 4rem);
+      line-height: 1.08;
+      letter-spacing: .04em;
+      text-shadow: 0 3px #5b2718, 0 0 28px rgba(240,106,43,.16);
+      text-wrap: balance;
+    }
+    .intro {
+      max-width: 520px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-family: Georgia, serif;
+      font-size: clamp(1rem, 2.8vw, 1.16rem);
+      line-height: 1.7;
+    }
+    .forge-button {
+      display: block;
+      width: min(100%, 460px);
+      margin: 1.5rem auto .4rem;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .forge-button:focus-visible { outline: 2px solid var(--gold); outline-offset: 8px; }
+    .forge-scene {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 12px 18px #0008);
+    }
+    .forge-scene [shape-rendering] { shape-rendering: crispEdges; }
+    .hammer { transform-box: view-box; transform-origin: 209px 111px; }
+    .forge-button:hover .hammer { transform: rotate(-8deg); }
+    .fire { transform-box: fill-box; transform-origin: center bottom; animation: fire-dance .65s steps(2, end) infinite alternate; }
+    .spark { opacity: 0; transform-box: fill-box; transform-origin: center; }
+    .forge-button.is-striking .hammer { animation: strike .58s steps(4, end); }
+    .forge-button.is-striking .spark { animation: sparks .7s steps(4, end); }
+    .forge-button.is-striking .fire { animation-duration: .2s; }
+    .forge-hint {
+      display: inline-block;
+      margin-top: .3rem;
+      color: #f6a45b;
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .status {
+      margin: 1.35rem 0 0;
+      color: var(--gold);
+      font-size: .77rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .status::before { content: "ᛟ  "; color: var(--ember); }
+    .footnote {
+      margin: 1.25rem 0 0;
+      color: #786b5a;
+      font-size: .64rem;
+      letter-spacing: .12em;
+    }
+    @keyframes strike {
+      0%, 100% { transform: rotate(0); }
+      28% { transform: rotate(-38deg); }
+      58% { transform: rotate(25deg); }
+      78% { transform: rotate(-8deg); }
+    }
+    @keyframes sparks {
+      0% { opacity: 0; transform: translate(0, 0) scale(.3); }
+      22% { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.2); }
+    }
+    @keyframes fire-dance {
+      from { transform: scaleY(.88) translateY(2px); }
+      to { transform: scaleY(1.08) translateY(-2px); }
+    }
+    @media (max-width: 520px) {
+      .page { padding: 2rem 1.1rem; }
+      .forge-hint { line-height: 1.6; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <p class="brand">ᚠ · <span>Hidromiel</span> Yggdrasil · ᚠ</p>
+    <h1>Estamos en la forja</h1>
+    <p class="intro">Nuestro taller está recibiendo los últimos golpes de martillo. Estamos preparando el sitio para recibirte como mereces. Volvemos pronto.</p>
+
+    <button class="forge-button" id="forge" type="button" aria-label="Toca para ver al herrero forjar su arma" aria-describedby="forge-hint">
+      <svg class="forge-scene" viewBox="0 0 320 250" role="img" aria-labelledby="scene-title scene-desc" shape-rendering="crispEdges">
+        <title id="scene-title">Un herrero vikingo forja un arma</title>
+        <desc id="scene-desc">Un robusto herrero de barba trenzada, casco y delantal golpea un arma sobre el yunque entre brasas.</desc>
+        <!-- old timber and stone forge -->
+        <rect x="25" y="198" width="270" height="19" fill="#241813" />
+        <rect x="41" y="217" width="238" height="12" fill="#171110" />
+        <rect x="55" y="229" width="211" height="8" fill="#3b2519" />
+        <rect x="53" y="186" width="83" height="15" fill="#39251b" />
+        <rect x="61" y="174" width="68" height="13" fill="#5a3120" />
+        <rect x="73" y="163" width="47" height="12" fill="#773819" />
+        <rect x="83" y="149" width="30" height="16" fill="#b7431e" />
+        <g class="fire">
+          <rect x="78" y="135" width="12" height="20" fill="#e8782c" />
+          <rect x="91" y="123" width="12" height="27" fill="#ffb13f" />
+          <rect x="104" y="132" width="11" height="22" fill="#ef5c24" />
+          <rect x="88" y="142" width="20" height="15" fill="#ffd26a" />
+          <rect x="94" y="137" width="9" height="14" fill="#fff0a8" />
+        </g>
+        <!-- anvil and glowing blade -->
+        <rect x="165" y="166" width="83" height="13" fill="#aab3b2" />
+        <rect x="178" y="179" width="60" height="17" fill="#626d70" />
+        <rect x="191" y="195" width="34" height="12" fill="#434e52" />
+        <rect x="179" y="207" width="60" height="8" fill="#889394" />
+        <rect x="199" y="155" width="10" height="13" fill="#e9a346" />
+        <rect x="204" y="146" width="9" height="14" fill="#f6d08a" />
+        <rect x="211" y="140" width="7" height="12" fill="#fff0c0" />
+        <rect x="215" y="135" width="35" height="7" fill="#dfe4dd" />
+        <rect x="245" y="132" width="12" height="7" fill="#aab3b2" />
+        <rect x="194" y="153" width="21" height="6" fill="#a46a35" />
+        <!-- legs and boots -->
+        <rect x="139" y="173" width="21" height="34" fill="#443029" />
+        <rect x="153" y="196" width="27" height="13" fill="#33231d" />
+        <rect x="118" y="173" width="20" height="32" fill="#514034" />
+        <rect x="111" y="197" width="29" height="12" fill="#2f211b" />
+        <!-- broad tunic and belt -->
+        <rect x="115" y="112" width="54" height="57" fill="#536047" />
+        <rect x="104" y="129" width="17" height="39" fill="#536047" />
+        <rect x="163" y="127" width="16" height="40" fill="#536047" />
+        <rect x="110" y="158" width="66" height="11" fill="#31231b" />
+        <rect x="139" y="157" width="13" height="13" fill="#d29a43" />
+        <rect x="120" y="121" width="15" height="40" fill="#64704f" />
+        <!-- head, nose, braid, face -->
+        <rect x="126" y="68" width="49" height="47" fill="#d59a69" />
+        <rect x="169" y="85" width="12" height="10" fill="#d59a69" />
+        <rect x="169" y="87" width="8" height="6" fill="#f0bf88" />
+        <rect x="138" y="88" width="7" height="6" fill="#241915" />
+        <rect x="159" y="88" width="7" height="6" fill="#241915" />
+        <rect x="145" y="99" width="19" height="7" fill="#a64d29" />
+        <rect x="132" y="103" width="38" height="22" fill="#9a4829" />
+        <rect x="138" y="119" width="28" height="13" fill="#73351f" />
+        <rect x="141" y="130" width="21" height="9" fill="#b86435" />
+        <rect x="137" y="137" width="11" height="10" fill="#8c4325" />
+        <rect x="155" y="137" width="11" height="10" fill="#8c4325" />
+        <rect x="143" y="147" width="18" height="8" fill="#61301f" />
+        <!-- plait -->
+        <rect x="173" y="102" width="8" height="15" fill="#874226" />
+        <rect x="177" y="115" width="8" height="13" fill="#a4542b" />
+        <rect x="173" y="126" width="9" height="11" fill="#874226" />
+        <rect x="176" y="135" width="8" height="9" fill="#d19a44" />
+        <!-- horned iron cap -->
+        <rect x="119" y="60" width="65" height="11" fill="#899292" />
+        <rect x="128" y="48" width="47" height="14" fill="#737e81" />
+        <rect x="137" y="42" width="29" height="8" fill="#9aa3a1" />
+        <rect x="118" y="50" width="8" height="14" fill="#e8d4ad" />
+        <rect x="109" y="42" width="9" height="13" fill="#e8d4ad" />
+        <rect x="179" y="50" width="8" height="14" fill="#e8d4ad" />
+        <rect x="187" y="42" width="9" height="13" fill="#e8d4ad" />
+        <rect x="128" y="64" width="49" height="5" fill="#d4a24d" />
+        <!-- raised arm -->
+        <rect x="161" y="117" width="16" height="17" fill="#d59a69" />
+        <rect x="171" y="108" width="13" height="17" fill="#d59a69" />
+        <rect x="169" y="107" width="13" height="8" fill="#f0bf88" />
+        <!-- hammer swings on click -->
+        <g class="hammer">
+          <rect x="198" y="91" width="9" height="64" fill="#85552d" />
+          <rect x="184" y="82" width="36" height="16" fill="#9aa3a1" />
+          <rect x="179" y="85" width="11" height="10" fill="#697477" />
+          <rect x="214" y="85" width="11" height="10" fill="#697477" />
+          <rect x="193" y="77" width="20" height="6" fill="#c5ccbf" />
+        </g>
+        <!-- pixel sparks -->
+        <g class="spark" style="--dx:-19px;--dy:-28px"><rect x="195" y="142" width="6" height="6" fill="#fff0a8" /></g>
+        <g class="spark" style="--dx:22px;--dy:-34px"><rect x="218" y="143" width="6" height="6" fill="#ff9c36" /></g>
+        <g class="spark" style="--dx:36px;--dy:-9px"><rect x="216" y="154" width="5" height="5" fill="#ffe178" /></g>
+        <g class="spark" style="--dx:-35px;--dy:-10px"><rect x="197" y="157" width="5" height="5" fill="#f36a2c" /></g>
+        <g class="spark" style="--dx:3px;--dy:-45px"><rect x="207" y="137" width="5" height="5" fill="#fff3c0" /></g>
+      </svg>
+      <span class="forge-hint" id="forge-hint">Toca al herrero para avivar la forja</span>
+    </button>
+
+    <p class="status">Mientras tanto, la hidromiel sigue fermentando</p>
+    <p class="footnote">ᚠ · GRACIAS POR TU PACIENCIA · ᚠ</p>
+  </main>
+  <script>
+    const forge = document.getElementById("forge");
+    let strikeTimer;
+    forge.addEventListener("click", () => {
+      forge.classList.remove("is-striking");
+      void forge.getBoundingClientRect();
+      forge.classList.add("is-striking");
+      window.clearTimeout(strikeTimer);
+      strikeTimer = window.setTimeout(() => forge.classList.remove("is-striking"), 750);
+    });
+  </script>
+</body>
+</html>

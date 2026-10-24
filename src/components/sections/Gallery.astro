@@ -4,6 +4,15 @@
 
 import ProductCard from "../ui/ProductCard.astro";
 import { products } from "../../data/products";
+
+const galleryImages = Array.from({ length: 10 }, (_, index) => {
+  const number = index + 1;
+  const fileName = number === 1 ? "FOTO1.jpeg" : `foto${number}.jpeg`;
+  return {
+    src: `/images/galeria/FOTOSYGGDRASIL/${fileName}`,
+    alt: `Hidromiel Yggdrasil, fotografía ${number}`,
+  };
+});
 ---
 
 <section id="gallery" class="section">
@@ -23,6 +32,33 @@ import { products } from "../../data/products";
         <ProductCard product={product} />
       ))}
     </div>
+
+    <section class="photo-gallery" aria-labelledby="photo-gallery-title">
+      <div class="photo-gallery-heading">
+        <span class="section-label">ᛞ · Momentos Yggdrasil</span>
+        <h3 id="photo-gallery-title">Galería</h3>
+        <p>Un vistazo a nuestro mundo, botella a botella.</p>
+      </div>
+      <div class="photo-gallery-grid">
+        {galleryImages.map((image, index) => (
+          <button
+            class:list={["photo-tile", index === 0 || index === 5 ? "photo-tile--featured" : ""]}
+            type="button"
+            data-gallery-src={image.src}
+            data-gallery-alt={image.alt}
+            aria-label={`Ampliar fotografía ${index + 1}`}
+          >
+            <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+            <span class="photo-tile-mark" aria-hidden="true">ᚠ</span>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <dialog class="photo-lightbox" aria-label="Fotografía ampliada">
+      <button class="photo-lightbox-close" type="button" aria-label="Cerrar fotografía">×</button>
+      <img src="" alt="" />
+    </dialog>
 
     <dialog class="product-lightbox" aria-label="Vista ampliada del producto">
       <div class="lightbox-panel">
@@ -101,6 +137,27 @@ import { products } from "../../data/products";
   dialog?.addEventListener("close", () => {
     if (closeTimer) clearTimeout(closeTimer);
   });
+
+  const photoDialog = document.querySelector<HTMLDialogElement>(".photo-lightbox");
+  const photoDialogImage = photoDialog?.querySelector<HTMLImageElement>("img");
+  const photoCloseButton = photoDialog?.querySelector<HTMLButtonElement>(".photo-lightbox-close");
+  let activePhotoButton: HTMLButtonElement | null = null;
+
+  document.querySelectorAll<HTMLButtonElement>("[data-gallery-src]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!photoDialog || !photoDialogImage) return;
+      activePhotoButton = button;
+      photoDialogImage.src = button.dataset.gallerySrc ?? "";
+      photoDialogImage.alt = button.dataset.galleryAlt ?? "Fotografía de Hidromiel Yggdrasil";
+      photoDialog.showModal();
+      photoCloseButton?.focus();
+    });
+  });
+  photoCloseButton?.addEventListener("click", () => photoDialog?.close());
+  photoDialog?.addEventListener("click", (event) => {
+    if (event.target === photoDialog) photoDialog.close();
+  });
+  photoDialog?.addEventListener("close", () => activePhotoButton?.focus());
 </script>
 
 <style>
@@ -125,6 +182,83 @@ import { products } from "../../data/products";
     gap: clamp(1rem, 2.5vw, 1.8rem);
     object-fit: contain;
     
+  }
+
+  .photo-gallery {
+    position: relative;
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    border-top: 1px solid rgba(246, 170, 28, .22);
+  }
+  .photo-gallery-heading { text-align: center; margin-bottom: clamp(1.5rem, 4vw, 2.8rem); }
+  .photo-gallery-heading h3 {
+    margin: .35rem 0 .5rem;
+    color: var(--gold);
+    font: clamp(1.8rem, 4vw, 3rem) var(--font-display);
+    letter-spacing: .08em;
+  }
+  .photo-gallery-heading p { color: rgba(255,255,255,.65); font: 1rem var(--font-heading); }
+  .photo-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: clamp(130px, 17vw, 230px);
+    gap: clamp(.65rem, 1.5vw, 1.1rem);
+  }
+  .photo-tile {
+    position: relative;
+    display: block;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(246, 170, 28, .26);
+    background: #120b08;
+    cursor: zoom-in;
+    box-shadow: 0 10px 28px rgba(0,0,0,.28);
+  }
+  .photo-tile--featured { grid-row: span 2; }
+  .photo-tile img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease, filter .35s ease; }
+  .photo-tile:hover img, .photo-tile:focus-visible img { transform: scale(1.055); filter: saturate(1.12); }
+  .photo-tile:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .photo-tile-mark {
+    position: absolute;
+    right: .7rem;
+    bottom: .5rem;
+    color: #ffd47e;
+    font: 1.2rem var(--font-heading);
+    text-shadow: 0 2px 8px #000;
+    opacity: .8;
+  }
+  .photo-lightbox {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    padding: clamp(.75rem, 3vw, 2rem);
+    width: min(1100px, calc(100vw - 1.5rem));
+    max-width: none;
+    height: min(92dvh, 900px);
+    max-height: none;
+    place-items: center;
+    border: 1px solid rgba(246, 170, 28, .45);
+    background: #0b0806;
+    box-shadow: 0 20px 90px #000;
+  }
+  .photo-lightbox[open] { display: grid; }
+  .photo-lightbox::backdrop { background: rgba(0,0,0,.88); backdrop-filter: blur(8px); }
+  .photo-lightbox > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .photo-lightbox-close {
+    position: absolute;
+    z-index: 2;
+    top: .5rem;
+    right: .5rem;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(246, 170, 28, .65);
+    border-radius: 50%;
+    color: #fff3d0;
+    background: #351006;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
   }
 
   .product-lightbox {
@@ -250,9 +384,11 @@ import { products } from "../../data/products";
 
   @media (max-width: 900px) {
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .photo-gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(125px, 24vw, 210px); }
   }
 
   @media (max-width: 550px) {
     .gallery-grid { grid-template-columns: 1fr; }
+    .photo-gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: clamp(125px, 40vw, 190px); }
   }
 </style>
