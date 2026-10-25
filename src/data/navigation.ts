@@ -7,22 +7,14 @@ export interface NavLink {
 }
 
 export const navLinks: NavLink[] = [
-  { label: "Nuestra Saga",  href: "#about"   },
-  { label: "Hidromiel",     href: "#gallery"  },
-  // { label: "Proceso",       href: "#process"  },
-  // { label: "Crónicas",      href: "#saga"     },
-  { label: "Contacto",      href: "#footer"   },
-  { label: "Tienda online",   href: "/peticiones-especiales",  cta: true },
+  { label: "Nuestra Saga", href: "#about" },
+  { label: "Hidromiel", href: "#gallery" },
+  { label: "Puntos de venta", href: "/mapa" },
+  { label: "Festivales", href: "/festivales" },
+  { label: "Historias del Norte", href: "/historiasdelnorte" },
+  { label: "Contacto", href: "#footer" },
+  { label: "Tienda online", href: "/peticiones-especiales", cta: true },
 ];
 
-export const footerNavLinks: NavLink[] = [
-  { label: "Nuestra Saga",     href: "#about"   },
-  { label: "Hidromiel",     href: "#gallery" },
-  // { label: "El Proceso",       href: "#process" },
-  { label: "Puntos de Venta",  href: "/mapa"        },
-  // { label: "Mayoreo",          href: "#"        },
-  { label: "Contacto", href: "mailto:yggdrasil.meadery.mx@gmail.com?subject=Contacto%20Yggdrasil" },
-   { label: "Festivales",         href: "/festivales"    },
-      { label: "Tienda online",                 href: "/peticiones-especiales"    },
-     { label: "Historias del Norte",         href: "/historiasdelnorte"    },
-];
+// El footer replica exactamente las secciones del menú responsive.
+export const footerNavLinks = navLinks;

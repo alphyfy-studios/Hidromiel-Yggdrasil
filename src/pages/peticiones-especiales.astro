@@ -16,7 +16,7 @@ import { shopProducts } from "../data/shop-products";
       <header class="shop-heading">
         <span class="section-label">ᛟ · La despensa de Yggdrasil</span>
         <h1 class="section-title">Tienda <span>Online</span></h1>
-        <p>Elige VANIR BLUT, MIDGAD o combina tus sabores favoritos. Cada lata cuesta $85 MXN.</p>
+        <p>Elige VANIR BLUT, MIDGARD o combina tus sabores favoritos. Cada lata cuesta $85 MXN.</p>
       </header>
 
       <div class="shop-layout">
@@ -27,23 +27,23 @@ import { shopProducts } from "../data/shop-products";
               <div>
                 <p class="builder-kicker">Tu mezcla, tu saga</p>
                 <h2 id="six-builder-title">Arma tu six</h2>
-                <p>Combina las 6 latas como quieras: VANIR BLUT, MIDGAD o una mezcla.</p>
+                <p>Combina las 6 latas como quieras: VANIR BLUT, MIDGARD o una mezcla.</p>
               </div>
             </div>
             <div class="six-builder-options">
               <div class="flavor-option">
                 <span class="flavor-dot is-red" aria-hidden="true"></span>
-                <span class="flavor-name">VANIR BLUT <small>Hidromiel roja</small></span>
+                <span class="flavor-name">VANIR BLUT <small>Hidromiel Metheglin</small></span>
                 <button class="flavor-step" type="button" data-flavor="vanir" data-step="-1" aria-label="Quitar una lata VANIR BLUT">−</button>
                 <output class="flavor-count" id="vanir-count" aria-live="polite">0</output>
                 <button class="flavor-step" type="button" data-flavor="vanir" data-step="1" aria-label="Agregar una lata VANIR BLUT">+</button>
               </div>
               <div class="flavor-option">
                 <span class="flavor-dot is-yellow" aria-hidden="true"></span>
-                <span class="flavor-name">MIDGAD <small>Hidromiel amarilla</small></span>
-                <button class="flavor-step" type="button" data-flavor="midgard" data-step="-1" aria-label="Quitar una lata MIDGAD">−</button>
+                <span class="flavor-name">MIDGARD <small>Hidromiel Cyser</small></span>
+                <button class="flavor-step" type="button" data-flavor="midgard" data-step="-1" aria-label="Quitar una lata MIDGARD">−</button>
                 <output class="flavor-count" id="midgard-count" aria-live="polite">0</output>
-                <button class="flavor-step" type="button" data-flavor="midgard" data-step="1" aria-label="Agregar una lata MIDGAD">+</button>
+                <button class="flavor-step" type="button" data-flavor="midgard" data-step="1" aria-label="Agregar una lata MIDGARD">+</button>
               </div>
             </div>
             <div class="builder-footer">
@@ -56,10 +56,10 @@ import { shopProducts } from "../data/shop-products";
               <article class="shop-product">
                 <div class="product-image">
                   <img src={product.image} alt={`${product.name}, presentación de ${product.packSize} piezas`} loading="lazy" width="440" height="330" />
-                  <span class:list={["product-color", product.color === "Roja" ? "is-red" : "is-yellow"]}>{product.color}</span>
+                  <span class:list={["product-color", product.color === "Roja" ? "is-red" : "is-yellow"]}>{product.name}</span>
                 </div>
                 <div class="product-info">
-                  <p class="product-pack">Caja con {product.packSize} piezas</p>
+                  <p class="product-pack">Caja con {product.packSize} latas</p>
                   <h2>{product.name}</h2>
                   <p class="product-description">{product.description}</p>
                   <p class="product-price">{new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(product.price)}</p>
@@ -446,10 +446,10 @@ import { shopProducts } from "../data/shop-products";
     if (vanir + midgard !== 6) return undefined;
     return {
       id,
-      name: `Six personalizado · ${vanir} VANIR BLUT + ${midgard} MIDGAD`,
+      name: `Six personalizado · ${vanir} VANIR BLUT + ${midgard} MIDGARD`,
       color: vanir > 0 ? "Roja" as const : "Amarilla" as const,
       packSize: 6 as const,
-      description: `${vanir} VANIR BLUT y ${midgard} MIDGAD · $85 por lata`,
+      description: `${vanir} VANIR BLUT y ${midgard} MIDGARD · $85 por lata`,
       image: shopProducts.find((product) => product.id === (vanir > 0 ? "roja-6" : "amarilla-6"))?.image ?? "",
       price: 510,
     };
@@ -605,7 +605,7 @@ import { shopProducts } from "../data/shop-products";
     cart[id] = Math.min((cart[id] ?? 0) + 1, 99);
     renderCart();
     if (sixSuccessDetail) {
-      sixSuccessDetail.textContent = `${sixBuilder.vanir} VANIR BLUT + ${sixBuilder.midgard} MIDGAD · $510 MXN. Ya lo agregamos a tu carrito.`;
+      sixSuccessDetail.textContent = `${sixBuilder.vanir} VANIR BLUT + ${sixBuilder.midgard} MIDGARD · $510 MXN. Ya lo agregamos a tu carrito.`;
     }
     sixSuccessDialog?.showModal();
     closeSixSuccess?.focus();
