@@ -10,7 +10,7 @@ export interface Product {
   rune: string;
   description: string;
   description2:string;
-  image?: string;   // e.g. '/images/products/odin-reserve.jpg'
+  image?: string;   // e.g. '/images/products/odin-reserve.webp'
   featured?: boolean;
 }
 
@@ -23,7 +23,7 @@ export const products: Product[] = [
   //   rune: "ᚢ",
   //   description:
   //     "El hidromiel más complejo de nuestra colección. Envejecido en barrica de roble con especias del Norte, notas de vainilla y miel de brezo silvestre.",
-  //   image:"/images/products/Productos.jpg",
+  //   image:"/images/products/Productos.webp",
   //     featured: true,
   // },
   // {
@@ -33,7 +33,7 @@ export const products: Product[] = [
   //   tag: "Clásico",
   //   rune: "ᚦ",
   //   description: "Hidromiel clásico, seco y refrescante. El favorito de los guerreros.",
-  //    image:"/images/products/Producto-Berserker.jpg",
+  //    image:"/images/products/Producto-Berserker.webp",
   // },
   // {
     id: 'Midgard',
@@ -43,7 +43,7 @@ export const products: Product[] = [
     rune: "ᛚ",
     description: "Infusionada con frutas y especias.",
     description2:"Siéntete como en casa",
-     image:"/images/products/yggdrasil_yellow_1.png",
+     image:"/images/products/yggdrasil_yellow_1.webp",
   },
 
   {
@@ -54,7 +54,7 @@ export const products: Product[] = [
     rune: "ᚠ",
     description: "Infusionada con flores y especias. Honra el sacrificio de Kvasir, saborea la sabiduría.",
     description2:"",
-    image:"/images/products/yggdrasil_red_1.png",
+    image:"/images/products/yggdrasil_red_1.webp",
   },
   {
     id: 'Berserker',
@@ -64,6 +64,6 @@ export const products: Product[] = [
     rune: "ᚾ",
     description: "Infusionada con hierbas estimulantes. Sentirás el vigor de un guerrero.",
     description2:"",
-     image:"/images/products/yggdrasil_green_1.png",
+     image:"/images/products/yggdrasil_green_1.webp",
   },
 ];

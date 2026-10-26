@@ -2,7 +2,7 @@
 // Galería fotográfica independiente; se puede incluir cuando se necesite.
 const galleryImages = Array.from({ length: 10 }, (_, index) => {
   const number = index + 1;
-  const fileName = number === 1 ? "FOTO1.jpeg" : `foto${number}.jpeg`;
+  const fileName = number === 1 ? "FOTO1.webp" : `foto${number}.webp`;
   return {
     src: `/images/galeria/FOTOSYGGDRASIL/${fileName}`,
     alt: `Hidromiel Yggdrasil, fotografía ${number}`,

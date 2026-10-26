@@ -10,8 +10,8 @@ export interface ShopProduct {
 }
 
 const productImages = {
-  Roja: "/images/products/yggdrasil_red_1.png",
-  Amarilla: "/images/products/yggdrasil_yellow_1.png",
+  Roja: "/images/products/yggdrasil_red_1.webp",
+  Amarilla: "/images/products/yggdrasil_yellow_1.webp",
 };
 
 export const shopProducts: ShopProduct[] = [

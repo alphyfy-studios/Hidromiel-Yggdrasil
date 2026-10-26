@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/sections/Header.astro";
 import Footer from "../components/sections/Footer.astro";
 import { shopProducts } from "../data/shop-products";
+
+const packageSizes = [6, 12, 24] as const;
 ---
 
 <Layout
@@ -14,48 +16,48 @@ import { shopProducts } from "../data/shop-products";
   <main class="shop-page">
     <div class="shop-container">
       <header class="shop-heading">
-        <span class="section-label">ᛟ · La despensa de Yggdrasil</span>
+        <span class="section-label">ᛟ · La tienda de Yggdrasil</span>
         <h1 class="section-title">Tienda <span>Online</span></h1>
         <p>Elige VANIR BLUT, MIDGARD o combina tus sabores favoritos. Cada lata cuesta $85 MXN.</p>
       </header>
 
       <div class="shop-layout">
         <section class="product-section" aria-label="Presentaciones disponibles">
-          <section class="six-builder" aria-labelledby="six-builder-title">
+          {packageSizes.map((size) => <section class="six-builder" data-package-builder data-package-size={size} aria-labelledby={`builder-title-${size}`}>
             <div class="six-builder-heading">
               <span class="builder-rune" aria-hidden="true">ᛟ</span>
               <div>
                 <p class="builder-kicker">Tu mezcla, tu saga</p>
-                <h2 id="six-builder-title">Arma tu six</h2>
-                <p>Combina las 6 latas como quieras: VANIR BLUT, MIDGARD o una mezcla.</p>
+                <h2 id={`builder-title-${size}`}>Arma tu paquete de {size}</h2>
+                <p>Combina las {size} latas como quieras: VANIR BLUT, MIDGARD o una mezcla.</p>
               </div>
             </div>
             <div class="six-builder-options">
               <div class="flavor-option">
                 <span class="flavor-dot is-red" aria-hidden="true"></span>
                 <span class="flavor-name">VANIR BLUT <small>Hidromiel Metheglin</small></span>
-                <button class="flavor-step" type="button" data-flavor="vanir" data-step="-1" aria-label="Quitar una lata VANIR BLUT">−</button>
-                <output class="flavor-count" id="vanir-count" aria-live="polite">0</output>
-                <button class="flavor-step" type="button" data-flavor="vanir" data-step="1" aria-label="Agregar una lata VANIR BLUT">+</button>
+                <button class="flavor-step" type="button" data-package-flavor="vanir" data-step="-1" aria-label="Quitar una lata VANIR BLUT">−</button>
+                <output class="flavor-count" data-count="vanir" aria-live="polite">0</output>
+                <button class="flavor-step" type="button" data-package-flavor="vanir" data-step="1" aria-label="Agregar una lata VANIR BLUT">+</button>
               </div>
               <div class="flavor-option">
                 <span class="flavor-dot is-yellow" aria-hidden="true"></span>
                 <span class="flavor-name">MIDGARD <small>Hidromiel Cyser</small></span>
-                <button class="flavor-step" type="button" data-flavor="midgard" data-step="-1" aria-label="Quitar una lata MIDGARD">−</button>
-                <output class="flavor-count" id="midgard-count" aria-live="polite">0</output>
-                <button class="flavor-step" type="button" data-flavor="midgard" data-step="1" aria-label="Agregar una lata MIDGARD">+</button>
+                <button class="flavor-step" type="button" data-package-flavor="midgard" data-step="-1" aria-label="Quitar una lata MIDGARD">−</button>
+                <output class="flavor-count" data-count="midgard" aria-live="polite">0</output>
+                <button class="flavor-step" type="button" data-package-flavor="midgard" data-step="1" aria-label="Agregar una lata MIDGARD">+</button>
               </div>
             </div>
             <div class="builder-footer">
-              <span id="six-progress" role="status" aria-live="polite">0 de 6 latas seleccionadas · $510 MXN al completar</span>
-              <button class="build-six-button" id="build-six" type="button" disabled>Armar mi six <span aria-hidden="true">→</span></button>
+              <span data-package-progress role="status" aria-live="polite">0 de {size} latas seleccionadas · ${size * 85} MXN al completar</span>
+              <button class="build-six-button" data-build-package type="button" disabled>Armar mi paquete <span aria-hidden="true">→</span></button>
             </div>
-          </section>
+          </section>)}
           <div class="product-grid">
             {shopProducts.map((product) => (
               <article class="shop-product">
                 <div class="product-image">
-                  <img src={product.image} alt={`${product.name}, presentación de ${product.packSize} piezas`} loading="lazy" width="440" height="330" />
+                  <img src={product.image} alt={`${product.name}, presentación de ${product.packSize} piezas`} loading="lazy" decoding="async" width="440" height="330" />
                   <span class:list={["product-color", product.color === "Roja" ? "is-red" : "is-yellow"]}>{product.name}</span>
                 </div>
                 <div class="product-info">
@@ -139,7 +141,7 @@ import { shopProducts } from "../data/shop-products";
     <div class="six-success-window">
       <span class="success-rune" aria-hidden="true">ᛟ</span>
       <p class="success-kicker" id="six-success-title">ᚠ · El pedido está listo</p>
-      <p class="success-message" id="six-success-message">Perfecto Vikingo, haz armado tu six de la bebida de los Dioses</p>
+      <p class="success-message" id="six-success-message">Perfecto Vikingo, has armado tu paquete de la bebida de los Dioses</p>
       <p class="success-detail" id="six-success-detail"></p>
       <button class="success-close" id="close-six-success" type="button">Entendido, vikingo</button>
     </div>
@@ -425,12 +427,13 @@ import { shopProducts } from "../data/shop-products";
   const closeCheckout = document.querySelector<HTMLButtonElement>("#close-checkout");
   const sixSuccessDialog = document.querySelector<HTMLDialogElement>("#six-success-dialog");
   const closeSixSuccess = document.querySelector<HTMLButtonElement>("#close-six-success");
-  const buildSixButton = document.querySelector<HTMLButtonElement>("#build-six");
-  const vanirCount = document.querySelector<HTMLOutputElement>("#vanir-count");
-  const midgardCount = document.querySelector<HTMLOutputElement>("#midgard-count");
-  const sixProgress = document.querySelector<HTMLElement>("#six-progress");
+  const sixSuccessMessage = document.querySelector<HTMLElement>("#six-success-message");
   const sixSuccessDetail = document.querySelector<HTMLElement>("#six-success-detail");
-  const sixBuilder = { vanir: 0, midgard: 0 };
+  const packageBuilders = Array.from(document.querySelectorAll<HTMLElement>("[data-package-builder]")).map((element) => ({
+    element,
+    size: Number(element.dataset.packageSize),
+    counts: { vanir: 0, midgard: 0 } as Record<Flavor, number>,
+  }));
   let cart: CartState = readCart();
   let selectedMethod: PaymentMethod | null = null;
   let checkoutOpener: HTMLButtonElement | null = null;
@@ -439,26 +442,32 @@ import { shopProducts } from "../data/shop-products";
   function getProduct(id: string) {
     const standardProduct = productById.get(id);
     if (standardProduct) return standardProduct;
-    const match = /^custom-six-(\d)-(\d)$/.exec(id);
+    const match = /^custom-pack-(6|12|24)-(\d+)-(\d+)$/.exec(id);
     if (!match) return undefined;
-    const vanir = Number(match[1]);
-    const midgard = Number(match[2]);
-    if (vanir + midgard !== 6) return undefined;
+    const packSize = Number(match[1]);
+    const vanir = Number(match[2]);
+    const midgard = Number(match[3]);
+    if (vanir + midgard !== packSize) return undefined;
     return {
       id,
-      name: `Six personalizado · ${vanir} VANIR BLUT + ${midgard} MIDGARD`,
+      name: `Paquete de ${packSize} · ${vanir} VANIR BLUT + ${midgard} MIDGARD`,
       color: vanir > 0 ? "Roja" as const : "Amarilla" as const,
-      packSize: 6 as const,
+      packSize: packSize as 6 | 12 | 24,
       description: `${vanir} VANIR BLUT y ${midgard} MIDGARD · $85 por lata`,
       image: shopProducts.find((product) => product.id === (vanir > 0 ? "roja-6" : "amarilla-6"))?.image ?? "",
-      price: 510,
+      price: packSize * 85,
     };
   }
 
   function readCart(): CartState {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) ?? "{}") as Record<string, unknown>;
-      return Object.fromEntries(Object.entries(saved).filter(([id, quantity]) =>
+      const entries = Object.entries(saved).map(([id, quantity]) => {
+        const legacySix = /^custom-six-(\d)-(\d)$/.exec(id);
+        const migratedId = legacySix ? `custom-pack-6-${legacySix[1]}-${legacySix[2]}` : id;
+        return [migratedId, quantity] as const;
+      });
+      return Object.fromEntries(entries.filter(([id, quantity]) =>
         getProduct(id) && Number.isInteger(quantity) && Number(quantity) > 0,
       ).map(([id, quantity]) => [id, Math.min(Number(quantity), 99)]));
     } catch {
@@ -497,8 +506,8 @@ import { shopProducts } from "../data/shop-products";
     name.textContent = product.name;
     const meta = document.createElement("small");
     meta.className = editable ? "cart-item-meta" : "checkout-item-meta";
-    meta.textContent = productId.startsWith("custom-six-")
-      ? `Six personalizado · ${quantity} ${quantity === 1 ? "paquete" : "paquetes"}`
+    meta.textContent = productId.startsWith("custom-pack-")
+      ? `Paquete de ${product.packSize} · ${quantity} ${quantity === 1 ? "paquete" : "paquetes"}`
       : `Caja de ${product.packSize} · ${quantity} ${quantity === 1 ? "caja" : "cajas"}`;
     details.append(name, meta);
 
@@ -515,7 +524,7 @@ import { shopProducts } from "../data/shop-products";
       minus.className = "quantity-button";
       minus.dataset.cartAction = "decrease";
       minus.dataset.productId = productId;
-      minus.setAttribute("aria-label", `Quitar una ${productId.startsWith("custom-six-") ? "unidad de" : "caja de"} ${product.name}`);
+      minus.setAttribute("aria-label", `Quitar ${productId.startsWith("custom-pack-") ? "un paquete de" : "una caja de"} ${product.name}`);
       minus.textContent = "−";
       const count = document.createElement("span");
       count.className = "cart-quantity";
@@ -525,7 +534,7 @@ import { shopProducts } from "../data/shop-products";
       plus.className = "quantity-button";
       plus.dataset.cartAction = "increase";
       plus.dataset.productId = productId;
-      plus.setAttribute("aria-label", `Agregar una ${productId.startsWith("custom-six-") ? "unidad más de" : "caja más de"} ${product.name}`);
+      plus.setAttribute("aria-label", `Agregar ${productId.startsWith("custom-pack-") ? "un paquete más de" : "una caja más de"} ${product.name}`);
       plus.textContent = "+";
       const remove = document.createElement("button");
       remove.type = "button";
@@ -574,48 +583,51 @@ import { shopProducts } from "../data/shop-products";
     });
   });
 
-  function updateSixBuilder() {
-    const total = sixBuilder.vanir + sixBuilder.midgard;
-    if (vanirCount) vanirCount.value = String(sixBuilder.vanir);
-    if (midgardCount) midgardCount.value = String(sixBuilder.midgard);
-    if (sixProgress) sixProgress.textContent = `${total} de 6 latas seleccionadas · $${total * 85} MXN`;
-    if (buildSixButton) buildSixButton.disabled = total !== 6;
-    document.querySelectorAll<HTMLButtonElement>("[data-flavor][data-step]").forEach((button) => {
-      const flavor = button.dataset.flavor as Flavor;
+  function updatePackageBuilder(builder: typeof packageBuilders[number]) {
+    const total = builder.counts.vanir + builder.counts.midgard;
+    builder.element.querySelector<HTMLOutputElement>('[data-count="vanir"]')!.value = String(builder.counts.vanir);
+    builder.element.querySelector<HTMLOutputElement>('[data-count="midgard"]')!.value = String(builder.counts.midgard);
+    const progress = builder.element.querySelector<HTMLElement>("[data-package-progress]");
+    const buildButton = builder.element.querySelector<HTMLButtonElement>("[data-build-package]");
+    if (progress) progress.textContent = `${total} de ${builder.size} latas seleccionadas · $${total * 85} MXN`;
+    if (buildButton) buildButton.disabled = total !== builder.size;
+    builder.element.querySelectorAll<HTMLButtonElement>("[data-package-flavor][data-step]").forEach((button) => {
+      const flavor = button.dataset.packageFlavor as Flavor;
       const step = Number(button.dataset.step);
-      button.disabled = step > 0 ? total >= 6 : sixBuilder[flavor] <= 0;
+      button.disabled = step > 0 ? total >= builder.size : builder.counts[flavor] <= 0;
     });
   }
 
-  document.querySelectorAll<HTMLButtonElement>("[data-flavor][data-step]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const flavor = button.dataset.flavor as Flavor;
-      const step = Number(button.dataset.step);
-      const total = sixBuilder.vanir + sixBuilder.midgard;
-      if (step > 0 && total >= 6) return;
-      sixBuilder[flavor] = Math.max(0, sixBuilder[flavor] + step);
-      updateSixBuilder();
+  packageBuilders.forEach((builder) => {
+    builder.element.querySelectorAll<HTMLButtonElement>("[data-package-flavor][data-step]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const flavor = button.dataset.packageFlavor as Flavor;
+        const step = Number(button.dataset.step);
+        const total = builder.counts.vanir + builder.counts.midgard;
+        if (step > 0 && total >= builder.size) return;
+        builder.counts[flavor] = Math.max(0, builder.counts[flavor] + step);
+        updatePackageBuilder(builder);
+      });
     });
-  });
-
-  buildSixButton?.addEventListener("click", () => {
-    const total = sixBuilder.vanir + sixBuilder.midgard;
-    if (total !== 6) return;
-    const id = `custom-six-${sixBuilder.vanir}-${sixBuilder.midgard}`;
-    cart[id] = Math.min((cart[id] ?? 0) + 1, 99);
-    renderCart();
-    if (sixSuccessDetail) {
-      sixSuccessDetail.textContent = `${sixBuilder.vanir} VANIR BLUT + ${sixBuilder.midgard} MIDGARD · $510 MXN. Ya lo agregamos a tu carrito.`;
-    }
-    sixSuccessDialog?.showModal();
-    closeSixSuccess?.focus();
+    builder.element.querySelector<HTMLButtonElement>("[data-build-package]")?.addEventListener("click", () => {
+      const total = builder.counts.vanir + builder.counts.midgard;
+      if (total !== builder.size) return;
+      const id = `custom-pack-${builder.size}-${builder.counts.vanir}-${builder.counts.midgard}`;
+      cart[id] = Math.min((cart[id] ?? 0) + 1, 99);
+      renderCart();
+      if (sixSuccessMessage) sixSuccessMessage.textContent = `Perfecto Vikingo, has armado tu paquete de ${builder.size} latas de la bebida de los Dioses`;
+      if (sixSuccessDetail) sixSuccessDetail.textContent = `${builder.counts.vanir} VANIR BLUT + ${builder.counts.midgard} MIDGARD · $${builder.size * 85} MXN. Ya lo agregamos a tu carrito.`;
+      sixSuccessDialog?.showModal();
+      closeSixSuccess?.focus();
+    });
+    updatePackageBuilder(builder);
   });
 
   closeSixSuccess?.addEventListener("click", () => sixSuccessDialog?.close());
   sixSuccessDialog?.addEventListener("click", (event) => {
     if (event.target === sixSuccessDialog) sixSuccessDialog.close();
   });
-  sixSuccessDialog?.addEventListener("close", () => buildSixButton?.focus());
+  sixSuccessDialog?.addEventListener("close", () => document.querySelector<HTMLButtonElement>("[data-build-package]:not(:disabled)")?.focus());
 
   cartItems?.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-cart-action]");
