@@ -37,7 +37,7 @@ const resolveHref = (href: string) =>
 
     <div id={`menu-panel-${variant}`} class="menu-panel" aria-hidden="true">
       <div class="menu-panel-head">
-        <span class="menu-panel-rune" aria-hidden="true">ᛟ</span>
+        <span class="menu-panel-rune" aria-hidden="true">ᛏ</span>
         <div>
           <p>Explora Yggdrasil</p>
           <span>Elige tu próximo destino</span>
@@ -48,12 +48,12 @@ const resolveHref = (href: string) =>
           <li>
             {link.cta
               ? <a href={resolveHref(link.href)} class="nav-cta" aria-current={link.href === currentPath ? "page" : undefined}>{link.label}<span aria-hidden="true">↗</span></a>
-              : <a href={resolveHref(link.href)} aria-current={link.href === currentPath ? "page" : undefined}>{link.label}<span aria-hidden="true">ᛟ</span></a>
+              : <a href={resolveHref(link.href)} aria-current={link.href === currentPath ? "page" : undefined}>{link.label}<span aria-hidden="true">{link.rune}</span></a>
             }
           </li>
         ))}
       </ul>
-      <div class="menu-panel-foot" aria-hidden="true"><span>ᚠ</span> · <span>ᛟ</span> · <span>ᚦ</span></div>
+      <div class="menu-panel-foot" aria-hidden="true"><span>ᚦ</span> · <span>ᚠ</span> · <span>ᛉ</span></div>
     </div>
 
   </div>
